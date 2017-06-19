@@ -1,0 +1,140 @@
+﻿@model Ys.Model.Model.Recruit.InterviewModel
+
+@{
+    ViewBag.Title = "职位邀请函";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+<div class="main-wrap wrap-post" id="main">
+    <div class="section clearfix">
+        <div class="ht_20"></div>
+        <div class="main-wrap fixborder">
+            <div class="ht_10"></div>
+            <div class="result-wrap">
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" class="home"><i></i><span>管理首页</span></a>
+                    <a href="index.html"><span>面试邀约箱</span></a>
+                    <i class="arrow"></i><span>面试邀请函</span>
+                </div>
+                <!--/导航栏-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="view-article">
+                        <div class="article-title manner-tit">
+                            <div class="clearfix">
+                                <h2 class="left" style="margin-top: 15px;">
+                                    <span class="tag-actived">
+                                        <i></i>面试时间：<label id="lblCreateTime">@Model.InterviewTime.ToString("yyyy-MM-dd HH:mm")</label></span>
+                                </h2>
+                                <h3 class="right">                                    
+                                    <span class="text-right" style="display: block;">面试邀请函</span>
+                                    <span style="display: block;">
+                                        @Model.ResumePost.Job.Employer.Name
+                                    </span>
+                                </h3>
+                            </div>
+                            <span class="title-triangle"></span>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div class="article-manners">
+                            <div>
+                                <dl>
+                                    <dt>
+                                        @if (@Model.ResumePost.Resume.PersonalModel!=null)
+                                        {
+                                            <label>@Model.ResumePost.Resume.PersonalModel.Person_Name</label><text>：</text>
+                                        }else{
+                                            <label></label>
+                                        }
+                                        
+                                    </dt>
+                                    <dd>
+                                        @if (!string.IsNullOrEmpty(Model.Remark))
+                                        {
+                                            <p>@Model.Remark</p>
+                                        }
+                                        else
+                                        {
+                                            <p>您好！我们（@Model.ResumePost.Job.Employer.Name）在夷陵就业信息网发布了以下职位，并通过夷陵就业信息网在线招聘系统邀请你进行在线面试，请查看下面的职位详情，如接受邀请，请务必注意面试时间（@Model.InterviewTime.ToString("yyyy-MM-dd HH:mm")），并提前安排好您的时间。</p> 
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div class="tab-content invitation">
+                            <div class="invitation-subject clearfix">
+                                <div class="left">
+                                    <h2><span class="light-grey">职位名称：</span>@Model.ResumePost.Job.JobName</h2>
+                                    <h3>
+                                        <label class="item-salary">@Model.ResumePost.Job.PayLevel.Name</label>
+                                        <label class="item-region">[ @Model.ResumePost.Job.WorkAddress.Name ]</label>
+                                    </h3>
+                                </div>
+
+                            </div>
+                            <dl class="clearfix">
+                                <dt>职位亮点</dt>
+                                <dd>
+                                    <div class="rule-multi-porp" id="itemContainer">
+                                        <span id="checkboxList1" style="display: none;">
+                                            @foreach (var sign in Model.ResumePost.Job.JobSign)
+                                            {
+                                                <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_1" value="1" />
+                                                <label for="listJobTag_1">@sign.Content</label>
+                                            }
+                                        </span>
+                                    </div>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt>职位详情</dt>
+                                <dd>
+                                    <div class="article-text" id="article-text" style="padding: 0;">
+                                        <p>
+                                            岗位职责:<br>
+                                            @Html.Raw(Model.ResumePost.Job.Others)
+                                        </p>
+                                    </div>
+                                </dd>
+                            </dl>
+                            @if (Model.UserState == 0 && Session["User"] != null)
+                            {
+                                <div class="apply">
+                                    <div class="apply-btn">
+                                        <a class="obj-apply-btn" id="accept-btn" href="javascript: acceptInterview();">接受邀请</a>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        f_onNavActive("zw");
+    });
+    function acceptInterview() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AcceptInterview")',
+            dataType: 'json',
+            data: { "id": '@Model.Id' },
+            success: function (data, textStatus) {
+                
+                $("#accept-btn").attr("disabled", "true");
+                alert("接受成功");
+                $(".apply").hide();
+            }
+        });
+
+    }
+</script>

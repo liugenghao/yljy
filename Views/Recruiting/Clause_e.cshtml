@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "";
+    ViewBag.Title = "企业注册免责条款声明";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>企业注册免责条款声明</title>
+    @Styles.Render("~/Content/RecruitmentCss")
+</head>
+<body>
+    <div class="view-article">
+        <div class="article-title" style="padding-top: 0;">
+            <h2>企业注册免责条款声明</h2>
+        </div>
+        <div class="article-text" id="article-text">
+            免责条款内容...
+        </div>
+    </div>
+    <script type="text/javascript">
+        var api = top.dialog.get(window); //获取窗体对象
+        window.onload = function () {
+            if (api) {
+                var iframe = window.parent.document.getElementsByName(api.id)[0];
+                iframe.style.height = document.body.scrollHeight + "px";
+            }
+        }
+    </script>
+</body>
+</html>

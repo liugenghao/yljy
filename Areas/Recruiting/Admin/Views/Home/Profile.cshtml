@@ -1,0 +1,201 @@
+﻿@model Ys.Model.Model.Home.Admin
+
+@{
+    ViewBag.Title = "个人信息";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>个人信息</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span><span>个人中心</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <div class="result-wrap" id="result-detail">
+            <!--内容-->
+            <div id="floatHead" class="content-tab-wrap">
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">用户信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <dl>
+                    <dt>用户名</dt>
+                    <dd>
+                        <label>@Model.LoginName</label>
+                    </dd>
+                </dl>
+            </div>
+            <!--/内容-->
+            <!--工具栏-->
+            <div class="page-footer">
+                <div class="btn-wrap">
+                    <input type="button" name="btnReturn" id="btnRedrectToEdit" value="编辑个人信息" class="btn yellow" />
+                    <input type="hidden" name="hiddenId" id="hiddenId" Value="@ViewData["Id"]" />
+                </div>
+            </div>
+            <!--/工具栏-->
+        </div>
+        <div class="result-wrap" id="result-edit" style="display: none;">
+            @using (Html.BeginForm("Profile", null, FormMethod.Post, new { @id = "form1" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m=>m.LoginPwd)
+                <!--内容-->
+                <div id="floatHeadEdit" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">用户信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    @*<dl>
+                        <dt>头像</dt>
+                        <dd>
+                            <input type="hidden" id="hidThumbnailUrl" name="hidThumbnailUrl" value="" />
+                            <input type="text" name="thumbnailUrl" id="thumbnailUrl" class="input normal fix_borderb" />
+                            <a id="linkUpImage" class="act" onClick=" upImage(); ">上传图片</a>
+                            <div id="thumbnailPreview" style="display: none;">
+                                <span class="clear preview">                                    	
+                                    <img alt="" id="thumbnailImage" src="@Url.Content("~/img/loading.gif")" class="min-img" />
+                                    <a href="javascript:void(0);" class="thumb_x" title="删除">x</a>
+                                    <script type="text/plain" id="upload_ue" style="display: none;"></script>
+                                </span>
+                            </div>
+                        </dd>
+                    </dl>  *@
+                    <dl>
+                        <dt>用户名</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.LoginName, new { id = "txtUserName", @class = "input normal", datatype = "*2-50", nullmsg = "请输入用户名", sucmsg = "" })
+
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+            
+  
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="提交保存" class="btn" />
+                        <input type="button" name="btnReturn" id="btnReturn" value="取 消" class="btn yellow" />
+                        @Html.HiddenFor(m => m.Id)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+        /* 声明几个上传变量 */
+        var thumbnailUrl = $("#thumbnailUrl"); /* 缩略图地址文本对象 */
+        var hidThumbnailUrl = $("#hidThumbnailUrl"); /* 缩略图地址隐藏域对象 */
+        var thumbnailPreview = $("#thumbnailPreview"); /* 缩略图地址文本对象 */
+        var thumbnailImage = $("#thumbnailImage"); /* 缩略图预览对象 */
+        var thumbX = $(".thumb_x"); /* 缩略图被移除控件 */
+
+        /* 实例化编辑器 */
+        //var uploadUE = UE.getEditor('upload_ue');
+        //uploadUE.ready(function () {
+        //    uploadUE.setHide(); /* 隐藏编辑器 */
+        //    /* 监听图片上 传*/
+        //    uploadUE.addListener('beforeInsertImage', function (t, arg) {
+        //        var src0 = arg[0].src; /* 只取第一张图片的路 */
+        //        thumbnailUrl.val(src0); /* 将地址赋值给相应的 input, 只取第一张图片的路径 */
+        //        hidThumbnailUrl.val(src0);
+        //        thumbnailPreview.show();
+        //        thumbnailImage.prop("src", src0); /* 图片预览 */
+        //        thumbX.show();
+        //    });
+
+        //    /* 文件上传监听
+        //    * 需要在ueditor.all.min.js文件中找到 d.execCommand("insertHtml",l); 之后插入d.fireEvent('afterUpfile',b)
+        //    */
+        //    uploadUE.addListener('afterUpfile', function (t, arg) {
+        //        alert('这是文件地址：' + arg[0].url);
+        //    });
+        //});
+
+        /* 弹出图片上传的对话框 */
+        function upImage() {
+            var myImage = uploadUE.getDialog("insertimage");
+            myImage.open();
+        }
+
+        /* 弹出文件上传的对话框 */
+        function upFiles() {
+            var myFiles = uploadUE.getDialog("attachment");
+            myFiles.open();
+        }
+
+        /* 移除上传文件 */
+        $('.thumb_x').on('click', function () {
+            thumbnailImage.prop('src', '');
+            thumbnailUrl.val('');
+            hidThumbnailUrl.val('');
+            $(this).hide();
+            thumbnailPreview.hide();
+        });
+
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+            /*编辑成功提示*/
+            var userName = '@ViewData["userName"]';
+            if (userName) {
+                var d = parent.dialog({
+                    title: "消息中心",
+                    content: "用户 " + userName + " 信息编辑成功！",
+                    okValue: '确定',
+                    ok: function () { },
+                    statusbar: "<p style='color: #999'>（对话框将在3秒后关闭）</p>"
+                }).show();
+                setTimeout(function () {
+                    d.close().remove();
+                }, 3000);
+            }
+
+            /*显示‘编辑个人信息’与取消‘编辑’事件注册*/
+            var btnReturn = $("input[type='button'][name='btnReturn']");
+            $(btnReturn).each(function (i, item) {
+                $(this).on("click", function () {
+                    $("#result-detail").toggle();
+                    $("#result-edit").toggle();
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

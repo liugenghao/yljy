@@ -1,0 +1,167 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+
+@*<div class="current-position">
+    <div>
+        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="#">办事指南</a></span>&nbsp;&nbsp;<span><a href="#"></a></span>
+    </div>
+</div>*@
+<div class="guidance_headerLog">
+    <img src="~/img/guidanceLogo.png" /></div>
+
+<div class="wrap">
+<img class="pageLogTit" id="bszn-letter" src="~/img/bszn-letter.png" />
+<div class="guidance_page clearfix">    
+    <div id="guidance_page_nav" class="guidance_page_nav">
+        <ul>
+            @{
+                foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
+                {
+                <li state="close" class="guidance_page_nav-top_level"><span>@articleList.Key</span><img src="~/img/iconfont-jiahao.png" /></li>       
+                <ul class="display-hide">
+                    @foreach (var article in articleList)
+                    {
+                        <li><a data-flag="@article.Id" href="javascript:">@article.SubTitle</a></li>
+                    }
+
+                </ul>
+                }
+                          
+            }
+        </ul>
+    </div>
+    <div class="guidance_page_right">
+        <div class="headerLine"></div>
+    <div class="guidance_con">
+        
+        <div id="tit" style="font-size: 20px; margin-bottom: 30px; font-weight: bold;"></div>
+        @{
+            foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
+            {
+                foreach (var article in articleList)
+                {
+            <div id="@article.Id" class="display-hide">
+                @Html.Raw(article.Content)
+            </div>
+                }
+
+            }
+                          
+        }
+    </div>
+        </div>
+</div>
+<!--goir end-->
+    </div>
+<script src="~/Scripts/jQuery.Hz2Py-min.js"></script>
+<script type="text/javascript">
+    pageFlag = "guidance";
+    $(document).ready(function (e) {
+        $('.pageLogTit').animate({ top: '50px' }, 600, function () { });
+        unfold($(".guidance_page_nav-top_level").eq(0), true);
+        var heightCon = new Array();
+        $(".guidance_page_nav-top_level").each(function () {
+            heightCon[$(this).index()] = $(this).next('ul').height();            
+        })
+        var dataCode = '@ViewBag.Id';
+        //为每个标签添加id
+        $(".guidance_page_nav-top_level").each(function () {
+            //console.log($.fn.toPinyin($(this).text()));
+            var pinyin = $.fn.toPinyin($(this).text());
+            var idCons = pinyin.split(' ');
+            var ids = new Array();
+            ids.push(idCons[0].split('')[0].toLowerCase());
+            ids.push(idCons[1].split('')[0].toLowerCase());
+            ids.push(idCons[2].split('')[0].toLowerCase());
+            ids.push(idCons[3].split('')[0].toLowerCase());
+            
+            if (dataCode == ids.join('')) {
+                dealTopLi($(this));
+                //$(this).next().children().eq(0).trigger('click');
+                unfold($(this), true);                
+            }
+        })
+        $(".guidance_page_nav-top_level").click(function () {//点击一级菜单            
+            dealTopLi($(this));
+        });
+        function dealTopLi(obj) {
+            if (obj.hasClass('selected')) {
+                //contractList(obj.next('ul'))
+            } else {                
+            //$(".guidance_page_nav-top_level").removeClass("selected");     
+            obj.siblings('li').each(function(){
+                if ($(this).hasClass('selected')) {
+                    contractList($(this).next('ul'))
+                }
+            })
+                //$(".guidance_page_nav-top_level").each(function () {
+                //    if ($(this).hasClass('selected')) {                        
+                //        contractList($(this).next('ul'))
+                //    }
+                //})
+                obj.addClass("selected");
+                //$(".guidance_page_nav > ul ul").hide();
+                var thisHeight = heightCon[obj.index()];
+                obj.next().show();
+                spreadList($(obj).next(), heightCon[obj.index()]);
+            }
+            $(".guidance_page_nav-top_level img").attr('src', "/img/iconfont-jiahao.png");
+            obj.find('img').attr('src', "/img/iconfont-jianhao.png");
+        }
+
+        $(".guidance_page_nav ul ul li").click(function () {//点击子菜单
+            var flag = $(this).find("a").attr("data-flag");
+            $(".guidance_con div").hide().each(function () {
+                if ($(this).attr("id") == flag) {
+                    $(this).show();
+                }
+            });
+            unfold($(this), false);
+        });
+
+    });
+    function contractList(ul) {
+        ul.animate({
+            height: 0
+        }, 100, function () {
+            ul.hide();
+            ul.prev().removeClass('selected');
+            ul.prev().find('img').attr('src', "/img/iconfont-jiahao.png");
+        });
+
+    }
+    function spreadList(ul, height) {
+        ul.height(0);
+        ul.animate({
+            height: height
+        }, 100);
+
+    }
+    function unfold(c, init) {
+        $(".guidance_page_nav ul ul li").removeClass("selected");
+        if (init) {//加载第一项            
+            c2 = c.next().find('li').eq(0);
+            $(".guidance_con #tit").show().text(c2.text());
+            var con_flag = c2.addClass("selected").find("a").attr("data-flag");
+            $(".guidance_con div").each(function () {
+                if ($(this).attr("id") == con_flag)
+                    $(this).show();
+            });
+        } else {
+            $(".guidance_con #tit").show().text(c.text());
+            if ($(document).scrollTop() > 305) {
+                $('body,html').animate({ scrollTop: 305 }, 500);
+            }
+        }
+        c.addClass("selected");
+        c.find('img').attr('src', "/img/iconfont-jianhao.png");
+        c.next("ul").show();        
+    }
+    $(document).scroll(function () {
+        if ($(document).scrollTop() > 370) {
+            $("#guidance_page_nav").css({ position: "fixed", top: "0" });
+        } else {
+            $("#guidance_page_nav").css({ position: "absolute", top: 370 });
+        }
+
+    });
+</script>

@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+    ViewBag.Title = "EnterRoom";
+}
+<style type="text/css">
+    .leftMenu {
+        float: left;
+        width: 15%;
+        margin: 5px 10px;
+    }
+
+    .floatRight {
+        float: right;
+        width: 83%;
+    }
+
+    .mainBody {
+        width: 100%;
+        overflow: hidden;
+    }
+    .target {
+        float:left;
+        width:500px;
+        height:400px;
+        margin:0px 10px;
+        border:1px solid #ffd800;
+    }
+    .self {
+        float:right;
+        width:400px;
+        height:300px;
+        border:1px solid #00ff21;
+    }
+    ul {
+        list-style: none;
+    }
+
+        ul a {
+            display: block;
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            clear: left;
+        }
+
+        ul li {
+            border: 1px solid #808080;
+        }
+</style>
+<div class="mainBody">
+    <div class="leftMenu">
+        <ul>
+            <li>
+                <img src="~/img/1.jpg" width="60" height="60" style="float: left; margin: 5px;" />
+                <h3>张亚迪</h3>
+                <p>求职者</p>
+                <p>2014-10-20注册</p>
+            </li>
+            <li><a>搜索职位</a></li>
+            <li><a>热门公司</a></li>
+            <li><a>我的简历</a></li>
+            <li><a>我的求职状态</a></li>
+            <li><a>在线面试</a></li>
+        </ul>
+    </div>
+    <div class="floatRight">
+        <h1>正在进行在线面试...</h1>
+        <div class="target">
+            <div class="videoTarget"></div>
+            <p>面试官：湖北元速科技有限公司</p>
+        </div>
+        <div class="self">
+             <div class="videoSelf"></div>
+            <p>应聘者：赵超</p>
+        </div>
+
+
+    </div>
+</div>
+

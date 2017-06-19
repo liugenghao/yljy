@@ -1,0 +1,85 @@
+﻿@model List<Ys.Model.Model.Recruit.ImageSourceModel>
+
+@{
+    ViewBag.Title = "企业相册";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>企业相册</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>企业相册</span>
+        </div>
+        <!--/导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="add" href="@Url.Action("Edit")">
+                                        <i></i><span>上传图片</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <div class="imglist">
+                    <ul>
+                        @foreach (var image in Model)
+                        {
+                            <li>
+                                <div class="details">
+                                    <div class="pic">
+                                        <img src="@Url.Content(image.Url)" data-original="@Url.Content(image.Url)" />
+                                    </div>
+                                    <i class="absbg"></i>
+                                    <h1>
+                                        <a href="@Url.Action("Edit", new { Id = image.Id })">@image.Title</a>
+                                    </h1>
+                                    <div class="remark">
+                                        @image.Remark
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    <script type="text/javascript">
+        $(function () {
+            //图片延迟加载
+            $(".pic img").lazyload({ effect: "fadeIn" });
+        });
+    </script>
+</body>
+</html>

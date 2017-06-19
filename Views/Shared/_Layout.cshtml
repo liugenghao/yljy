@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+    <title>夷陵就业信息网</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")    
+    <!--[if lt IE 9]>
+    @Scripts.Render("~/bundles/html5shiv")
+    <![endif]-->
+</head>
+<body>
+    <div class="top_container">
+        <div class="top_menu">
+            <iframe width="600" scrolling="no" height="18" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=1&icon=3&py=yiling&wind=1&num=2"></iframe>
+            <div class="toplink float-right">
+                <a href="javascript:SetHome(this, window.location);" class="f_link" title="设为首页"><span class="f_icons icn_sethome"></span><span class="hovertext">设为首页</span></a>
+                <a href="javascript:shoucang(document.title,window.location);" class="f_link" title="加入收藏"><span class="f_icons icn_setfav"></span><span class="hovertext">加入收藏</span></a>
+                <a class="remoteMonitorSys_btn" href="@Url.Action("Map", "RemoteMonitor")" target="_blank">远程教室监控系统</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="main_header">
+        <div class="header_bg">
+            <div class="header">
+                <a href="@Url.Action("Index", "Home")">
+                    <h1 id="logo">夷陵就业信息网</h1>
+                </a>
+            </div>
+        </div>
+    </div>
+    <nav id="main_nav" class="main_nav text-center">
+        <a data-flag="index" href="@Url.Action("Index", "Home")">首页</a>
+        <a data-flag="gov_affair" href="@Url.Action("Gov_Affair", "Home")">政务公开</a>
+        <a data-flag="news" href="@Url.Action("News_Page", "Home")">新闻公告</a>
+        <a data-flag="legislation" href="@Url.Action("Legislation", "Home")">政策法规</a>        
+        <a data-flag="guidance" href="@Url.Action("Guidance", "Home")">办事指南</a>
+        <a data-flag="direct" href="@Url.Action("Direct", "Home")">创业就业服务</a>
+    </nav>
+    
+    @RenderBody()
+@*    @RenderSection("scripts", required: false)*@
+    <div class="footer-line"></div>
+    <div class="contact_board">
+        <ul class="clearfix">
+            <li class="contact_tag"><h4>求职招聘咨询电话</h4>
+                <ul>
+                    <li class="phone_num">0717-7816006</li>
+                </ul>
+            </li>
+            <li class="contact_tag"><h4>技能培训咨询电话</h4>
+                <ul>
+                    <li class="phone_num">0717-7816016</li>
+                </ul>
+            </li>
+            <li class="contact_tag"><h4>创业指导咨询电话</h4>
+                <ul>
+                    <li class="phone_num">0717-7816020</li>
+                </ul>
+            </li>
+            <li class="contact_tag"><h4>就业失业登记咨询电话</h4>
+                <ul>
+                    <li class="phone_num">0717-7816010</li>
+                </ul>
+            </li>
+            <li class="contact_tag" title="失业保险咨询电话"><h4>失业保险咨询电话</h4>
+                <ul>
+                    <li class="phone_num">0717-7201522</li>
+                </ul>
+            </li>
+        </ul>   
+    </div><!--contact_board end-->
+	<ul class="about">
+        <li><a href="@Url.Action("Contact", "Recruiting", new { area=""})">联系我们</a></li>
+                   <li> <a href="@Url.Action("Statement","Recruiting", new { area=""})">法律声明</a></li>
+                   <li> <a href="@Url.Action("About","Recruiting", new { area=""})">关于我们</a></li>
+                   <li> <a href="@Url.Action("FAQ","Recruiting", new { area=""})">常见问题</a></li>
+
+        </ul>
+    <div class="end clearfix">
+        <p><span>版权所有：&copy;宜昌市夷陵区劳动就业管理局&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;颚ICP备1231321号</span> </p>
+        <p><span>招聘QQ群1:36080585</span><span>QQ群2:222648357</span><span>QQ群3:222648360</span></p>
+        <span class="text-center">建议最低使用IE8.0以上浏览器 &nbsp;&nbsp;1024×768以上分辨率浏览本网站 </span>&nbsp;&nbsp;<span style="color:#aaa;">技术支持:湖北元速科技有限公司</span>       
+    </div><!--footer end-->
+    
+    <script type="text/javascript">
+        $(function () {
+            var url = window.location.href;
+            var aName = url.split('/');
+            var con = aName[4];
+            switch(con) { 
+                case 'Gov_Affair':
+                    $('#main_nav a').eq(1).addClass('actived');
+                    break;
+                case 'Legislation':
+                    $('#main_nav a').eq(3).addClass('actived');
+                    break;
+                case 'Lesgislation_Detail':
+                    $('#main_nav a').eq(3).addClass('actived');
+                    break;                    
+                case 'News_Page':
+                    $('#main_nav a').eq(2).addClass('actived');
+                    break;
+                case 'News_List':
+                    $('#main_nav a').eq(2).addClass('actived');
+                    break;
+                case 'News_Detail':
+                    $('#main_nav a').eq(2).addClass('actived');
+                    break;                    
+                case 'Guidance':
+                    $('#main_nav a').eq(4).addClass('actived');
+                    break;
+                case 'Direct':
+                    $('#main_nav a').eq(5).addClass('actived');
+                    break;
+                default:
+                    $('#main_nav a').eq(0).addClass('actived');
+            }
+    
+            
+        })
+        function SetHome(obj, vrl) {
+            try {
+                obj.style.behavior = 'url(#default#homepage)'; obj.setHomePage(vrl);
+            }
+            catch (e) {
+                if (window.netscape) {
+                    try {
+                        netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+                    }
+                    catch (e) {
+                        alert("此操作被浏览器拒绝！\n请在浏览器地址栏输入“about:config”并回车\n然后将 [signed.applets.codebase_principal_support]的值设置为'true',双击即可。");
+                    }
+                    @*var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
+                    prefs.setCharPref('browser.startup.homepage', vrl);*@
+                    } else {
+                        alert("您的浏览器不支持，请按照下面步骤操作：1.打开浏览器设置。2.点击设置网页。3.输入：" + vrl + "点击确定。");
+                    }
+                }
+            }
+            // 加入收藏 兼容360和IE6 
+            function shoucang(sTitle, sURL) {
+                try {
+                    window.external.addFavorite(sURL, sTitle);
+                }
+                catch (e) {
+                    try {
+                        window.sidebar.addPanel(sTitle, sURL, "");
+                    }
+                    catch (e) {
+                        alert("加入收藏失败，请使用Ctrl+D进行添加");
+                    }
+                }
+            }
+    </script>
+</body>
+</html>

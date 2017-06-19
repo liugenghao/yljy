@@ -1,0 +1,57 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+
+@{
+    ViewBag.Title = "新闻列表";
+}
+<div class="current-position">
+    <div>
+        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("News_Page")">新闻公告</a></span>&nbsp;>&nbsp;新闻列表
+    </div>
+</div>
+<!--主体区域-->
+<div class="wrap">
+    <div id="news-all-list" class="news-all-list clearfix">
+        <div class="news-all-list-meunu" id="news-all-list-meunu">
+            <ul>
+                <li class="selected"><a href="javascript:">新闻</a></li>
+                <li><a href="javascript:">公告</a></li>
+            </ul>
+        </div>
+
+        <div class="news-all-list-con" id="news-all-list-con">
+            <div class="title"><i></i>
+                <h2>新闻列表</h2>
+            </div>
+            <ul id="news">
+                @foreach (var news in Model.Where(m => m.ArticleType_Id == 1).ToList())
+                {
+                    <li class="clearfix"><a href="@Url.Action("News_Detail", new { id = news.Id })">@news.Title</a><span>@news.Time.ToShortDateString()</span></li>
+                }
+            </ul>
+            <ul id="notice" class="display-hide">
+                @foreach (var news in Model.Where(m => m.ArticleType_Id == 2).ToList())
+                {
+                    <li class="clearfix"><a href="@Url.Action("News_Detail", new { id = news.Id })">@news.Title</a><span>@news.Time.ToShortDateString()</span></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!--gov_affair end-->
+</div>
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#news-all-list-meunu li').on('click', function () {
+            $('#news-all-list-meunu li').removeClass("selected");
+            $(this).addClass("selected");
+            if ($(this).index() == 0) {
+                $("#news-all-list-con h2").text("新闻列表");
+                $("#news-all-list-con ul").hide().eq(0).show();
+            } else if ($(this).index() == 1) {
+                $("#news-all-list-con h2").text("公示公告");
+                $("#news-all-list-con ul").hide().eq(1).show();
+            }
+        })
+    });
+</script>

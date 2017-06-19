@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "管理主页";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>内容管理首页</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><span class="icon icon-sound2"></span> <label>欢迎使用站点内容管理系统，建站的首选工具。</label></div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h3><span class="icon icon-gear"></span> 数据统计</h3>
+            </div>
+            <div class="result-content">
+                <div class="dashboard-wrap">
+                    <ul class="statistic-box clearfix">
+                        @foreach(Ys.Model.SimpleEntity<int> item in ViewBag.SumList as List<Ys.Model.SimpleEntity<int>>){
+                            <li>
+                                <h4>@item.Value</h4>
+                                <p>@item.Name</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/main-->    
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        $(function () {
+            var bgcolors = ["#00c0ef", "#dd4b39", "#00a65a"];
+            var statistics = $(".dashboard-wrap>ul>li");
+            $(statistics).each(function (i, item) {
+                $(this).css("background-color", bgcolors[i]);
+            });
+        });
+    </script>
+</body>
+</html>

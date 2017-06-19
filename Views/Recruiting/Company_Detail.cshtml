@@ -1,0 +1,214 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+
+@{
+    ViewBag.Title = "Company_Detail";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BCe01f2a03336e188a8199d159b81f65"></script>
+<!--主体区域-->
+<div class="main-wrap wrap-post" id="main">
+    <div class="section clearfix">
+        <div class="ht_20"></div>
+        <div class="block-right">
+            <div class="ht_10"></div>
+            <div class="result-wrap conpanies-job-list">
+                <!--导航栏-->
+                <!--/导航栏-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="view-article">
+                        <div class="article-title">
+                            <h2>@Model.Name</h2>
+
+                            <span class="title-triangle"></span>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div>
+                           @* <div class="ht_20"></div>
+                            <div class="headtitle">
+                                <h2>企业照片</h2>
+                            </div>
+                            <div class="ht_10"></div>
+                            <div class="theme-imgScroll">
+                                <ul class="img_scroll" id="corpAlbum">
+                                    @foreach (var image in Model.Img)
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <img alt="" src="@image.Url" style="width: 204px; height: 120px;" />
+                                            </a>
+                                            <p class="img-remark">
+                                                <a href="#">
+                                                    <span class="clear text-overflow" style="width: 100%;">@image.Title</span>
+                                                </a>
+                                            </p>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>*@
+                            <div class="ht_20"></div>
+                            <div class="headtitle">
+                                <h2>企业简介</h2>
+                            </div>
+                            @*<div class="article-text" id="article-text">
+                                @Html.Raw(Model.Inroduce)
+                            </div>*@
+                             <div class="tab-content"> 
+               
+             
+                <dl data-role="corporation">
+                    <dt>名称</dt>
+                    <dd>
+                        <label>@Model.Name</label>
+                    </dd>
+                </dl>
+                <dl data-role="corporation">
+                    <dt>所属行业</dt>
+                    <dd>
+                        <label>@Model.Industry.Name</label>
+                    </dd>
+                </dl>
+                <dl data-role="corporation">
+                    <dt>规 模</dt>
+                    <dd>
+                        <label>@Model.Scale.Name</label>
+                    </dd>
+                </dl>
+                <dl data-role="corporation">
+                    <dt>企事业单位性质</dt>
+                    <dd>
+                        <label>@Model.Etype.Name</label>
+                    </dd>
+                </dl>
+    
+                <dl>
+                    <dt>联系地址</dt>
+                    <dd>
+                        <label>@Model.Address</label>
+                    </dd>
+                </dl>
+            
+                <dl>
+                    <dt>备 注</dt>
+                    <dd>
+                        <label>@Model.Inroduce</label>
+                    </dd>
+                </dl>
+            
+            </div>
+                        </div>
+                        <div class="article-suggest">
+                            <div>
+                                <h2>该公司在招职位</h2>
+                            </div>
+                            <div class="ls_rows result-jobs">
+                                <ul>
+                                    @foreach (var job in Model.Jobs.Where(m => m.StateId == 1).ToList())
+                                    {
+                                        <li>
+                                            <p class="article-name"><a href="@Url.Action("Job_Detail", new { id = job.Id })">@job.JobName</a></p>
+                                            <p class="job-company"><@Model.Name></p>
+                                            <p class="job-remark">
+                                                <span>招聘人数：<label>@job.PersonNum</label></span>
+                                                <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                                <span>薪资：<label>@job.PayLevel.Name</label></span>
+                                            </p>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-aside">
+            <div class="sidebar">
+                <div class="ht_10"></div>
+                <div class="headtitle">
+                    <h2>企业名片</h2>
+                </div>
+                <div class="side-nav side-company">
+                    <dl>
+                        <dd class="company-icon"><a href="/or/companies/detail.html?id=i">
+                            <img src="" width="100" height="80"></a></dd>
+                        <dd>
+                            <h3>@Model.Name</h3>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblIndustry">行业：</label><span id="txtIndustry">@Model.Industry.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblScale">规模：</label><span id="txtScale">@Model.Scale.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblNature">性质：</label><span id="txtNature">@Model.Etype.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblAddress">地址：</label><span id="txtAddress">@Model.Address</span>
+                        </dd>
+                        @*<dd class="company-map">
+                            <!--地图-->
+                            <div id="map-contanier" class="map-contanier"></div>
+                            <script type="text/javascript">
+                                // 百度地图API功能
+                                var map = new BMap.Map("map-contanier");            	 // 创建Map实例
+                                var point = new BMap.Point(111.333196, 30.775889);     	 // 创建点坐标(经度，维度)
+                                map.centerAndZoom(point, 14);                      // 初始化地图,设置中心点坐标和地图级别。
+                                map.enableScrollWheelZoom();                     //启用滚轮放大缩小
+                                map.addControl(new BMap.NavigationControl());
+                                map.addControl(new BMap.ScaleControl());
+                                map.addControl(new BMap.OverviewMapControl());
+                                map.addControl(new BMap.MapTypeControl());
+                            </script>
+                            <!--/地图-->
+                        </dd>*@
+                    </dl>
+                </div>
+            </div>
+            @*<div class="sidebar">
+                <div class="ht_10"></div>
+                <div class="headtitle">
+                    <h2>面试经验</h2>
+                </div>
+                <div class="side-nav side-company">
+                    <dl class="interview-comment">
+                        <dd>
+                            <p class="comment-part">"在一个小楼里 面试很轻松 环境有点嘈杂 大家都在忙碌着 实习期2500转正2800到3000 加不加班看你个人 离家有段距离 薪资有些不满意 但感觉氛围不错..."</p>
+                            <p class="comment-attr text-right">匿名用户</p>
+                            <p class="text-right">2015-09-03</p>
+                        </dd>
+                    </dl>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+<!--主体区域-->
+<!-- Recommended script positioning -->
+<script src="~/Scripts/ui.recruit.imgScroll.js"></script>
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    var disNum = 3;
+    $(function () {
+        corpAlbumScroll(disNum);
+        $(window).resize(function () {
+            var docWidth = $(window).width();
+            if (docWidth < 800)
+                disNum = 1;
+            corpAlbumScroll(disNum);
+        });
+
+    });
+    function corpAlbumScroll(displayNum) {
+        //底部图片滚动			
+        $('#corpAlbum').bxCarousel({
+            display_num: displayNum, //显示的内容数量
+            move: 1, //一次移动几个内容
+            auto: false, //加载页面后是否自动滚动
+            auto_hover: true, //鼠标放上时是否暂停
+            margin: 5, //每个li元素之间距离
+            auto_interval: 3000
+        });
+    }
+</script>

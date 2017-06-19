@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<div class="section white clearfix">
+    <div class="current-position">
+        <div>
+            <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Register_jump")">用户注册</a></span>
+        </div>
+    </div>
+        <div class="register-jump-board edge_round">
+            <div id="e_res" class="e_res clearfix">
+                <img src="@Url.Content("~/img/icon_qiye.png")" />
+                <h1>企业注册</h1>
+            </div>
+            
+            <div id="p_res" class="p_res clearfix">
+                <img src="@Url.Content("~/img/iconfont-qiuzhizhe.png")" style="width:110px;height:110px;" />
+                <h1>求职者注册</h1>
+            </div>
+       </div>
+</div>
+<!--wrap end-->
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $("#e_res").click(function () {
+            f_onShowClause('@Url.Action("Clause_e")', '@Url.Action("Register_e")'); 
+
+        });
+        $("#p_res").click(function () {
+            f_onShowClause('@Url.Action("Clause_p")', '@Url.Action("Register_p")'); 
+        });
+    });
+
+    function f_onShowClause(clauseUrl, redirectUrl) {        
+        if (clauseUrl) {
+            var d = top.dialog({
+                title: "清先阅读免责条款",
+                content: "免责条款内容...",
+                url: clauseUrl,
+                width: '800px',
+                height: '512px',
+                okValue: '确定',
+                ok: function () {
+                    this.title('转到注册页面…');
+                    location.href = redirectUrl;
+                    return false;
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            }).showModal();
+        }       
+    }
+</script>

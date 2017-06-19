@@ -1,0 +1,36 @@
+﻿<div class="result-wrap" id="result-edit">
+    @using (Html.BeginForm("InterviewLetterForm", null, FormMethod.Post, new { @id = "form1" }))
+    {
+        @Html.AntiForgeryToken()
+             
+        <!--内容-->
+        <div id="floatHeadEdit" class="content-tab-wrap">
+            <div class="content-tab">
+                <div class="content-tab-ul-wrap">
+                    <ul>
+                        <li><a class="selected" href="javascript:void(0);">委托招聘申请</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <dl>
+                @Html.Hidden("ComId")
+            </dl>
+            <dl>
+                <dt>希望招聘的时间</dt>
+                <dd>
+                    <input type="text" name="HopeTime" id="txtHopeTime" onfocus="WdatePicker({dateFmt:&quot;yyyy-MM-dd&quot;})" class="Wdate input" />
+                    <span class="Validform_checktip">左右</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt>备 注</dt>
+                <dd>
+                    @Html.TextArea("Remark", new { @class = "input normal", rows = "4" })
+                </dd>
+            </dl>
+        </div>
+        <!--/内容-->
+    }
+</div>

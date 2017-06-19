@@ -1,0 +1,92 @@
+﻿@model Ys.Model.Model.Recruit.PersonModel
+
+@{
+    ViewBag.Title = "用户管理中心";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+@Styles.Render("~/artdialog/css")
+@Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/artdialog/js")
+@Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+<script src="@Url.Content("~/My97DatePicker/WdatePicker.js")"></script>
+<!--主区域 start -->
+<div class="ht_20"></div>
+<div class="main-wrap" id="main">
+    <div class="section">
+        <!-- 侧边栏菜单 start -->
+        <div class="main-left" id="main-left">
+            <div class="sidebar">
+                <h2 class="plat-title">个人用户</h2>
+                <div class="avatar-box">
+                    <dl>
+                        <dt>
+                            <a href="javascript: void(0);"></a>
+                        </dt>
+                        <dd>
+                            <p class="user-name">@Model.Login_Name</p>
+                            <p>简历：@Model.Resume.Count 份</p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="list-wrap">
+                    <h3>我的求职</h3>
+                    <ul>
+                        <li>@Html.ActionLink("管理首页", "Desk", null, new { target = "right" })</li>
+                        <li>@Html.ActionLink("我的简历", "Index", "Resume", null, new { target = "right" })</li>
+                        <li>@Html.ActionLink("我收藏的职位", "Index", "Favorite", null, new { target = "right" })</li>
+                        <li>@Html.ActionLink("我投递的职位", "Outbox", "Resume", null, new { target = "right" })</li>
+
+                        <li>
+                            <a href="@Url.Action("Index", "Interview")" target="right">我的面试邀约
+                                @if (ViewBag.InterviewCount > 0)
+                                {
+                                    <span class="alarm" title="企业发出了面试邀约，我还未接受"><i>@ViewBag.InterviewCount</i></span>
+                                }
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("RoomList", "Interview")" target="right">在线面试
+                                @*<span class="alarm"><i>1</i></span>*@
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Message")" target="right">站内消息
+                                <span class="alarm" title="新消息未读"><i>@Model.Info.ReceiveMsg.Count</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <h3>搜索</h3>
+                    <ul>
+                        <li>@Html.ActionLink("热门职位", "Jobs", "Recruiting", new { area = "" }, new { target = "_blank" })</li>
+                        <li>@Html.ActionLink("热门公司", "Companies", "Recruiting", new { area = "" }, new { target = "_blank" })</li>
+                    </ul>
+                    <h3>基本资料</h3>
+                    <ul>
+                        <li>@Html.ActionLink("个人资料", "Profile", "Account", null, new { target = "right" })</li>
+                        <li>@Html.ActionLink("修改密码", "ChangePassword", "Account", null, new { target = "right" })</li>
+                        <li>@Html.ActionLink("退出登录", "Logout", "Recruiting", new { area = "" }, null)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 侧边栏菜单 end -->
+        <!-- 内页容器 start -->
+        <div class="main-container" id="main-right">
+            <iframe src="@ViewBag.IframeLink" id="right" name="right" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <!-- 内页容器 end -->
+    </div>
+</div>
+<div class="ht_20"></div>
+<!--主区域 end -->
+<script type="text/javascript">
+    $(function () {
+        //导航激活
+        f_onNavActive("grzx");
+
+        $('#asid_scroll').remove();
+        var minHeight = $("#main-left").height();
+        startInit('right', minHeight);
+    });
+</script>

@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "RegisterSuccessf";
+}
+
+<div class="wrap regsucc clearfix">
+    <div class="regSuc">
+        <img src="~/img/icon/its_right.png" />
+        <h2>注册成功！</h2>   
+    </div>
+    <div class="regsuccPanel">             
+            <h3>您的会员登录名是：<span>@ViewBag.LoginName</span> ,&nbsp;&nbsp;&nbsp;请妥善保管</h3>     
+                <div class="regSucBtns clearfix"><a class="btn btn-warning" href="@Url.Action("Index", "Home")">返回首页</a><a class="sec btn btn-warning"  href="@Url.Action("Login", "Home")">登陆招聘系统</a></div>     
+    </div>
+</div>

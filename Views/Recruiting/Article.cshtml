@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "资讯";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+
+<!--主体区域-->
+<div class="main-wrap mainbg" id="main">
+    <div class="section clearfix">
+        <div class="ht_20"></div>
+        <div class="block-aside">
+            <div class="sidebar clearborder">
+                <div class="headtitle"><h2>委托招聘</h2></div>                                 	
+                <div class="side-nav">
+                    <ul>
+                        <li class="node">
+                            <a class="top-title" href="index.html?cata=1">委托招聘</a>                                  
+                        </li>                            
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="block-right">
+            <div class="result-wrap">  
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="/or/index.html" class="home"><i></i><span>返回首页</span></a>
+                    <a href="index.html">
+                        <span>新闻中心</span>
+                    </a> 
+                    <i class="arrow"></i>
+                    <span>委托招聘/招聘会</span>
+                </div>
+                <!--/导航栏-->
+                <!--当前栏目-->
+                <div class="result-records">
+                    <div class="ls_rows">
+                        <ul class="clearfix">
+                            <li class="current-title"><i></i><label>委托招聘/招聘会</label></li>
+                            <li class="right">共有 <label id="resultCount">2000+</label> 条内容</li>
+                        </ul>
+                        <div class=" ht_5 defcaption"></div>
+                    </div>
+                </div>
+                <!--/当前栏目-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="ht_10"></div>
+                    <div class="ls_rows">
+                        <ul id="result-articles">
+                            <li class="top">
+                                <dl class="clearfix">
+                                    <dt>
+                                        <img alt="" src="../img/RecruitmentImages/sample_logo.png" width="200" height="150" onload="javascript:DrawImage(this, '180', '100');" />
+                                        <span class="top-text"><p><a href="Article_Detail?id=1">XX招聘会</a></p><p class="top-remark">摘要</p></span>
+                                        <p class="top-index"><span>1</span></p>
+                                    </dt>
+                                    <dd class="right">
+                                        <p class="publish-time">2015-09-02</p>
+                                    </dd>
+                                </dl>                                	
+                            </li>
+                            <li>
+                                <dl class="clearfix">
+                                    <dt>
+                                        <h4 class="job-name"><em>2</em><a href="Article_Detail?id=1">XXX招聘会</a></h4>                                            
+                                    </dt>
+                                    <dd class="right">
+                                        <p class="publish-time">2015-09-02</p>
+                                    </dd>
+                                </dl>                                	
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pagebar clearfix"><div class="right holder"></div></div>
+                </div>                    
+                <!--/内容-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		var array=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+		var resultJobs=$("#result-articles");
+		var code = resultJobs.find("li:nth-child(2)").html();
+		$(array).each(function(i){
+			resultJobs.append("<li>"+code+"</li>");				
+		});			
+	});
+</script>

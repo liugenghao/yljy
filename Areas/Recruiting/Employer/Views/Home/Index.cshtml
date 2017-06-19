@@ -1,0 +1,94 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+
+@{
+    ViewBag.Title = "企业用户管理中心";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}  
+@Styles.Render("~/artdialog/css")
+@Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/artdialog/js")
+@Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+<script src="@Url.Content("~/My97DatePicker/WdatePicker.js")"></script>
+<!--主区域 start -->
+<div class="ht_20"></div>
+<div class="main-wrap" id="main">
+    <div class="section" >
+        <!-- 侧边栏菜单 start -->
+        <div class="main-left" id="main-left">
+            <div class="sidebar">
+                <h2 class="plat-title">企业用户</h2>
+                <div class="avatar-box">
+                    <dl>
+                       @* <dt>
+                            <a href="javascript: void(0);">
+                                
+                            </a>
+                        </dt>*@
+                        <dd>
+                            <p class="user-name">@Model.Name</p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="list-wrap">
+                    <h3>我的招聘</h3>
+                    <ul>
+                        <li>@Html.ActionLink("管理首页", "Desk", null, new { target="right"})</li>
+                        <li>@Html.ActionLink("发布新职位", "Edit", "Jobs", null, new { target="right"})</li>
+                        <li>@Html.ActionLink("已发布的职位列表", "Index", "Jobs", null, new { target="right"})</li>  
+                        <li>@Html.ActionLink("我收藏的简历", "Favorite", "ResumeInbox", null, new { target="right"})</li> 
+                        <li>@Html.ActionLink("已收到的简历", "Index", "ResumeInbox", null, new { target="right"})</li>   
+                                      
+                        <li>
+                            <a href="@Url.Action("Outbox", "Interview")" target="right">
+                                已发出的面试邀约
+                                @*<span class="alarm" title="发出了面试邀约，求职者未接受的"><i>1</i></span>*@
+                            </a>
+                        </li>              
+                        <li>
+                            <a href="@Url.Action("RoomList", "Interview")" target="right">
+                                在线面试
+                                @*<span class="alarm" title="发出了面试邀约，求职者已接受"><i>@{if (@ViewBag.OnlineCount==0){}else{@ViewBag.OnlineCount}}</i></span>*@
+                            </a>
+                        </li>
+                        <li>@*@Html.ActionLink("委托招聘申请", "Index", "JobFair", null, new { target="right"})*@</li>                      
+                        <li>
+                            <a href="@Url.Action("ApplyList", "JobFair")" target="right">
+                                招聘会报名
+                                @*<span class="alarm" title="新招聘会"><i>1</i></span>*@
+                            </a>
+                        </li>
+                    </ul>
+                    <h3>搜索</h3>
+                    <ul>                
+                        <li>@Html.ActionLink("搜索人才", "Humans", "Recruiting", new { area = "" }, new { target="_blank"})</li>                   
+                    </ul>
+                    <h3>基本资料</h3>
+                    <ul>
+                        <li>@Html.ActionLink("个人资料", "Profile", "Account", null, new { target="right"})</li>
+                        <li>@Html.ActionLink("企业相册", "Index", "Album", null, new { target="right"})</li>
+                        <li>@Html.ActionLink("修改密码", "ChangePassword", "Account", null, new { target="right"})</li>
+                        <li>@Html.ActionLink("退出登录", "Logout", "Recruiting", new { area=""},null)</li>                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 侧边栏菜单 end -->
+        <!-- 内页容器 start -->
+        <div class="main-container" id="main-right">
+            <iframe src="@ViewBag.IframeLink" id="right" name="right" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <!-- 内页容器 end -->
+    </div>
+</div>
+<!--主区域 end -->  
+<script type="text/javascript">	
+    $(function () {
+        //导航激活
+        f_onNavActive("grzx");
+
+        $('#asid_scroll').remove();
+		var minHeight = $("#main-left").height();
+		startInit('right', minHeight);
+	}); 
+</script> 

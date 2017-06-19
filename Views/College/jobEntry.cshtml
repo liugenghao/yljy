@@ -1,0 +1,159 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大学生实习报名系统-岗位录入</title>
+    <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet">
+    <link href="~/collegeSrc/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="Part-one">
+            <div class="g-in">
+                <img src="~/collegeSrc/image/collegeLogo.png" />
+            </div>
+        </div>
+        <div class="Part-two">
+            <a href="loginout" class="logioutBtn">
+                <img src="~/collegeSrc/image/logioutBtn.png" />
+            </a>
+            <div class="con-top">
+                <div class="con-word">
+                    <div class="con-station">岗位录入</div>
+                </div>
+                <div class="con-line"></div>
+            </div>
+            <div class="con-bottom clearfix">
+                <form class="form-horizontal" id="formId"  method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">岗位类别</label>
+                        <div class="col-sm-6">
+                            <select id="stationTypeID" name="stationTypeID" class="form-control" style="width:40%;">
+                                @*<option value="0">--请选择岗位类别--</option>*@
+                                @if (ViewBag.stationtype != null)
+                                {
+                                    foreach (var item in (List<Ys.Model.Model.College.stationTypes>)ViewBag.stationtype)
+                                    {
+                                        <option value="@item.id">@item.stationName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工作地点</label>
+                        <div class="col-sm-6">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" value="小溪塔街道">小溪塔街道
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option2" autocomplete="off" value="夷陵经济开发区街道">夷陵经济开发区街道
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option3" autocomplete="off" value="樟村坪镇">樟村坪镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option4" autocomplete="off" value="雾渡河镇">雾渡河镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option5" autocomplete="off" value="分乡镇">分乡镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option6" autocomplete="off" value="太平溪镇">太平溪镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option7" autocomplete="off" value="三斗坪镇">三斗坪镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option8" autocomplete="off" value="乐天溪镇">乐天溪镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option9" autocomplete="off" value="龙泉镇">龙泉镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option10" autocomplete="off" value="鸦鹊岭镇">鸦鹊岭镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option11" autocomplete="off" value="邓村乡">邓村乡
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option12" autocomplete="off" value="下堡坪乡">下堡坪乡
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option13" autocomplete="off" value="黄花镇">黄花镇
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="options" id="option14" autocomplete="off" value="东城试验区">东城试验区
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">实习时间</label>
+                        <div class="col-sm-2">
+                            <select id="practiceTime" name="practiceTime" class="form-control">
+                                <option>1个月</option>
+                                <option>2个月</option>
+                                <option>3个月</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">是否提供食宿</label>
+                        <div class="col-sm-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="isAccommodate" id="isAccommodate1" value="1" checked="checked"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="isAccommodate" id="isAccommodate2" value="2"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">人数</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" name="numPeople" id="numPeople" placeholder="人数">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" rows="5" name="remark" id="remark" placeholder="备注"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <a href="publishJob"><span class="btn btn-default">返回</span></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="Part-three">
+            版权所有：&copy;宜昌市夷陵区劳动就业管理局
+        </div>
+        <!-- 弹窗提示区域开始 -->
+        <div class="my-alert-mask" style="display:none;"></div>
+        <div class="alert my-alert alert-info alert-dismissible" style="display:none;width:20px;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4 class="alert-title"><i class="icon fa fa-check"></i>标题</h4>
+            <div class="alert-con">
+                内容
+            </div>
+        </div>
+    </div>
+    <script src="~/collegeSrc/js/jquery.min.js"></script>
+    <script src="~/collegeSrc/js/bootstrap.min.js"></script>
+    <script src="~/collegeSrc/js/my-alert.js"></script>
+    @Html.Raw(ViewBag.js)
+</body>
+</html>

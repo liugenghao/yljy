@@ -1,0 +1,1044 @@
+﻿@model List<Ys.Model.RegionModel>
+
+@{
+    ViewBag.Title = "Map";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>夷陵区就业培训管理系统</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/map.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+    
+</head>
+
+<body>
+    <div id="draggable">
+        <div class="title">
+            <span></span>
+            <img src='@Url.Content("~/img/close3.png")' class="close" />
+        </div>
+        <iframe frameborder="no" class="play"></iframe>
+    </div>
+
+    <div class="placeSearchBtn clearfix" id="placeSearchBtn">
+        <input type="text" class="form-control" id="keyword" placeholder="搜索地名、街道等地图信息" />
+        <button class="btn btn-info searchBtn">搜索</button>
+        <button class="btn btn-warning clear">重置</button>
+    </div>
+    <div class="placeSearchPanel" id="placeSearchPanel">
+        <div class="placeSearchPanelTit">
+            <a href="javascript:">关闭</a>
+        </div>
+        <ul class="placeList">
+            @* <li><span class="iconTag icon_tagNum1"></span><h4>地址1</h4>
+                <p>湖北省宜昌市夷陵区</p>
+            </li>
+            <li><span class="iconTag icon_tagNum2"></span><h4>地址2</h4>
+                <p>湖北省宜昌市秭归县</p></li>
+            <li><span class="iconTag icon_tagNum3"></span><h4>地址3</h4>
+                <p>湖北省宜昌市当阳市</p></li>*@
+        </ul>
+    </div>
+    <div class="clearfix">
+        <header class="clearfix">
+            <div class="logo">
+                <img src="~/img/log1.png">
+                <h1>夷陵区就业培训管理系统</h1>
+            </div>
+
+            <div class="userType">@Session["name"]</div>
+            <button class="btn btn-warning logout">注销</button>
+        </header>
+        <aside class="clearfix">
+            <div class="search_panel" id="search_panel">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon search_reset_btn" id="search_reset_btn"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></div>
+                        <input type="text" class="form-control" id="search" placeholder="查找教室">
+                        <div class="input-group-addon search_confirm_btn" id="search_confirm_btn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+                    </div>
+                </div>
+            </div>
+            <!--search_panel end-->
+            <div class="class_info">
+                <h4>教室数量：<span id="classCount"></span></h4>
+                <h4>学员总数：<span id="studentCount"></span></h4>
+            </div>
+            <div class="maintainBtns">
+                <a id="addClass" class="addClass" href="javascript:">
+                    <img src="~/img/addClass.png" /></a>
+                @if (Session["roleId"].ToString() == "0")
+                {
+                    <a id="addInstitution" class="addInstitution" href="javascript:">
+                        <img src="~/img/addInstitution.png" /></a>
+                }
+                <a class="trainingRec" id="trainingRec" href="javascript:">
+                    <img src="~/img/trainingRec.png" /></a>
+            </div>
+
+            <div class="tab clearfix">
+                <ul class="clearfix">
+                    <li class="selected"><a href="javasript:" title="区域选择">区域选择</a></li>
+                    @if (Session["roleId"].ToString() == "0")
+                    {
+                        <li><a href="javasript:" title="机构列表">机构列表</a></li>
+                    }
+                    <li><a href="javasript:" title="教室列表">教室列表</a></li>
+                </ul>
+            </div>
+            <div id="listPanel" class="listPanel clearfix">
+                <ul class="areaList clearfix">
+                    @{
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                        <li class="actived"><a href="javascript:jumpArea('@Model[i].RegionName');" title="@Model[i].RegionName">@Model[i].RegionName</a></li>
+                            }
+                            else
+                            {
+                        <li><a href="javascript:jumpArea('@Model[i].RegionName');" title="@Model[i].RegionName">@Model[i].RegionName</a></li>
+                            }
+                        }
+                    }
+                </ul>
+                @if (Session["roleId"].ToString() == "0")
+                {
+                    <ul class="institutionList" id="institutionList">
+                        <div class="clearfix institutionTab">
+                            <a class="selected" href="javascript:">培训机构</a>
+                            <a href="javascript:">企业</a>
+                        </div>
+                        <div class="underLine"></div>
+                        <ul class="trainingList">
+                        </ul>
+                        <ul class="enterpriseList">
+                        </ul>
+                    </ul>
+                }
+                <ul class="classList" id="classList">                    
+                </ul>
+            </div>
+        </aside>
+
+        <div class="classEditPanel" id="classEditPanel">
+        </div>
+        <div class="classEditPanelAfter" id="classEditPanelAfter">学员名单</div>
+        <div class="studentListPanel" id="studentListPanel">
+            <iframe width="100%" height="100%" frameborder="0" scrolling="yes" id="right" name="right"></iframe>
+        </div>
+        <div class="map" id="map">
+        </div>
+
+
+    </div>
+    <!-----------浏览器内核提示 ----------->
+    <div class="modal fade" id="browserPrompt" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <!--浏览器内核提示-modal-header end-->
+                <div class="modal-body">
+                    监控视频不支持您的浏览器内核，请切换为IE兼容模式或使用IE9以上查看
+                </div>
+                <!--浏览器内核提示-modal-body end-->
+                <div class="modal-footer">
+                </div>
+                <!--浏览器内核提示-modal-footer end-->
+            </div>
+            <!--浏览器内核提示-modal-content end-->
+        </div>
+        <!--浏览器内核提示-modal-dialog end-->
+    </div>
+    <!--浏览器内核提示-modal end-->
+    <!--     <div id="tools2" class="tools2">刷新地图</div> -->
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-i18n.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/map.js"></script>
+    <script type="text/javascript">
+        var tempInfoWin;
+        var modifyPosition = false;
+        var startSetPos = false;
+        var markersArray = [];
+        var classContainer = [];
+        var infoWin;
+        var markerTemp;
+        var i = 3;
+        var add = false;
+        var monitor = false;
+        var origCont;
+        var selectedMaker;
+        var tempMaker;
+        var selectedInstitutionId;
+        var selectedClassId;
+        //    var setClassNameFlag = false;
+        //    var classNameTemp;
+        //定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
+        var map = new qq.maps.Map(document.getElementById("map"), {
+            center: new qq.maps.LatLng(30.769698189687105, 111.32660865783691), // 地图的中心地理坐标。
+            zoom: 15, // 地图的中心地理坐标。
+            zoomControl: false,
+            panControl: false
+
+        });
+        qq.maps.event.addListener(map, "click", function (e) {
+            if ($('#placeSearchBtn input').val().length == 0)
+                $('#placeSearchBtn').css('opacity', 0.6);
+            //alert(e.latLng.toString());
+        });
+        var classMarkersInfo = [];
+        createInfoWindow();
+        getAllClass();
+        getStudentCount();
+        var markers = [];
+        function clearOverlays(overlays) {
+            var overlay;
+            while (overlay = overlays.pop()) {
+                overlay.setMap(null);
+            }
+        }
+
+        function search(region) {
+            $('.placeList').empty();
+            var seachservice = new qq.maps.SearchService({
+                location: "宜昌市夷陵区",
+                pageIndex: 0,
+                pageCapacity: 9,
+                autoExtend: false,
+                error: function (err) {
+                    $('.placeList').append('<span class="noResultTip">无搜索结果</span>');
+                },
+                complete: function (results) {
+                    var pois = results.detail.pois;
+                    if (pois) {
+                        var latlngBounds = new qq.maps.LatLngBounds();
+                        function mark(i) {
+                            return function () {
+                                $('.placeList li#place' + (i + 1)).addClass('actived');
+                                window.location.href = '#place' + (i + 1);
+                            };
+                        }
+                        function clearmark(i) {
+                            return function () {
+                                if (selectedPlace) {
+                                    if (selectedPlace.id != "place" + (i + 1)) {
+                                        $('.placeList li#place' + (i + 1)).removeClass('actived');
+                                    }
+                                }
+                                else {
+                                    $('.placeList li#place' + (i + 1)).removeClass('actived');
+                                }
+                            };
+                        }
+                        var selectedPlace;
+                        var hoveredPlace;
+                        for (var i = 0, l = pois.length; i < l; i++) {
+                            var poi = pois[i];
+                            //扩展边界范围，用来包含搜索到的Poi点
+                            latlngBounds.extend(poi.latLng);
+                            var marker = new qq.maps.Marker({
+                                map: map,
+                                position: poi.latLng,
+                                id: "place" + (i + 1),
+                                index: i + 1,
+                                icon: new qq.maps.MarkerImage('../img/anchor' + (i + 1) + '.png', null, null, null, null)
+                            });
+                            qq.maps.event.addListener(marker, 'mouseover', mark(i));
+                            qq.maps.event.addListener(marker, 'mouseout', clearmark(i));
+                            marker.setTitle(poi.name);
+                            markers.push(marker);
+                            var content = '<li id="place' + (i + 1) + '" class="clearfix"><span class="iconTag icon_tagNum' + (i + 1) + '"></span>' + poi.name + '<br /><p>' + poi.address + '</p></li>'
+                            // var content = '<li data-id=""><img src="/img/anchor' + (i + 1) + '.png" /><h4>' + poi.name + '</h4><p>' + poi.address + '</p></li>';
+                            $(".placeList").append(content);
+                            bindPlaceSearchResultEvent();
+                        }
+                        $('.placeList li').hover(function () {
+                            var id = $(this).attr('id');
+                            for (i in markers) {
+                                if (markers[i].id == id) {
+                                    hoveredPlace = markers[i];
+                                    var num = markers[i].index;
+                                    if (num) {
+                                        hoveredPlace.setZIndex(99);
+                                        hoveredPlace.setIcon('../img/anchor_blue' + num + '.png');
+                                    }
+                                    break;
+                                }
+                            }
+                            // $('.' + id).addClass('actived');
+                        },
+                    function () {
+                        if (selectedPlace == hoveredPlace) {
+
+                        }
+                        else {
+                            var num = hoveredPlace.index;
+                            hoveredPlace.setIcon('../img/anchor' + num + '.png');
+                            hoveredPlace.setZIndex(0);
+                        }
+                        hoveredPlace = null;
+                    });
+                        $('.placeList li').on("click", function () {
+                            var id = $(this).attr('id');
+                            for (i in markers) {
+                                if (markers[i].id == id) {
+                                    if (selectedPlace) {
+                                        if (selectedPlace != markers[i]) {
+                                            var num = selectedPlace.index;
+                                            selectedPlace.setIcon('../img/anchor' + num + '.png');
+                                            $('.placeList li#place' + num).removeClass('actived');
+                                        }
+                                    }
+                                    var num = markers[i].index;
+                                    if (num) {
+                                        selectedPlace = markers[i];
+                                        $('.placeList li#place' + num).addClass('actived');
+                                        selectedPlace.setZIndex(99);
+                                        selectedPlace.setIcon('../img/anchor_blue' + num + '.png');
+                                    }
+                                    break;
+                                }
+                            }
+                            map.panTo(selectedPlace.getPosition());
+
+                        });
+                        map.fitBounds(latlngBounds);
+                    }
+                    else {
+                        $('.placeList').append('<span class="noResultTip">无搜索结果</span>');
+                    }
+
+
+                }
+            });
+            seachservice.search(region);
+        }
+        function bindPlaceSearchResultEvent() {
+            var placeSearchPanelHeight = $('#placeSearchPanel').height();
+            var placeSearchPanelWidth = $('#placeSearchPanel').width();
+            $('.placeList li').css({ 'paddingBottom': placeSearchPanelHeight / 45, 'paddingTop': placeSearchPanelHeight / 45 });
+            //$('.placeList li p').css({ 'fontSize': (placeSearchPanelHeight + placeSearchPanelWidth) / 80 });
+        }
+        if ('@Session["roleId"]' == '0') {
+            getInstitution();
+            $('#addInstitution').on('click', function () {
+                spreadInstitution();
+            });
+        }
+        $('.placeSearchPanelTit a').on('click', function () {
+            closeSearchPanel();
+        })
+        $('.placeSearchBtn .clear').on("click", function () {
+            $('#keyword').val('');
+            clearOverlays(markers);
+            closeSearchPanel();
+        });
+        $('.placeSearchBtn .searchBtn').on("click", function () {
+            if ($.trim($('#keyword').val()) != '') {
+                var keyword = document.getElementById("keyword").value;
+                clearOverlays(markers);
+                search(keyword);
+                spreadSearchPanel()
+            }
+
+        });
+        /*--------------搜索框输入后回车----------*/
+        $(document).keydown(function (event) {
+            if (event.keyCode == 13) {
+                if ($('#keyword').is(":focus")) {
+                    if ($.trim($('#keyword').val()) != '') {
+                        var keyword = document.getElementById("keyword").value;
+                        clearOverlays(markers);
+                        search(keyword);
+                        spreadSearchPanel();
+                    }
+                }
+            }
+        });
+
+        function spreadSearchPanel() {//展开搜索界面
+            $('#placeSearchPanel').stop().animate({
+                right: 0
+            }, 500, function () {
+                //if ($('.placeList li').length == 0) {
+                //    $('.placeList').empty();
+                //    $('.placeList').append('<span class="noResultTip">无搜索结果</span>');
+                //} else {
+
+                //}
+            });
+        }
+        function closeSearchPanel() {//关闭搜索界面
+            var placeSearchPanelHeight = $('#placeSearchPanel').width();
+            $('#placeSearchPanel').stop().animate({
+                right: -placeSearchPanelHeight
+            }, 500, function () {
+                $('.placeList').empty();
+            });
+        }
+        $('.logout').on("click", function () {
+            window.location.href = '@Url.Action("Login_Index", "RemoteMonitor")';
+        });
+            $('#addClass').on('click', function () {
+                if ($('#studentListPanel').is(":visible")) {
+                    var iframeFlag = $('#right').attr('src');
+                    if (iframeFlag == '@Url.Action("ViewAll","ClassManager")') {
+                        $('#studentListPanel').stop().animate({
+                            opacity: 0
+                        }, 500, function () {
+                            $('#studentListPanel').hide();
+                        });
+                    }
+                }
+                stopModifyClassPosition();
+                selectedMaker = null;
+                selectedClassId = null;
+                var asideWidth = $('aside').width();
+                $('aside .tab li').eq(-1).trigger("click");
+                $.ajax({
+                    url: '@Url.Action("New", "ClassManager")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#classEditPanel').html(data);
+                        doEdit();
+                    }
+                });
+                $('#classEditPanel').show().stop().animate({
+                    left: asideWidth
+                }, 500);
+            });
+            function stopModifyClassPosition() {
+                if (selectedMaker) {
+                    if (selectedMaker.id) {
+                        selectedMaker.setDraggable(false);
+                        selectedMaker.setIcon('../img/class.png');
+                        qq.maps.event.clearListeners(selectedMaker, "dragend");
+                    }
+                    else {
+                        selectedMaker.setMap(null);
+                    }
+
+                }
+                modifyPosition = false;
+                if (tempInfoWin) {
+                    tempInfoWin.close();
+                    tempInfoWin = null;
+                }
+                map.setOptions({
+                    draggableCursor: "pointer",
+                    disableDoubleClickZoom: true
+                })
+                qq.maps.event.clearListeners(map, "dblclick");
+            }
+            $('#trainingRec').on("click", function () {
+                var winWidth = $(window).width();
+                var asideWidth = $('aside').width();
+                $('#studentListPanel').css({
+                    'marginLeft': asideWidth,
+                    'width': winWidth - asideWidth
+                });
+                if ($('#studentListPanel').is(":hidden")) {
+                    $('#studentListPanel').stop().show().animate({
+                        opacity: 1
+                    }, 500, function () {
+
+                    });
+                } else if ($('#studentListPanel').is(":visible")) {
+                    var iframeFlag = $('#right').attr('src');
+                    if (iframeFlag =='@Url.Action("ViewAll","ClassManager")') {
+                        $('#studentListPanel').stop().animate({
+                            opacity: 0
+                        }, 500, function () {
+                            $('#studentListPanel').hide();
+                        });
+                    }
+                }
+                $('#right').attr('src', '@Url.Action("ViewAll", "ClassManager")');
+                $('aside .classList li').removeClass('actived');
+                $('#classEditPanel').hide();
+                $('#classEditPanelAfter').hide();
+            });
+            function createInfoWindow() {
+                infoWin = new qq.maps.InfoWindow({
+                    map: map
+                });
+                bindInfoWinEvent();
+            }
+            /*--------教室名称保存成功后回调--------*/
+            function getStudentCount() {
+                $.ajax({
+                    url: '@Url.Action("GetCount", "StudentManager")',
+                    type: 'GET',
+                    timeout: 20000,
+                    success: function (data) {
+                        $("#studentCount").text(data);
+                    }
+                });
+            }
+            function addSuccess(data) {
+                startSetPos = false;
+                add = true;
+                getAllClass();
+                map.setOptions({
+                    draggableCursor: "pointer"
+                }); //还原鼠标样式
+            }
+            function refreshInsList() {
+                //$('aside .institutionList').empty();
+                getInstitution();
+            }
+            function refreshClassList() {
+                $('aside .classList').empty();
+                classContainer = [];
+                if (classMarkersInfo) {
+                    for (i in classMarkersInfo) {
+                        classContainer.push(addElmtToClassList(classMarkersInfo[i].Id, classMarkersInfo[i].Name));
+                    }
+                }
+                var asideHeight = $('aside').height();
+                var asideWidth = $('aside').width();
+                $('aside .classList li a').css({
+                    'fontSize': (asideHeight + asideWidth) / 80,
+                    'lineHeight': asideHeight / 360
+                });
+                bindEvent2ClassList();
+            }
+            function locateIns(id) {
+                if (id == "" || id == undefined) {
+                    $('#classEditPanel').stop().animate({
+                        left: 0
+                    }, 500, function () {
+                        $('#classEditPanel').hide();
+                    });
+                }
+                else {
+                    $('aside .institutionList li').removeClass('actived');
+                    $('aside .institutionList #' + id).addClass('actived');
+                    // $('#classEditPanel').html("");
+                    $.ajax({
+                        url: '@Url.Action("Index", "InstitutionManager")' + '?id=' + id,
+                        type: 'GET',
+                        timeout: 20000,
+                        success: function (data) {
+                            $('#classEditPanel').html(data);
+                        }
+                    });
+                    var asideWidth = $('aside').width();
+                    var editPanelWidth = $('#classEditPanel').width();
+                    if ($('#classEditPanel').is(":hidden")) {
+                        $('#classEditPanel').show().stop().animate({
+                            left: asideWidth
+                        }, 500);
+                    }
+                    $('#classEditPanelAfter').css('opacity', 0).hide();
+                }
+            }
+
+            function locateClass(id, mapJump) {
+                if (id) {
+                    $('aside .classList li').removeClass('actived');
+                    $('aside .classList #' + id).addClass('actived');
+                    spreadClass(id, mapJump);
+                    searchClassInfo(id, true);
+                    stopModifyClassPosition();
+
+                   
+                    selectedClassId = id;
+                    if ($('#studentListPanel').is(":visible")) {
+                        $('#right').attr('src', '../StudentManager/Index?id=' + selectedClassId);// = "/StudentManager/Index/" + id;
+
+                    }
+                }
+
+
+            }
+            function bindEvent2ClassList() {                
+                $('aside .classList li').on('click', function () {
+                   // $('aside .classList li').removeClass('actived');
+                   // $(this).addClass('actived');
+                    var iframeFlag = $('#right').attr('src');
+                    if (iframeFlag == '@Url.Action("ViewAll","ClassManager")' ){
+                        $('#studentListPanel').hide();
+                    }
+                    var classId = $(this).prop("id");
+                    locateClass(classId);
+                    for (i in markersArray) {
+                        if (markersArray[i].id == classId) {
+                            if (markersArray[i].position.getLat() != 0) {
+                                map.panTo(markersArray[i].position);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function searchClassInfo(id, flag) {
+                //selectedClass = id;
+                $.ajax({
+                    url: '@Url.Action("Index", "ClassManager")' + '?id=' + id,
+                    type: 'GET',
+                    timeout: 20000,
+                    success: function (data) {
+                        $('#classEditPanel').html(data);
+                        stopEdit();
+                        showClassInfo(id);
+                    }
+                });
+
+            }
+            function showClassInfo(id) {
+                infoWin.close();
+                var className = $('#className').val();
+                var address = $('#classAddress').val();
+                var tel = $('#classTel').val();
+                //selectedMaker = null;
+                if (markersArray) {
+                    for (i in markersArray) {
+                        if (markersArray[i].id == id) {
+                            selectedMaker = markersArray[i];
+                            origCont = '<div class="classDetail clearfix"><div class="clearfix"><h4>教室名称：' + className + '</h4></div><div class="secRow clearfix"><p>教室地址：' + address + '</p><p>联系电话：' + tel + '</p></div></div>';
+                            infoWin.setContent(origCont);
+                            if (markersArray[i].position.getLat() == 0) {
+                                infoWin.setPosition(map.center)
+                            }
+                            else {
+                                infoWin.setPosition(markersArray[i]);
+                            }
+                            infoWin.open();
+                        }
+                    }
+                }
+            }
+            function addElmtToClassList(id, name) {
+                var content = '<li id=' + id + '><a href="javascript:">' + name + '</a></li>';
+                $('aside .classList').append(content);
+                return $('aside .classList li').last();
+            }            
+            function closeEditPanel() {
+                $('#classEditPanelAfter').css('opacity', 0);
+                $('#classEditPanel').stop().animate({
+                    left: 0
+                }, 500, function () {
+                    $('#classEditPanel').hide();
+                });
+            }
+            function createMarker(pointInfo) {
+                var marker = new qq.maps.Marker({
+                    position: pointInfo.Point,
+                    title: pointInfo.Name,
+                    map: map,
+                    icon: new qq.maps.MarkerImage('../img/class.png', null, null, null, null),
+                    draggable: false
+                });
+                marker.id = pointInfo.Id;
+                qq.maps.event.addListener(marker, 'click', function (event) {
+                    locateClass(marker.id, true);
+                });
+                markersArray.push(marker);
+                return marker;
+            }
+            function bindInfoWinEvent() {
+                qq.maps.event.addListener(infoWin, 'closeclick', function (event) {
+                    monitor = false;
+                    var MonitorActiveX = document.getElementById("MonitorActiveX");
+                    if (MonitorActiveX) {
+                        MonitorActiveX.Close();
+                    }
+                    if (markerTemp) {
+                        markerTemp.setMap(null);
+                    }
+                    startSetPos = false;
+                    map.setOptions({
+                        draggableCursor: "pointer"
+                    }); //还原鼠标样式
+                    $('#addClass').show();
+                    $('#addInstitution').show();
+                });
+            }
+            function spreadClass(id, mapJump) {
+                var asideWidth = $('aside').width();
+                $('aside .tab ul a').eq(2).trigger('click');
+                //$('aside .classList #' + id).addClass('actived');
+                if (mapJump)
+                    window.location.href = '#' + id;
+                $('#classEditPanel').show().stop().animate({
+                    left: asideWidth
+                }, 500, function () {
+
+                    $('#classEditPanelAfter').show().stop().animate({
+                        opacity: 1
+                    }, 500);
+                });
+            }
+            function spreadInstitution(id) {
+                var asideWidth = $('aside').width();
+                $('aside .tab li').eq(1).trigger("click");
+                $.ajax({
+                    url: '@Url.Action("New", "InstitutionManager")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#classEditPanel').html(data);
+                        doEdit();
+                    }
+                });
+
+                $('#classEditPanel').show().stop().animate({
+                    left: asideWidth
+                }, 500);
+
+            }
+            function refreshMarkers() {
+                closeInfoWindow();
+                clearMarkers();
+                if (classMarkersInfo) {
+                    for (i in classMarkersInfo) {
+                        if (classMarkersInfo[i].Point.getLat() != 0) {
+                            var marker = createMarker(classMarkersInfo[i]);
+                        }
+                    }
+                }
+
+            }
+            function validBrowserCore() {
+                var userAgent = window.navigator.userAgent;
+                //userAgent.indexOf('MSIE') != -1 ||
+                return userAgent.indexOf('Trident') != -1;
+            }
+
+            function openMonitor() {
+                PreviewCam();
+                $("#draggable").show();
+            }
+
+            function PreviewCam() {
+                if (selectedClassId) {
+                    var text = $('.classList li#' + selectedClassId + '  a').text();
+
+                    $('.title span').text(text);//.append(text);
+                    $('.play').attr('src', '@Url.Action("Play", "ClassManager")' + '?id=' + selectedClassId);
+                }
+            }
+            function closeMonitor() {
+                monitor = false;
+                var MonitorActiveX = document.getElementById("MonitorActiveX");
+                if (MonitorActiveX) {
+                    MonitorActiveX.Close();
+                }
+                infoWin.setContent(origCont);
+            }
+            function closeInfoWindow() {
+                if (infoWin)
+                    infoWin.close();
+            }
+            function deleteMarker(marker) {
+                if (marker)
+                    marker.setMap(null);
+            }
+            function clearMarkers() {
+                if (markersArray) {
+                    for (i in markersArray) {
+                        markersArray[i].setMap(null);
+                    }
+                }
+                markersArray = [];
+            }
+            function getInstitution() {
+                $.ajax({
+                    url: '@Url.Action("GetList", "InstitutionManager")',
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        $('aside .trainingList').empty();
+                        $('aside .enterpriseList').empty();
+                        for (i in data) {
+                            if (data[i].RoleId == 1) {
+                                var content = '<li id=' + data[i].Id + '><a href="javascript:">' + data[i].Name + '</a></li>';
+                                $('aside .trainingList').append(content);
+                            }
+                            else if (data[i].RoleId == 2) {
+                                var content = '<li id=' + data[i].Id + '><a href="javascript:">' + data[i].Name + '</a></li>';
+                                $('aside .enterpriseList').append(content);
+                            }
+                        }
+                        var asideHeight = $('aside').height();
+                        var asideWidth = $('aside').width();
+                        $('aside .institutionList li a').css({
+                            'fontSize': (asideHeight + asideWidth) / 80,
+                            'lineHeight': asideHeight / 360
+                        });
+                        $('aside .institutionList li').on('click', function () {                            
+                            var selectedIns = $(this).prop("id");
+                            locateIns(selectedIns);
+                        });
+                        locateIns(selectedInstitutionId);
+
+
+                    }
+                });
+            }
+            function closeStuListPanel() {
+                $('#studentListPanel').stop().animate({
+                    opacity: 0
+                }, 500, function () {
+                    $('#studentListPanel').hide();
+                });
+                $('#classEditPanelAfter').hover(
+                    function () {
+                        $(this).text('查看学员');
+                    },
+                    function () {
+                        $(this).text('学员名单');
+                    }
+                );
+                $('#classEditPanelAfter').removeClass('actived');
+            }
+            function getStuNum() {
+                var stuNumUrl = '@Url.Action("GetStuNum")'
+             $.get(stuNumUrl, null, function (data) {
+                 $('#tagInfo_stuNum span').text(data);
+             });
+         }
+            function getAllClass() {
+                $.ajax({
+                    url: '@Url.Action("region", "api")',
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        $("#classCount").text(data.length);
+                        classMarkersInfo.splice(0, classMarkersInfo.length);
+                        for (i in data) {
+                            var classInfo = {
+                                Id: data[i].ID,
+                                Name: data[i].Name,
+                                Point: new qq.maps.LatLng(data[i].PointY, data[i].PointX)
+                            }
+                            classMarkersInfo.push(classInfo);
+                        }
+                        refreshClassList();
+                        refreshMarkers();
+                        if (selectedClassId) {
+                            locateClass(selectedClassId);
+                        }
+                        else {
+                            var temp = $('aside .classList li ').last();
+                            if (temp) {
+                                selectedClassId = $('aside .classList li ').last().attr('id');
+                            }
+                            if (modifyPosition == true) {
+                                locateClass(selectedClassId);
+                            }
+                            //$('#classEditPanel').stop().animate({
+                            //    left: 0
+                            //}, 500, function () {
+                            //    $('#classEditPanel').hide();
+                            //});
+                            //$('#classEditPanelAfter').css('opacity', 0).hide();
+
+                        }
+
+                    }
+                });
+
+                }
+                function jumpArea(area) {
+                    if (area == '小溪塔') {
+                        map.panTo(new qq.maps.LatLng(30.769698189687105, 111.32660865783691));
+                        map.setZoom(15);
+                        $('.areaName').text('小溪塔');
+                    } else if (area == '雾渡河镇') {
+                        map.panTo(new qq.maps.LatLng(31.108231137798906, 111.20712161064148));
+                        map.setZoom(15);
+                        $('.areaName').text('雾渡河镇');
+                    } else if (area == '樟村坪镇') {
+                        map.panTo(new qq.maps.LatLng(31.29296410866907, 111.207035779953));
+                        map.setZoom(15);
+                        $('.areaName').text('樟村坪');
+                    } else if (area == '太平溪镇') {
+                        map.panTo(new qq.maps.LatLng(30.8413180301965, 111.01568698883057));
+                        map.setZoom(15);
+                        $('.areaName').text('太平溪');
+                    } else if (area == '乐天溪镇') {
+                        map.panTo(new qq.maps.LatLng(30.843086655664276, 111.06867671012878));
+                        map.setZoom(15);
+                        $('.areaName').text('乐天溪');
+                    } else if (area == '分乡镇') {
+                        map.panTo(new qq.maps.LatLng(30.909101208505174, 111.43141865730286));
+                        map.setZoom(15);
+                        $('.areaName').text('分乡');
+                    } else if (area == '龙泉镇') {
+                        map.panTo(new qq.maps.LatLng(30.72583558661992, 111.4948582649231));
+                        map.setZoom(15);
+                        $('.areaName').text('龙泉');
+                    } else if (area == '鸦鹊岭镇') {
+                        map.panTo(new qq.maps.LatLng(30.639813625377762, 111.5987777709961));
+                        map.setZoom(15);
+                        $('.areaName').text('鸦鹊岭');
+                    } else if (area == '下堡坪乡') {
+                        map.panTo(new qq.maps.LatLng(31.033924482399712, 111.16763949394226));
+                        map.setZoom(15);
+                        $('.areaName').text('下堡坪');
+                    } else if (area == '黄花镇') {
+                        map.panTo(new qq.maps.LatLng(30.85834890709839, 111.38760209083557));
+                        map.setZoom(15);
+                        $('.areaName').text('黄花');
+                    } else if (area == '邓村乡') {
+                        map.panTo(new qq.maps.LatLng(30.98252100128235, 110.97509980201721));
+                        map.setZoom(15);
+                        $('.areaName').text('邓村');
+                    } else if (area == '三斗坪镇') {
+                        map.panTo(new qq.maps.LatLng(30.82044, 111.04662));
+                        map.setZoom(15);
+                        $('.areaName').text('三斗坪镇');
+                    }
+                    else if (area == '三峡坝区') {
+                        map.panTo(new qq.maps.LatLng(30.84573, 111.06101));
+                        map.setZoom(15);
+                        $('.areaName').text('三峡坝区');
+                    }
+                    else if (area == '经济开发区') {
+                        map.panTo(new qq.maps.LatLng( 30.80016,111.36412));
+                            map.setZoom(15);
+                            $('.areaName').text('经济开发区');
+                        }
+                }
+                var filterFlag = false;
+
+                /*--------------搜索框输入后回车----------*/
+
+                $(document).keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        if ($('#search_panel #search').is(':focus')) {
+                            if ($.trim($('#search_panel #search').val()) != '') {
+                                findClass();
+                            }
+                        }
+                    }
+                });
+                $('aside .areaList li').on('click', function () {
+                    $('aside .areaList li').removeClass('actived');
+                    $(this).addClass('actived');
+                });
+                //$('aside .tab li').on('click', function () {
+                //    $('#search_panel #search').val('');
+                //    $('#search_panel #search').css('background', '#FFF');
+                //    refreshClassList();     
+                //});
+                /*--------------点击重置清空搜索框----------*/
+                $('#search_panel .search_reset_btn').on('click', function () {
+                    $('#search_panel #search').val('');
+                    $('#search_panel #search').css('background', '#FFF');
+                    refreshClassList();
+
+                });
+                /*--------------手动清空搜索框输入后还原教室列表----------*/
+                $('#search_panel #search').on('keyup', function () {
+                    if ($.trim($('#search_panel #search').val()) == '') {
+                        $('#search_panel #search').css('background', '#FFF');
+                        refreshClassList();
+                    }
+                });
+                /*--------------点击搜索按钮----------*/
+                $("#search_confirm_btn").on("click", function () {
+                    if ($.trim($('#search_panel #search').val()) != '') {
+                        findClass();
+                    }
+                });
+                /*---------------按教室名称筛选教室------------*/
+                function findClass() {
+                    var filterClassContainer = [];
+                    var input = $.trim($('#search_panel #search').val());
+                    if (input.length > 0) {
+                        if (classContainer) {
+                            for (i in classContainer) {
+                                var str = classContainer[i].find('a').text();
+                                if (str.indexOf(input) != -1) {
+                                    filterFlag = true;
+                                    filterClassContainer.push(classContainer[i]);
+                                }
+                            }
+                        }
+                    }                    
+                    if (filterFlag) {
+                        $('#search_panel #search').css('background', '#FFF');
+                        $('#classList').empty();
+                        if (filterClassContainer) {
+                            var classSearchResCon = '<div class="clearfix classTab"><a href="javascript:">所有教室</a><a class="selected" href="javascript:">搜索结果</a></div><div class="underLine"></div><ul class="allList "></ul><ul class="searchResList"></ul>';
+                            $('#classList').append(classSearchResCon);
+                            for (i in filterClassContainer) {
+                                $('#classList .allList').hide();
+                                $('#classList .searchResList').append(filterClassContainer[i]);
+                                $('aside .tab li').eq(2).trigger("click");
+                                generateAllClassList();
+                                bindEvent2ClassReList();
+                            }
+                        }
+                        filterFlag = false;
+                        //$('#classList').append()
+                    } else {
+                        $('#search_panel #search').css('background', '#F2DEDE');
+                    }
+                }
+
+                function bindEvent2ClassReList() {
+                    var asideHeight = $('aside').height();
+                    var asideWidth = $('aside').width();
+                    $('aside .classList .underLine').css({ 'marginBottom': asideHeight / 120, 'marginTop': (asideHeight + asideWidth) / 120 });
+                    $('aside .classTab > a').css({
+                        'fontSize': (asideHeight + asideWidth) / 80,
+                        'lineHeight': asideHeight / 880,
+                    });
+                    $('aside .classTab a').on('click', function () {
+                        $('aside .classTab a').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('.classList > ul').hide().eq($(this).index()).show();
+                    });
+                    $('aside .classList .searchResList li').on('click', function () {
+                        $('aside .classList .searchResList li').removeClass('actived');
+                        $(this).addClass('actived');
+                    });
+                }
+
+                function generateAllClassList() {
+                    $('aside .classList .allList').empty();
+                    classContainer = [];
+                    if (classMarkersInfo) {
+                        for (i in classMarkersInfo) {
+                            classContainer.push(addElmtToSRClassList(classMarkersInfo[i].Id, classMarkersInfo[i].Name));
+                        }
+                    }
+                    var asideHeight = $('aside').height();
+                    var asideWidth = $('aside').width();
+                    $('aside .classList li a').css({
+                        'fontSize': (asideHeight + asideWidth) / 80,
+                        'lineHeight': asideHeight / 360
+                    });
+                    bindEvent2ClassList();
+                }
+                function addElmtToSRClassList(id, name) {
+                    var content = '<li id=' + id + '><a href="javascript:">' + name + '</a></li>';
+                    $('aside .classList .allList').append(content);
+                    return $('aside .classList .allList li').last();
+                }
+    </script>
+    <script for="MonitorActiveX" event="OnCompelete(data)">
+        $('.monitor_panel .loading_pic').hide();
+        $("#monitor_panel object").show();
+    </script>
+
+</body>
+
+</html>

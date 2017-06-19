@@ -1,0 +1,134 @@
+﻿@model Ys.Model.ClassDetails
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+    
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>@Model.ClassInfo.Name-夷陵区远程教室监控系统</title>
+    @*@Styles.Render("~/Content/Boostrap")
+    @Styles.Render("~/Content/RemoteMonitor/Index")*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/index.css" rel="stylesheet" />
+    <!--[if lt IE 9]><script type="text/javascript">window.location.href = '@Url.Action("IE8Update")'</script><![endif]-->
+</head>
+    
+<body>
+    <header>
+        <h2>@Model.ClassInfo.Name</h2>
+        <span id="quit_btn" class="quit_btn" data-toggle="modal" data-target="#quitDialog"></span>
+    </header>
+    <!--退出弹窗-->
+    <div class="modal fade" id="quitDialog" tabindex="-1" role="dialog" aria-labelledby="quitDialogLabel">
+        <div class="modal-dialog" id="quit_promt_window" role="document">
+            <div class="modal-content">
+                <div class="modal-header prompt_header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="quitDialogLabel">提示</h4>
+                </div>
+                <div class="modal-body quit_prompt" id="quit_prompt">
+                    是否要退出
+                    <br>
+                    <h2>< @Model.ClassInfo.Name ></h2>
+                </div>
+                <div class="modal-footer confirm_btn" id="confirm_btn">
+                    <button type="button" class="btn btn-primary">确 认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside>
+        <div class="basic_info">
+            @*            @if (Model != null && Model.ClassInfo != null)
+            {
+                <h4>@Model.ClassInfo.ID</h4>  
+            }*@
+            <div id="clock" class="clock"></div>
+            <span class="separator"></span>
+            <section>
+                <p>状态：上课中...</p>
+                <p>课程：车床机械原理</p>
+                <p>授课老师：王永</p>
+                <p id="tagInfo_stuNum">学生数量：<span></span>人</p>
+            </section>
+        </div>
+        <ul>
+            <li class="active"><a href="@Url.Action("Class_Info")" target="right">基本信息</a></li>
+            <li><a href="@Url.Action("Student_List")" target="right">学员名单</a></li>
+            <li><a href="@Url.Action("MonitorIndex")" target="right">监控图像</a></li>
+        </ul>
+    </aside>
+    <div class="content" id="content">
+        <iframe width="100%" frameborder="0" scrolling="yes" src="@Url.Action("Class_Info")" id="right" name="right"></iframe>
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/boostrap")
+    @Scripts.Render("~/bundles/remoteMonitor")*@
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/script.js"></script>
+
+    <script type="text/javascript">
+        var className = '@Model.ClassInfo.Name';
+        $(function () {
+            var frame_height = $("#content").height();
+            var frame_width = $("#content").width();
+            getStuNum();
+        });
+        function getStuNum() {
+            var stuNumUrl = '@Url.Action("GetStuNum")'
+            $.get(stuNumUrl, null, function (data) {
+                $('#tagInfo_stuNum span').text(data);
+            });
+        }
+        function tick() {
+            var hours, minutes, seconds;
+            var intHours, intMinutes, intSeconds;
+            var today;
+            today = new Date();
+            intHours = today.getHours();
+            intMinutes = today.getMinutes();
+            intSeconds = today.getSeconds();
+            if (intHours == 0) {
+                hours = "00:";
+            } else if (intHours < 10) {
+                hours = "0" + intHours + ":";
+            } else {
+                hours = intHours + ":";
+            }
+
+            if (intMinutes < 10) {
+                minutes = "0" + intMinutes + ":";
+            } else {
+                minutes = intMinutes + ":";
+            }
+            if (intSeconds < 10) {
+                seconds = "0" + intSeconds + " ";
+            } else {
+                seconds = intSeconds + " ";
+            }
+            var timeString = hours + minutes + seconds;
+            var weekday = new Array(7);
+            weekday[0] = "星期日";
+            weekday[1] = "星期一";
+            weekday[2] = "星期二";
+            weekday[3] = "星期三";
+            weekday[4] = "星期四";
+            weekday[5] = "星期五";
+            weekday[6] = "星期六";
+            document.getElementById("clock").innerHTML = weekday[today.getDay()] + '<br>' + timeString;
+            window.setTimeout("tick();", 1000);
+        }
+        window.onload = tick;
+
+    </script>
+
+</body>
+
+</html>

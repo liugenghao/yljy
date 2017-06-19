@@ -1,0 +1,80 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+
+<div class="current-position">
+    <div>
+        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("News_Page")">新闻公告</a></span>&nbsp;>&nbsp;<span>@Model[0].Title</span>
+    </div>
+</div>
+<div class="wrap clearfix">
+    <article class="news news_detail edge_round">
+        <div class="news-title">
+            <h2>@Model[0].Title</h2>
+            <div class="title_con"><span class="news-date">发布时间：@Model[0].Time.ToShortDateString()</span><span class="news-author">作者：@Model[0].Author</span><span>字号：<a href="javascript:big_c()">[大]</a> <a href="javascript:mid_c()">[中]</a> <a href="javascript:sm_c()">[小]</a></span></div>
+        </div>
+
+
+        <div class="news-container">
+            <div class="news-text">
+                @Html.Raw(Model[0].Content)
+            </div>
+        </div>
+        <div class="newsDetailTool">
+
+            @if (ViewBag.Prev != null)
+            {
+                Ys.Model.Model.Home.Article article = ViewBag.Prev;
+                <span>上一篇文章：《<a href="@Url.Action("News_Detail", new { id = article.Id })" title="@article.Title">@article.Title</a>》</span>
+            }
+            else
+            {
+                <span>上一篇文章：无</span>
+            }
+            @if (ViewBag.Behind != null)
+            {
+                Ys.Model.Model.Home.Article article = ViewBag.Behind;
+                <span>下一篇文章：《<a href="@Url.Action("News_Detail", new { id = article.Id })" title="@article.Title">@article.Title</a>》</span>
+            }
+            else
+            {
+                <span>下一篇文章：无</span>
+            }
+
+        </div>
+    </article>
+
+    <menu class="news_menu edge_round">
+        <h3>相关新闻</h3>
+        <ul>
+            @{
+                int i = 0;
+                foreach (var news in Model.Where(m => m.ArticleType_Id == 1).ToList())
+                {
+                    if (news.Id == Model[0].Id)
+                    {
+                        continue;
+                    }
+<li class="clearfix"><a href="@Url.Action("News_Detail", new { id = news.Id })">@news.Title</a></li>
+                    
+                    if (i == 10)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+              }
+        </ul>
+    </menu>
+</div>
+
+<script type="text/javascript">
+    pageFlag = "news";
+    function big_c() {
+        $('.news-text *').css('fontSize', '22px');
+    }
+    function mid_c() {
+        $('.news-text *').css('fontSize', '18px');
+    }
+    function sm_c() {
+        $('.news-text *').css('fontSize', '14px');
+    }
+</script>

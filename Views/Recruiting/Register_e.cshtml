@@ -1,0 +1,374 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+@{
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<link href="~/Content/register_e.css" rel="stylesheet" />
+@Styles.Render("~/artdialog/css")
+@Scripts.Render("~/artdialog/js")
+@Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<div class="main-wrap clearfix">
+    <div class="section white">
+        <div class="ht_20"></div>
+        <!--导航栏-->
+        <div class="location breadcrumb">
+            <a href="/or/index.html" class="home"><i></i><span>返回首页</span></a>            
+            <a href="@Url.Action("Register_jump")">
+                <i class="arrow"></i><span>用户注册</span>
+            </a>
+            <i class="arrow"></i>
+            <span>企业注册</span>
+        </div>
+        <!--/导航栏-->
+        <div class="tab-content reg regbg-e" style="border: none; border-top: 1px solid #eaeaea;">
+            @using (Html.BeginForm("Register_e", "Recruiting", FormMethod.Post,new { id = "form1", @class = "register_p_form" }))
+            {
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.Hidden("State.Id", 1)
+                <h2>企业注册</h2>
+                <dl>
+                    <dt>
+                        <label for="ComUserName">用户名：</label></dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Login_Id, new { id = "ComUserName", datatype = "*", nullmsg = "用户名不能为空", sucmsg = " ", ajaxurl = Url.Action("CheckLoginName") })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComUserPwd">密 码：</label></dt>
+                    <dd>
+                        @Html.PasswordFor(m => m.Login_Pwd, new { id = "ComUserPwd", datatype = "*6-15", sucmsg = " ", errormsg = "密码范围在6-15位" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComUserPwdConfirm">确认密码：</label></dt>
+                    <dd>
+                        @Html.Password("pwd", null, new { id = "ComUserPwdConfirm", datatype = "*", recheck = "Login_Pwd", sucmsg = " ", errormsg = "两次输入的密码不一致" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComName">单位名称：</label></dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Name, new { id = "ComName", datatype = "s", sucmsg = " ", errormsg = "输入公司全名" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComCode">组织机构代码:</label></dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Code, new { id = "ComCode", datatype = "*", sucmsg = " ", errormsg = "输入组织机构代码" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComNumber">营业执照号码：</label></dt>
+                    <dd>@Html.TextBoxFor(m => m.Number, new { id = "ComNumber", datatype = "*", sucmsg = " ", errormsg = "输入执照号码" })</dd>
+                </dl>                         
+                <dl>
+                    <dt>
+                        <label for="ComCerificatePicture">营业执照附件：</label></dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.LicensePic, new { @class = "fix_borderb", id = "picUrl", style = "width: 62.5%;" })
+                        <input type="hidden" id="hidThumbnailUrl" name="hidThumbnailUrl" value="" />
+                        <a id="linkUpImage" class="act" onclick="upImage(); ">上传图片</a>
+                        <div id="thumbnailPreview" style="display: none;">
+                            <span class="clear preview">
+                                <img alt="" id="thumbnailImage" src="" class="min-img" />
+                                <a href="javascript:void(0);" class="thumb_x" title="删除">x</a>
+                                <script type="text/plain" id="upload_ue" style="display: none;"></script>
+                            </span>
+                        </div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComIndustry">所属行业：</label>
+                    </dt>
+                    <dd>
+                        <input type="text" name="industry" id="Industry" style="display:none" datatype = "*" nullmsg = "选择行业类型", sucmsg=" ", />
+                        <div name="txtIndustries" id="txtIndustries" class="input drop_page">
+                            
+                        </div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComType">单位类型：</label></dt>
+                    <dd>
+                        @{
+                if (ViewData["Etype.Id"] != null)
+                { 
+                        @Html.DropDownListFor(m => m.Etype.Id, ViewData["Etype.Id"] as List<SelectListItem>, new { id = "ComType", datatype = "*", sucmsg = " ", errormsg = "请选择类型" })
+                
+                }
+                            
+                            }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComEcoType">经济类型：</label></dt>
+                    <dd>
+                        @{
+                            if (ViewData["Eco_Type.Id"] != null)
+                            {
+                                @Html.DropDownListFor(m => m.Eco_Type.Id, ViewData["Eco_Type.Id"] as List<SelectListItem>, new { id = "ComType", datatype = "*", sucmsg = " ", errormsg = "请选择经济类型" })
+                    
+                            }
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComFund">注册资金：</label></dt>
+                    <dd>
+                        @Html.TextBox("Fund", null, new { id = "ComFund", datatype = "n", errormsg = "组织资金" })<label>万元</label>
+                    </dd>
+                   
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComScale">人员规模：</label></dt>
+                    <dd>
+                        @{
+                if (ViewData["Scale.Id"] != null) { 
+                        @Html.DropDownListFor(m => m.Scale.Id, ViewData["Scale.Id"] as List<SelectListItem>, new { id = "ComType", datatype = "*", sucmsg = " ", errormsg = "请选择规模" })
+                }
+                            }
+                        </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComAreaName">所属地区名称：</label></dt>
+                    <dd>
+                        @{
+                            if (ViewData["City.Id"]!=null)
+                          {
+                            @Html.DropDownListFor(m => m.City.Id, ViewData["City.Id"] as List<SelectListItem>, new { id = "ComCity", @class = "areaSlt1" })
+                          }
+                if (ViewData["Area_Code.Id"] != null)
+                { 
+                                        @Html.DropDownListFor(m => m.Area_Code.Id, ViewData["Area_Code.Id"] as List<SelectListItem>, new { id = "ComAreaName", @class = "areaSlt2", datatype = "*", sucmsg = " ", errormsg = "请选择区域" })
+                }
+                          }
+                        
+
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComAddress">单位地址：</label></dt>
+                    <dd>
+                        @Html.TextBox("Address", null, new { id = "ComAddress", datatype = "*", sucmsg = " ", errormsg = "请输入单位地址" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComLegalPerson">法定代表人姓名：</label></dt>
+                    <dd>
+                        @Html.TextBox("Inroduce", null, new { id = "ComIntroduce", datatype = "s", sucmsg = " ", errormsg = "输入法人姓名" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComContact">联系人：</label></dt>
+                    <dd>
+                        @Html.TextBox("Contact", null, new { id = "ComContact", datatype = "s", sucmsg = " ", errormsg = "请输入联系人" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComContactPhone">联系电话：</label></dt>
+                    <dd>
+                        @Html.TextBox("ContactPhone", null, new { id = "ComContactPhone", datatype = "m", sucmsg = " ", errormsg = "请输入正确的手机号码", ajaxurl = Url.Action("CheckPhone") })
+                    </dd>
+                </dl>              
+                @*<dl class="clearfix">
+                    <dt>
+                        <label for="val">验证码：</label>
+                    </dt>
+                    <dd>
+                        <input type="text" maxlength="6" name="msg" id="val" class="input normal" style="width: 128px;" datatype = "n6-6" nullmsg="请输入6位验证码" sucmsg=" " errormsg="请输入6位验证码" />
+                        <input type="button" class="btn green code" id="btnSendCode" value="获取验证码" />
+                    </dd>
+                </dl>*@
+                <dl>
+                    <dd>
+                        <input type="submit" value="提交注册" class="btn" />
+                        <input type="reset" value="重置" class="btn yellow" />
+                    </dd>
+                </dl>
+            }
+        </div>
+    </div>
+</div>
+<!--wrap end-->
+<script src="~/Scripts/register_e.js"></script>
+@Scripts.Render("~/ueditor/js")
+<script type="text/javascript">
+    /* 声明几个上传变量 */
+    var thumbnailUrl = $("#thumbnailUrl"); /* 缩略图地址文本对象 */
+    var hidThumbnailUrl = $("#hidThumbnailUrl"); /* 缩略图地址隐藏域对象 */
+    var thumbnailPreview = $("#thumbnailPreview"); /* 缩略图地址文本对象 */
+    var thumbnailImage = $("#thumbnailImage"); /* 缩略图预览对象 */
+    var thumbX = $(".thumb_x"); /* 缩略图被移除控件 */
+    
+    function setHiddenVal(data) {
+        $("#Industry").val(data);
+    }
+    
+    /* 实例化编辑器 */
+    var uploadUE = UE.getEditor('upload_ue');
+    uploadUE.ready(function () {
+        uploadUE.setHide(); /* 隐藏编辑器 */
+        /* 监听图片上 传*/
+        uploadUE.addListener('beforeInsertImage', function (t, arg) {
+            var src0 = arg[0].src; /* 只取第一张图片的路 */
+            thumbnailUrl.val(src0); /* 将地址赋值给相应的 input, 只取第一张图片的路径 */
+            hidThumbnailUrl.val(src0);
+            thumbnailPreview.show();
+            $("#picUrl").val(src0);
+            thumbnailImage.prop("src", src0); /* 图片预览 */
+            thumbX.show();
+        });
+    });
+
+    /* 弹出图片上传的对话框 */
+    function upImage() {
+        var myImage = uploadUE.getDialog("insertimage");
+        myImage.open();
+    }
+
+    /* 移除上传文件 */
+    $('.thumb_x').on('click', function () {
+        thumbnailImage.prop('src', '');
+        thumbnailUrl.val('');
+        hidThumbnailUrl.val('');
+        $(this).hide();
+        thumbnailPreview.hide();
+    });
+
+    $(function () {
+        var demo = $("#form1").initValidform();
+
+        $("#ComCity").change(function () {
+            var id = $('#ComCity').val();
+            $.ajax({
+                url: '@Url.Action("GetCounty")' + "?id=" + id,
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    $("#ComAreaName option").remove();
+                    for (i in data) {
+                        var text = data[i].Name;
+                        var value = data[i].Id;
+                        $('#ComAreaName').append("<option value='" + value + "'>" + text + "</option>");
+                    }
+                }
+            });
+
+        });
+
+        var dropPageInputs = $(".input.drop_page");
+        $(dropPageInputs).each(function () {
+            $(this).on("click", function (e) {
+                if ($(this).hasClass("condition-folder")) {
+                    
+                    if ($(this).children(".condition-item").length == 0) {
+                        $(this).removeClass("condition-folder").removeClass("disabled");
+                        return;
+                    }
+                }
+                if (!$(this).hasClass("disabled")) {
+                    var name = $(this).attr("name");
+                    var url = "";
+                    var title = "";
+                    var obj = {};
+                    switch (name) {
+                        case "txtIndustries":
+                        case "industries":
+                            url = '@Url.Action("Dialog_Industry", "Recruiting")';
+                            title = "选择行业类别";
+                            break;
+                        default:
+                            break;
+                    }
+                    showDialog(url, title);
+                } else {
+                    e.stopPropagation();
+                    $(this).removeClass("disabled");
+                }
+            });            
+        });
+
+
+        $("#btnSendCode").click(function () {
+                sendCode($(this));
+            });
+        
+
+    });
+
+    /*发送验证码*/
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+
+    function sendCode(obj) {
+        curCount = count;
+        /*设置button效果，开始计时*/
+        $(obj).val(curCount + "秒再获取");
+        $(obj).attr("disabled", "disabled").addClass("disabled");
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        /*向后台发送处理数据*/
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendCode")',
+            dataType: 'json',
+            data: { "phone": $("#ComContactPhone").val() },
+            success: function (data, textStatus) {
+               
+
+            },
+            error: function (msg, testStatus) {
+
+            }
+        });
+    }
+    /*timer处理函数*/
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $("#btnSendCode").removeAttr("disabled").removeClass("disabled");//启用按钮
+            $("#btnSendCode").val("重新发送验证码");
+            $("#validCode").val(""); //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+        }
+        else {
+            curCount--;
+            $("#btnSendCode").val(+curCount + "秒再获取");
+        }
+    }
+
+    /*创建添加窗口*/
+    function showDialog(urlAction, title, obj) {
+        var objNum = arguments.length;
+        if (urlAction) {
+            var d = dialog({
+                id: 'dialog' + new Date().getMilliseconds(),
+                title: title,
+                url: urlAction,
+                width: '800px',
+                height: '512px'
+            }).showModal();
+        }
+        /*检查是否修改状态*/
+        if (objNum == 3) {
+            d.data = obj;  /*给窗体传入对象*/
+        }
+    }
+
+</script>
+

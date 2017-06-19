@@ -1,0 +1,46 @@
+﻿<div class="result-wrap" id="result-edit">
+    @using (Html.BeginForm("InterviewLetterForm", null, FormMethod.Post, new { @id = "form1" }))
+    {
+        @Html.AntiForgeryToken()
+         
+        <!--内容-->
+        <div id="floatHeadEdit" class="content-tab-wrap">
+            <div class="content-tab">
+                <div class="content-tab-ul-wrap">
+                    <ul>
+                        <li><a class="selected" href="javascript:void(0);">面试邀约</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <dl>
+                <dt>职位名称</dt>
+                <dd id="job-t">
+                        @Html.Hidden("JobId")
+                </dd>
+            </dl>
+            <dl>
+                <dt>求职者</dt>
+                <dd id="job-n">
+                        @Html.Hidden("UserId")
+                </dd>
+            </dl>
+            <dl>
+                <dt>面试时间</dt>
+                <dd>
+                    <input type="text" name="InterviewTime" id="txtInterviewTime" onfocus="WdatePicker({dateFmt:&quot;yyyy-MM-dd HH:mm:ss&quot;})" class="Wdate input" />
+                </dd>
+            </dl>
+            <dl>
+                <dt>备 注</dt>
+                <dd>
+
+                    @Html.TextArea("Remark", "", new { @class = "input", rows = "4" })
+
+                </dd>
+            </dl>
+        </div>
+        <!--/内容-->
+    }
+</div>

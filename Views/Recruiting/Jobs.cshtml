@@ -1,0 +1,335 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<Ys.Model.Model.Recruit.JobModel>
+
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "职位";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+@using (Html.BeginForm("Jobs", null, FormMethod.Get, new { @id = "searchForm" }))
+{
+    <div class="main-wrap" id="main">
+        <div class="section search-wrap">
+            <div class="ht_20"></div>
+            <div class="tab-content">
+                @Html.AntiForgeryToken()
+                @Html.Hidden("hidMoreSearch", 1)
+                <dl class="search-box">
+                    <dt>关键字：</dt>
+                    <dd>
+                        <input type="text" name="txtKeyword" id="txtKeyword" class="input normal" value="@ViewBag.keyword" />
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="搜索职位" class="btn" />
+                        <a id="more-search" class="more-search" href="javascript: void(0);"><span class="search-hide-box">收起</span>高级搜索<span class="icon"></span></a>
+                    </dd>
+                </dl>
+                <div class="search-hide-box clearfix">
+                    @*<div class="search-group">
+                        <dl>
+                            <dt class="label">行 业：</dt>
+                            <dd class="filed">
+                                <div name="txtIndustries" id="txtIndustries" class="input normal drop_page">
+                                </div>
+                                <input type="text" class="input normal drop_page" name="Industry" id="Industry" size="20" value="" style="display: none;">
+                            </dd>
+                        </dl>
+                    </div>*@
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">职位类型：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("jobType", ViewBag.JobTypeSL as SelectList, "不限", new { id = "listJobType" })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    @*<div class="clear search-group">
+                        <dl>
+                            <dt class="label">地 域：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("addressId", ViewBag.JobPlaceSL as SelectList, "不限", null)
+                                </div>
+                                <input type="text" class="input normal" name="region" id="region" size="20" value="">
+                            </dd>
+                        </dl>
+                    </div>*@
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">工作经验：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("workYear", ViewBag.WorkYearSL as SelectList, "不限", new { id = "listWorkYears" })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="search-group large">
+                        <input type="submit" name="btnSubmit" id="btnSubmit2" value="搜索职位" class="btn" />
+                        <input type="button" name="btnClear" id="btnClear" value="清 空" class="btn clear" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ht_20"></div>
+        <div class="section white clearfix">
+            <div>
+                <div class="result-wrap">
+                    <div class="result-filter">
+                        <ul class="clearfix">
+                            <li class="list-nav">
+                                <span class="result-records">共为您找到
+                                <label class="orange" id="resultCount">@Model.Count</label>
+                                    条职位</span>
+                            </li>
+                            <li class="list-nav right">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("payLevel", ViewBag.PayLeveSL as SelectList, "薪资", new { @class = "filter" })
+                                </div>
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("jobAttr", ViewBag.JobAttrSL as SelectList, "工作类型", new { @class = "filter" })
+                                </div>
+                                <div class="rule-single-select">
+                                    <div class="rule-single-select">
+                                        @Html.DropDownList("degree", ViewBag.DegreeSL as SelectList, "学历", new { @class = "filter" })
+                                    </div>
+                                </div>
+                                <div class="rule-single-select">
+                                    <div class="rule-single-select">
+                                        <select id="dateSpan" name="dateSpan" class="filter">
+                                            <option value="" selected="selected">发布时间</option>
+                                            <option value="1">一天内发布的</option>
+                                            <option value="3">三天内发布的</option>
+                                            <option value="7">一周内发布的</option>
+                                            <option value="30">一月内发布的</option>
+                                            <option value="365">一年内发布的</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear result-list">
+                        <div class="ls_rows">
+                            <ul id="result-jobs" class="result-jobs">
+                                @foreach (var job in Model)
+                                {
+                                    <li>
+                                        <dl class="clearfix">
+                                            <dd class="left">
+                                                <h4 class="article-name"><a href="@Url.Action("Job_Detail", new { id = job.Id }) " target="_blank">@job.JobName</a></h4>
+                                                <p class="job-company"><a href="@Url.Action("Company_Detail", new { id = @job.EmployerId })" target="_blank">@job.Employer.Name</a></p>
+                                                <p class="job-remark">
+                                                    <span>企业规模：<label>@job.Employer.Scale.Name</label></span>
+                                                    <span>企业性质：<label>@job.Employer.Etype.Name</label></span>
+                                                </p>
+                                                <p class="job-remark">
+                                                    <span>职业类型：<label>@job.JobType.Name</label></span>
+                                                    <span>招聘人数：<label>@job.PersonNum 人</label></span>
+                                                    <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                                    <span>经验：<label>@job.WorkYear.WorkedYear</label></span>
+                                                    <span>学历：<label>@job.Degree.DegreeName</label></span>
+                                                </p>
+                                            </dd>
+                                            <dd class="right">
+                                                <p class="publish-time"><i></i>@job.PublishTime.ToString("yyyy-MM-dd")</p>
+                                                <p class="suggest-salary">@job.PayLevel.Name</p>
+                                                <p class="text-right">
+                                                    @if (ViewBag.FavoriteJob != null)
+                                                    {
+                                                        List<int> favoriteId = ViewBag.FavoriteJob as List<int>; 
+                                                        var flag= favoriteId.Contains(job.Id);
+                                                        @Html.CheckBox("favorite", flag, new { id = "favoriteCheck_" + job.Id, @data_id = job.Id , @class = "favoriteCheck", style="display: none;"});                                                    
+                                                        if(flag)
+                                                        {
+                                                            <label id="linkFavoriteCheck_@job.Id" for='favoriteCheck_@job.Id' class="obj-fav-btn actived"><i></i>已收藏</label>
+                                                        }else
+                                                        {
+                                                            <label id="linkFavoriteCheck_@job.Id" for='favoriteCheck_@job.Id' class="obj-fav-btn"><i></i>收藏</label>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                       <a class="obj-fav-btn" href="javascript: favorite(@job.Id);"><i></i>收藏</a>
+                                                    }
+
+                                                 </p>
+
+                                            </dd>
+                                        </dl>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div class="pagebar clearfix">
+                            <div class="left holder">
+                                <label>每页</label>
+                                @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new {@class="listCount" })
+                                <label>条记录</label>
+                            </div>
+                            <div class="pagelist">
+
+                                @if (Model != null)
+                                {
+                                    @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+                                        
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span class='disabled'>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script src="~/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".filter").change(function () {
+            $("#searchForm").submit();
+        });
+
+        $(".favoriteCheck").change(function () {
+            var sign = $(this).is(":checked");            
+            var jobId = $(this).attr("data-id");
+            favorite(jobId, sign);
+        });
+        $(".listCount").change(function () {
+            var listCount = $(this).val();
+            $("#searchForm").submit();
+        });
+
+        f_onNavActive("zw");
+
+        var searchHideBox = $(".search-hide-box");
+        var moreSearchFlag = $("#hidMoreSearch").val();
+        if (moreSearchFlag == "1") {
+            f_onToggleSearchBox();
+        }
+        $("#more-search").on("click", function () {
+            f_onToggleSearchBox();
+        });
+
+        var dropPageInputs = $(".input.drop_page");
+        $(dropPageInputs).each(function () {
+            $(this).on("click", function (e) {
+                if ($(this).hasClass("condition-folder")) {
+                    if ($(this).children(".condition-item").length == 0) {
+                        $(this).removeClass("condition-folder");
+                        return;
+                    }
+                }
+                if (!$(this).hasClass("disabled")) {
+                    var name = $(this).attr("name");
+                    var url = "";
+                    var title = "";
+                    var obj = {};
+                    switch (name) {
+                        case "txtIndustries":
+                        case "industries":
+                            url = '@Url.Action("Dialog_Industry", "Recruiting")';
+                            title = "选择行业类别";
+                            break;
+                        default:
+                            break;
+                    }
+                    showDialog(url, title);
+                } else {
+                    e.stopPropagation();
+                    $(this).removeClass("disabled");
+                }
+            });
+        });
+    });
+    $("#btnSubmit").click(function () {
+        window.location.href = '@Url.Action("Jobs")' + '?txtKeyword=' + $("#txtKeyword").val();
+    });
+
+    /*高级搜索切换*/
+    function f_onToggleSearchBox() {
+        $(".search-hide-box").toggle();
+        $("#btnSubmit").toggle();
+        $("#txtKeyword").toggleClass("large");
+        $("#more-search>.icon").toggleClass("icon-up");
+    }
+
+    /*创建添加窗口*/
+    function showDialog(urlAction, title, obj) {
+        var objNum = arguments.length;
+        var d = top.dialog({
+            id: 'dialog' + new Date().getMilliseconds(),
+            title: title,
+            url: urlAction,
+            width: '800px',
+            height: '512px'
+        }).showModal();
+        /*检查是否修改状态*/
+        if (objNum == 3) {
+            d.data = obj;  /*给窗体传入对象*/
+        }
+    }
+    
+    function setHiddenVal(data) {
+        $("#Industry").val(data);
+    }
+
+    /*收藏*/
+    function favorite(data, sign) {
+        var jobId = data;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Favorite")',
+            
+            data: { "jobId": jobId, "sign": sign },
+            success: function (data, textStatus) {
+                // $("#favoriteCheck").val(false);
+               
+                if (data.Sign!=null) {
+                    var d = top.dialog({
+                        id: 'dialog' + new Date().getMilliseconds(),
+                        quickClose: true// 点击空白处快速关闭
+                    });
+                    var sign = data.Sign;
+                    var objId = "linkFavoriteCheck_" + jobId;
+                    var linkFavoriteCheck = $("#" + objId);
+                    if (sign) {
+                        linkFavoriteCheck.addClass("actived").html("<i></i>已收藏");
+                        d.content("添加收藏成功");
+                    } else {
+                        linkFavoriteCheck.removeClass("actived").html("<i></i>收藏");
+                        d.content("取消收藏成功");
+                    }
+                    d.show(document.getElementById(objId));
+                    setTimeout(function () {
+                        d.close().remove();
+                    }, 2000);
+                }
+                else {
+                    alert("请先登录");
+                    $(document.body).html(data);
+                }
+            },
+            error: function (msg, testStatus) {
+                window.location.href='@Url.Action("Login", "Recruiting")';
+            }
+        });
+    }
+</script>

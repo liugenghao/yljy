@@ -1,0 +1,187 @@
+﻿@model PagedList<Ys.Model.Model.Recruit.JobFairMeetingApplyModel>
+
+@using Webdiyer.WebControls.Mvc;
+
+@{
+    ViewBag.Title = "委托招聘申请";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>委托招聘申请</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    <script type="text/javascript" src="~/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <a href="@Url.Action("Index", "JobFair")" target="right" class="home"><i></i><span>委托招聘管理</span></a>
+                <span class="crumb-step">&gt;</span><span>委托招聘申请</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("AuditList", null, FormMethod.Post, new { @id="searchForm"}))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th>时间：</th>
+                                    <td>
+                                        <input type="text" name="TimeStatr" id="TimeStart" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                                        至
+                                    <input type="text" name="TimeEnd" id="TimeEnd" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                                </td>
+                                <td>
+                                    <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
+                                    <a class="btn yellow" href="@Url.Action("AuditList")" id="btnClear">清 空</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">申请编号
+                            </th>
+                            <th style="width: 30%;">申请企业
+                            </th>
+                            <th>申请时间
+                            </th>
+                            <th>申请时间
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var apply in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @apply.Id
+                                </td>
+                                <td>
+                                    @apply.Employer.Name
+                                </td>
+                                <td>
+                                    @apply.ExpectTime.ToString("yyyy-MM-dd hh:mm:ss")
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!--/列表-->
+            <div class="pagebar clearfix">
+                <div class="left holder">
+                    @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new { @class = "listCount" })
+                    <label>条记录</label>
+                </div>
+                <div class="pagelist">
+
+                    @if (Model != null)
+                    {
+                        @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        /*创建委托招聘申请窗口*/
+        function f_onAddApplication(obj) {
+            if ($(obj).hasClass("disabled"))
+                return;
+            var jobArray = [];
+            $('.tab-item li').each(
+                function () {
+                    if ($(this).hasClass("actived")) {
+                        // alert($(this).attr("data-id"));
+                        jobArray.push($(this).attr("data-id"));
+                    }
+                }
+            );
+            var d = top.dialog({
+                title: '企业新建了委托招聘申请，将发送给系统管理员',
+                content: '@Html.Raw(Html.Partial("Dialog").ToHtmlString().Replace("\r\n", ""))',
+                width: "600px",
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    var contentData = { "JobId": JSON.stringify(jobArray), "HopeTime": top.$("#txtHopeTime").val() };
+                    /*ajax 提交到确认订单*/
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create", "JobFair")',
+                        dataType: 'json',
+                        data: contentData,
+                        success: function (data, textStatus) {
+                            var sucDialog = top.dialog({
+                                title: "对话框将在3秒内关闭...",
+                                content: "委托招聘申请创建成功，将发送给系统管理员！"
+                            });
+                            sucDialog.show();
+                            setTimeout(function () {
+                                sucDialog.close().remove();
+                            }, 3000);
+                        },
+                        error: function (msg, testStatus) {
+                            alert(JSON.stringify(msg));
+                        }
+                    });
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.showModal();
+        }
+    </script>
+</body>
+</html>

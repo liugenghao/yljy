@@ -1,0 +1,68 @@
+﻿@model Ys.Model.Model.Recruit.JobModel
+@{
+    ViewBag.Title = "";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mobile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="contatiner">
+        <header>
+            <h1>职位详情</h1>
+        </header>
+        <div class="main detail">
+            <div class="title">
+                <h2 class="orange">@Model.JobName</h2>
+                <div class="d-company">@Model.Employer.Name</div>
+            </div>
+            <div class="line"></div>
+            <div class="content">   
+                <div class="row">
+                    <div class="col-xs-6">职位类型：@Model.JobType.Name</div>
+                    <div class="col-xs-6">薪资：@Model.PayLevel.Name</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">工作地点：@Model.WorkAddress.Name</div>
+                    <div class="col-xs-6">招聘人数：@Model.PersonNum 人</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">工作经验：@Model.WorkYear.WorkedYear</div>
+                    <div class="col-xs-6">职位要求：@Model.WorkAttr.Name</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">学历要求：@Model.Degree.DegreeName</div>
+                </div>
+                <div class="row  desc">
+                    <div class="col-xs-2">职位描述：</div>
+                    <div class="col-xs-10">
+@Html.Raw(Model.Others)</div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="end">
+                <div class="row">
+                    <div class="col-xs-12">地址:@Model.JobDes</div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">咨询电话:0717-7816006</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 date">发布日期：@Model.PublishTime.ToShortDateString()</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

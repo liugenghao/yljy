@@ -1,0 +1,14 @@
+﻿@model Ys.Model.ClassInfoModel
+<div class="classSavePanel">
+    @using (Ajax.BeginForm("Add", "ClassManager", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "addSuccess"}, null))
+    {
+    
+        <div class="title">输入教室名称</div>
+        @Html.TextBox("Name", null, new { @class = "form-control", id = "initClassName" });
+        @Html.Hidden("PointX", null, new { id = "pointX" });
+        @Html.Hidden("PointY", null, new { id = "pointY" });
+@*<input type="text" id="initClassName" class="form-control">*@
+        <input type="submit" class="btn btn-primary" value="保存" />
+    
+    }
+</div>

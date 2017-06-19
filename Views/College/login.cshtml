@@ -1,0 +1,102 @@
+﻿@model Ys.Model.Model.College.login
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大学生实习报名系统-登录</title>
+    <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/collegeSrc/css/index.css" rel="stylesheet" />
+</head>
+<body  onkeydown="if(event.keyCode == 13) document.getElementById('btnlogin').click();">
+    <div class="container" >
+        <div class="Part-one">
+            <div class="g-in">
+                <img src="~/collegeSrc/image/collegeLogo.png" />
+            </div>
+        </div>
+        <div class="Part-two">
+            <a href="regStudent" class="regStudentBtn">
+                <img src="~/collegeSrc/image/regStudentBtn.png" />
+            </a>
+            <a href="regEnterprise" class="regEnterpriseBtn">
+                <img src="~/collegeSrc/image/regEnterpriseBtn.png" />
+            </a>
+            <div class="con-top">
+                <div class="con-word">
+                    <div class="con-user">登录</div>
+                </div>
+                <div class="con-line"></div>
+            </div>
+            <div class="con-bottom clearfix">
+                
+                        <form class="form-horizontal" id="formId" method="post">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">用户类型：</label>
+                        <div class="col-sm-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="userType" id="yonghuType1" value="2" checked="checked"> 学生
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="userType" id="yonghuType2" value="1"> 用人单位
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户名：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="用户名/手机号码">
+                        </div>
+                        <span class="mobile"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码：</label>
+                        <div class="col-sm-3">
+                            <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码">
+                        </div>
+                        <span class="pwd"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label">验证码：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="yzm" placeholder="验证码">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="verification-img  input-group" style="-webkit-user-select:none;user-select:none"></div>
+                            <span class="yzm"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <button type="button" class="btn btn-primary" id="btnlogin" onclick="login()">登录</button>
+                        </div>
+                    </div>
+                            
+                
+                            </form>
+                </div>
+        </div>
+        <div class="Part-three">
+            版权所有：&copy;宜昌市夷陵区劳动就业管理局
+        </div>
+        <!-- 弹窗提示区域开始 -->
+        <div class="my-alert-mask" style="display:none;"></div>
+        <div class="alert my-alert alert-info alert-dismissible" style="display:none;width:20px;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4 class="alert-title"><i class="icon fa fa-check"></i>标题</h4>
+            <div class="alert-con">
+                内容
+            </div>
+        </div>
+    </div>
+    <script src="~/collegeSrc/js/jquery-3.1.1.min.js"></script>
+    <script src="~/collegeSrc/js/verification.js"></script>
+    <script src="~/collegeSrc/js/common.js"></script>
+    <script src="~/collegeSrc/js/my-alert.js"></script>
+    @Html.Raw(ViewBag.js)
+</body>
+</html>

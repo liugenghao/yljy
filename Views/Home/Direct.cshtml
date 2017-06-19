@@ -1,0 +1,62 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+
+<div class="wrap clearfix">
+    <div class="current-position">
+        <div>
+            <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="">创业就业服务</a></span>&nbsp;&nbsp;<span><a href="#"></a></span>
+        </div>
+    </div>
+    <!--current-position end-->
+    <div class="directPage">
+    <div id="side_nav" class="side_nav">
+        <ul>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                if (i == 0)
+                {
+                <li class="selected"><a href="#">@Model[i].Title</a></li>
+                }
+                else
+                {
+                <li><a href="#">@Model[i].Title</a></li>
+                }
+
+            }
+        </ul>
+    </div>
+    <!--side_nav end-->
+        <div class="direct_right">
+    <div id="direct_con" class="direct_con">
+        <div id="tit" style="font-size: 20px; margin-bottom: 30px; font-weight: bold;">小额担保贷款</div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            if (i == 0)
+            {
+            <div class="con">
+                @Html.Raw(Model[i].Content)
+            </div>
+            }
+            else
+            {
+            <div class="con" hidden="hidden">
+                @Html.Raw(Model[i].Content)
+            </div>
+            }
+
+        }
+
+        </div>
+    </div>
+    <!--guidance_con end-->
+</div></div>
+<!--wrap end-->
+
+<script type="text/javascript">
+    pageFlag = "direct";
+
+    $("#side_nav li").click(function () {
+        $("#side_nav li").removeClass("selected").eq($(this).index()).addClass("selected");
+        $("#guidance_con .con").hide().eq($(this).index()).show();
+        $("#guidance_con #tit").text($(this).text());
+    });
+</script>

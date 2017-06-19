@@ -1,0 +1,265 @@
+﻿@model List<Ys.Model.Model.Recruit.JobFair>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "已审核的委托招聘申请";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>已审核的委托招聘申请</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")    
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <a href="@Url.Action("Index", "JobFair")" target="right" class="home"><i></i><span>委托招聘管理</span></a>
+                <span class="crumb-step">&gt;</span><span>已审核的委托招聘申请</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <p class="gray-999"><i class="icon icon-sound2"></i>若多个企业发起了委托招聘申请，这些申请将发送给系统管理员审核，然后系统管理员再从审核通过的申请中选择企业及其职位来组织一场招聘会</p>
+                </div>
+            </div>
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("AuditedList", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th>企业名称：</th>
+                                    <td>
+                                        <div class="util-bar">
+                                            <div class="r-list">
+                                                <input type="text" name="txtKeywords" id="txtKeywords" class="keyword" value="@ViewData["Keywords"]" />
+                                                <input type="submit" name="btnSearch" id="btnSearch" class="btn-search" value="查询" />
+                                                @Html.ActionLink("清空", "AuditedList", null, new { @id = "btnClear", @class = "btn-clear" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--列表-->
+            <div class="table-container">
+                <div class="ht_10"></div>
+                <div>
+                    <input type="button" name="btnApplication" id="btnApplication" class="btn green disabled" value="新建招聘会" onclick="f_onAddMeeting(this);">
+                    <span id="actiedResult">已选择：<label id="activedEmployerCount">0</label>
+                        个企业，<label id="activedJobCount">0</label>
+                        个职位</span>
+                </div>
+                <div class="ht_10"></div>
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">申请编号
+                            </th>
+                            <th style="width: 15%">申请时间
+                            </th>
+                            <th style="width: 15%">申请企业
+                            </th>
+                            <th style="min-width: 128px; width: 25%;">申请参加招聘的职位
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var jobFair in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @(Model.IndexOf(jobFair)+1)     
+                                </td>
+                                <td>2015-12-19     
+                                </td>
+                                <td>
+                                    @jobFair.Employer.Name
+                                </td>
+                                <td>
+                                    <ul class="tab-item block clearfix">
+                                        @foreach (var job in jobFair.Job)
+                                        {
+                                            <li data-id="@job.Id">
+                                                <div class="subject-wrap">
+                                                    <h4>
+                                                        <label>@job.JobName</label></h4>
+                                                    <p class="subject-remark">
+                                                        <span>招聘人数：<label>@job.PersonNum</label></span>
+                                                        @if (job.WorkAddress != null)
+                                                        {
+                                                            <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                                        }
+                                                        <span>薪 资：<label>@job.PayLevel.Name</label></span>
+                                                    </p>
+                                                </div>
+                                                <span class="icon icon-check"></span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </td>
+                               
+                                <td class="nowrap flex-box">
+                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = jobFair.Id })');"><span class="icon icon-trash"></span>删除</a>
+                                </td>
+                            </tr> 
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!--/列表-->
+            <!--列表-->
+            <div class="table-container" style="display: none;">
+                <div class="ht_10"></div>
+                <div>
+                    <input type="button" name="btnApplication" class="btn green disabled" value="新建招聘会" onclick="f_onAddMeeting(this);" />
+                </div>
+                <div class="ht_10"></div>
+                <ul class="tab-item clearfix">
+                    @foreach (var jobFair in Model)
+                    {
+                        <li data-id="@jobFair.Id">
+                            <div class="subject-wrap corp-wrap">
+                                <h4>
+                                    <label>@jobFair.Employer.Name</label>
+                                    委托招聘申请
+                       
+                                </h4>
+                                @foreach (var job in jobFair.Job)
+                                {
+                                    <div class="subject-remark">
+                                        <h5><i class="icon icon-caret"></i>@job.JobName</h5>
+                                        <p class="text-wrap">
+                                            <span>招聘人数：<label>@job.PersonNum</label></span>
+                                            @if (job.WorkAddress != null)
+                                            {
+                                                <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                            }
+                                            <span>薪 资：<label>@job.PayLevel.Name</label></span>
+                                        </p>
+                                    </div>
+                                }
+                                <span class="icon icon-check"></span>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+            <!--/列表-->
+        </div>
+    </div>
+    <!--/main-->
+    <!--Modal内容-->
+
+    <!--/Modal内容-->
+    <!-- Recommended script positioning -->
+
+
+    <script type="text/javascript">
+        $(function () {
+            /*栏目筛选事件*/
+            var activedJobCount = 0;
+            $('.tab-item li').each(function () {
+                $(this).on('click', function () {
+                    $(this).toggleClass("actived");
+                    if ($(this).hasClass("actived")) {
+                        activedJobCount++;
+                    } else {
+                        activedJobCount--;
+                    }
+                    if (activedJobCount > 0) {
+                        $(this).parent().addClass("actived");
+                        $("#activedJobCount").text(activedJobCount);
+                        $("#btnApplication").removeClass("disabled");
+                    } else {
+                        $(this).parent().removeClass("actived");
+                        $("#btnApplication").addClass("disabled");
+                    }
+                    var activedEmployers = $(".tab-item.actived");
+                    $("#activedEmployerCount").text(activedEmployers.length);
+                });
+            });
+        });
+
+        /*显示或隐藏元素*/
+        function f_onSileToggle(eventObj) {
+            if ($(eventObj).parents(".subject-wrap")) {
+                $(eventObj).parents(".subject-wrap").find(".subject-remark").slideToggle();
+            }
+        }
+
+        /*新建招聘会窗口*/
+        function f_onAddMeeting(obj) {
+            if ($(obj).hasClass("disabled"))
+                return;
+            $("#actiedResultCopy").text($("#actiedResult").text());
+            var jobFairId = [];
+            $('.tab-item li').each(function () {
+                if ($(this).hasClass("actived")) {
+                    jobFairId.push($(this).attr("data-id"));
+                }
+            });
+            var d = top.dialog({
+                title: '从已审核的企业委托招聘申请中，选择一些企业及其职位来组织一场招聘会',
+                content: '@Html.Raw(Html.Partial("Dialog").ToHtmlString().Replace("\r\n", ""))',
+                width: "600px",
+                height: "400px",
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    //alert($("#txtMeetingName").val());
+                    var contentData = { "jobId": JSON.stringify(jobFairId), "meetingDate": top.$("#txtMeetingTime").val(), "MeetingName": top.$("#txtMeetingName").val(), "host": top.$("#txtMeetingHost").val(), "phone": top.$("#txtMeetingPhone").val(), "address": top.$("#txtMeetingAddress").val() };
+                    /*ajax 提交到确认订单*/
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create")',
+                        dataType: 'json',
+                        data: contentData,
+                        success: function (data, textStatus) {
+                            var sucDialog = top.dialog({
+                                title: "对话框将在3秒内关闭...",
+                                content: "委托招聘申请创建成功，将发送给系统管理员审核！"
+                            });
+                            sucDialog.show();
+                            setTimeout(function () {
+                                sucDialog.close().remove();
+                            }, 3000);
+                        },
+                        error: function (msg, testStatus) {
+                            alert(JSON.stringify(msg));
+                        }
+                    });
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.showModal();
+        }
+    </script>
+</body>
+</html>

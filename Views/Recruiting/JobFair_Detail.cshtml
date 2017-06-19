@@ -1,0 +1,178 @@
+﻿@model Ys.Model.Model.Recruit.JobFairMeeting
+
+@{
+    ViewBag.Title = "招聘会详情";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+<div class="main-wrap" id="main">
+    <div class="section white clearfix">
+        <div class="ht_20"></div>
+        <div class="result-wrap">
+            <!--导航栏-->
+            <div class="location breadcrumb">
+                <a href="/recruiting" class="home"><i></i><span>返回首页</span></a>
+                <a href="@Url.Action("JobFair", "Recruiting")"><span>委托招聘</span></a>
+                <i class="arrow"></i><span>招聘会详情</span>
+            </div>
+            <!--/导航栏-->
+            <!--当前栏目-->
+            <div class="result-records">
+                <div class="ls_rows">
+                    <ul class="clearfix">
+                        <li class="current-title text-overflow" style="float: none;"><i></i>
+                            <label>招聘会详情</label></li>
+                    </ul>
+                    <div class=" ht_5 defcaption"></div>
+                </div>
+            </div>
+            <!--/当前栏目-->
+            <!--内容-->
+            <div class="clear result-list">
+                <div class="ht_10"></div>
+                <div class="view-article">
+                    <div class="article-title">
+                        <h2>@Model.Name</h2>
+                        <h4 class="subtitle"></h4>
+                    </div>
+                    <blockquote class="article-remark">
+                        <div class="tab-content remark-box">
+                            <dl>
+                                <dt>
+                                    <label class="label">招聘会时间：</label>
+                                </dt>
+                                <dd>
+                                    @Model.JobFairDate.ToString("yyyy-MM-dd")
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <label class="label">招聘会地点：</label>
+                                </dt>
+                                <dd>
+                                    @Model.Address
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <label class="label">主办单位：</label>
+                                </dt>
+                                <dd>
+                                    @Model.Host
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <label class="label">联系电话：</label>
+                                </dt>
+                                <dd>
+                                    @Model.Phone
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <label class="label">说明：</label>
+                                </dt>
+                                <dd>
+                                    @Model.Desc
+                                </dd>
+                            </dl>
+                            @if (Model.ApplyEndDate > DateTime.Now)
+                            {
+                                <!--招聘会状态为“开放报名中”时显示-->
+                                <dl>
+                                    <dt>
+                                        <label class="label">开放报名中：</label>
+                                    </dt>
+                                    <dd>
+                                        <a id="employerApply" class="btn" target="_blank" href="@Url.Action("Index", "Home", new { iframeLink = @Url.Action("ApplyEdit", "JobFair", new { meetingId = Model.Id, area = "Recruiting/Employer" }), area = "Recruiting/Employer" })">企业报名</a>
+                                    </dd>
+                                </dl>
+                            }
+                            <!--招聘会状态为“开放报名中”时显示-->
+                        </div>
+                    </blockquote>
+
+                    <div class="article-text" id="article-text">
+                        <div class="headtitle">
+                            <h2>委托招聘的企业及职位</h2>
+                        </div>
+                        <div class="ls_rows separate-box">
+                                                <p class="remark">
+                                                  
+                                                    @{
+                                    string corpName = "";
+                                    foreach (var employer in @Model.JobFair.Select(m => m.Employer).Distinct())
+                                    {
+                                        corpName += employer.Name + "<br>" ;
+
+                                    }
+
+                                    if (corpName.Length > 0)
+                                    {
+                                        corpName.Remove(corpName.Length - 1, 1);
+                                    }
+                                                        @Html.Raw(@corpName); 
+                                                    }
+                                                </p>
+                                         
+                                        
+                           
+                          
+                            @*<ul>
+                                @for (int i = 0; i < Model.JobFair.Where(m => m.StateId == 2).Count(); i++)
+                                {
+                                    var jobFair = Model.JobFair[i];
+                                  
+                                    <li class="clearfix">
+                                        <div class="left">
+                                            <div class="intro-box">
+                                                @jobFair.Employer.Inroduce
+                                            </div>
+                                            <div class="sharp-box-outer">
+                                                <div class="sharp-box">
+                                                    <i></i>
+                                                    <h3>@jobFair.Employer.Name
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            @foreach (var job in jobFair.Job)
+                                            {
+                                                
+                                                <div class="subject-wrap">
+                                                    <h4>
+                                                        <i class="item-index"></i>
+                                                        @Html.ActionLink(job.JobName, "Job_Detail", "Recruiting", new { id = job.Id }, new { target = "_blank", title = "职位详情" })
+                                                    </h4>
+                                                    <p class="subject-remark">
+                                                        <span>招聘人数：<label>@job.PersonNum</label></span>
+                                                        <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                                        <span>薪资：<label>@job.PayLevel.Name</label></span>
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                            </ul>*@
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/主体区域-->
+<script type="text/javascript">
+    $(function () {
+        var employerApply = $("#employerApply");
+        f_onNavActive("zph");
+    });
+
+</script>

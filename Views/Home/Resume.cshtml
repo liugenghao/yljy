@@ -1,0 +1,281 @@
+﻿@{
+    ViewBag.Title = "resume";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <link href="~/Content/button-form-theme.css" rel="stylesheet" />
+    <link href="~/Content/resume.css" rel="stylesheet" />
+</head>
+<body>
+@*    <aside>
+        <header>简历信息</header>
+        <ul class="aside_content">
+            <li><a href="#basicInfo">个人信息</a></li>
+            <li><a href="#jobIntension">求职意向</a></li>
+            <li><a href="#lg_speciality">语言能力</a></li>
+            <li><a href="#edu_exp">教育经历</a></li>
+            <li><a href="#training_exp">培训经历</a></li>
+            <li><a href="#work_exp">工作经验</a></li>
+            <li><a href="#work_skill">工作技能</a></li>
+            <li><a href="#career_goal">职业目标</a></li>
+            <li><a href="#self_introduction">自我介绍</a></li>
+        </ul>
+    </aside>*@
+    <div class="main">
+        <div class="basicInfo clearfix" id="basicInfo">
+            <!--个人基础信息-->
+            <div class="pic">
+                <img src="~/img/123.png" />
+                
+                    <a href="#">修改照片</a>
+            </div>
+            <div class="con">
+                <div class="info">
+                    <div class="clearfix"><span>男</span><span>未婚</span><span>1992年4月生</span><span>户口：湖北宜昌</span><span>现居地：湖北宜昌</span><span class="end">一年工作经验</span></div>
+                    <div class="clearfix"><span class="end">身份证：421518759548545002</span></div>
+                    <div class="clearfix"><span class="end">电话：136xxxx51</span></div>
+                    <div class="clearfix"><span class="end">电子邮箱：sds@xina.com</span></div>
+                </div>
+                <a href="#">修改个人信息</a>
+
+            </div>
+            <div class="personInfoMaintain hide" id="personInfoMaintain">
+                <div class="clearfix">
+                    <label for="personName" style="color: #337ab7;">姓名：</label><input type="text" id="personName" class="personName">
+                    <span class="item sex_choose" id="sex_choose">
+                        <label>性别：</label><label><input name="sex" type="radio" value="" />男 </label>
+                        <label>
+                            <input name="sex" type="radio" value="" />女
+                        </label>
+                    </span>
+                    <span class="item marriage" id="marriage">
+                        <label>婚姻状况：</label><select><option>请选择</option>
+                            <option>未婚</option>
+                            <option>已婚</option>
+                            <option>离异</option>
+                        </select></span>
+                </div>
+                <div class="clearfix">
+                    <label for="regis_res" style="color: #337ab7;">户口所在地：</label><input type="text" id="regis_res" class="regis_res">
+                    <span class="item workExp" id="workExp">
+                        <label>工作经验：</label><select><option>请选择</option>
+                            <option>无</option>
+                            <option>1年</option>
+                            <option>2年</option>
+                            <option>3至5年</option>
+                            <option>5至10年</option>
+                            <option>10年以上</option>
+                        </select></span>
+                </div>
+                <div class="clearfix">
+                    <label for="id_num" style="color: #337ab7;">身份证：</label><input type="text" id="id_num" class="id_num">
+                    <span class="item marriage">
+                        <label for="personTel" style="color: #337ab7;">联系电话：</label><input type="text" id="personTel" class="personTel"></span>
+                </div>
+                <div class="clearfix">
+                    <label for="personEmail" style="color: #337ab7;">电子邮箱：</label><input type="text" id="personEmail" class="personEmail">
+                </div>
+                <div class="personInfoMaintainBtnGrp" id="personInfoMaintainBtnGrp">
+                    <button class="btn btn-primary save">保存</button>
+                    <button class="btn btn-default cancel">取消</button>
+                </div>
+            </div>
+            <!--editForm end-->
+        </div>
+        <!--basicInfo end-->
+
+        <div class="detail clearfix">
+            <h2 class="name">张亚迪</h2>
+            <div class="title clearfix" id="jobIntension">
+                <span>求职意向</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel jobIntensionPanel">
+                <div class="row"><span>应聘职位类型：<span id="job_type">市场类</span></span><span>求职类型：<span id="apply_type">全职</span></span></div>
+                <div class="row"><span>月薪要求：<span id="salary_req">3000元</span></span><span>职位要求：<span id="job_req">客服经理、业务专员</span></span></div>
+                <div class="row"><span>希望工作地区：<span id="jobArea_req">夷陵区</span></span></div>
+            </div>
+            <div class="title clearfix" id="lg_speciality">
+                <span>语言能力</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel lg_specialityPanel">
+                <div class="row"><span>外语语种：<span id="foreign_lg">无</span></span><span>外语水平：<span id="foreign_lg_lv">无</span></span></div>
+                <div class="row"><span>普通话水平：<span id="mandarin_lv">标准</span></span><span>计算机能力：<span id="computer_skill">优秀</span></span></div>
+            </div>
+            <div class="title clearfix" id="edu_exp"><!----------------教育经历标题----------------->
+                <span>教育经历</span>
+                <a href="#edu_exp">修改</a>
+            </div>
+            <div class="maintainPanel eduMaintain hide" id="eduMaintain"><!----------------教育经历信息编辑----------------->
+                <button class="btn btn-primary save">保存</button>
+                
+                <button class="btn btn-default cancel">取消</button>
+                <table>
+                </table>
+                <button class="btn btn-primary add">添加新的教育经历</button>
+                <div class="addEduInfo hide" id="addEduInfo">
+                    <div class="clearfix">
+                        <label>时间：</label><div class="con">
+                            <input type="text" class="datepicker"><span>至</span><input type="text" class="datepicker">
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="schName">学校名称：</label><div class="con">
+                            <input type="text" id="schName" class="input">
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="marjorName">专业名称：</label><div class="con">
+                            <input type="text" id="marjorName" class="input">
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="degree">学历：</label>
+                        <div class="con">
+                            <select id="degree">
+                                <option>请选择</option>
+                                <option>初中</option>
+                                <option>中技</option>
+                                <option>高中</option>
+                                <option>中专</option>
+                                <option>大专</option>
+                                <option>本科</option>
+                                <option>硕士</option>
+                                <option>博士</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="addEduInfoBtnGrp" id="addEduInfoBtnGrp">
+                        <button class="btn btn-primary add">确认添加</button>
+                        <button class="btn btn-default cancel">取消</button>
+                    </div>
+                </div>
+                <!-- end addEduInfo-->
+
+            </div><!--eduMaintain end-->
+            <div class="detailPanel2 edu_expPanel" id="edu_expPanel"><!----------------教育经历信息----------------->
+                <div class="detailPanel2_item clearfix">
+                    <span>2007.9 至 2011.6</span><span class="bold">成都大学</span><span>电器自动化</span><span class="bold">本科</span>
+                </div>
+                <div class="detailPanel2_item clearfix">
+                    <span>2003.9 至 2008.6</span><span class="bold">湖南大学</span><span>机械制造</span><span class="bold">硕士</span>
+                </div>
+                <div class="detailPanel2_item clearfix">
+                    <span>2010.9 至 2015.6</span><span class="bold">北京大学</span><span>软件工程</span><span class="bold">本科</span>
+                </div>
+            </div>
+            <div class="title clearfix" id="training_exp">
+                <span>培训经历</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel training_expPanel">
+                <div class="row"><span><span id="training_exp_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="work_exp"><!----------------工作经验标题----------------->
+                <span>工作经验</span>
+                <a href="#work_expPanel">修改</a>
+            </div>
+        <div class="maintainPanel workExpMaintain hide" id="workExpMaintain"><!----------------工作经验信息编辑----------------->
+                <button class="btn btn-primary save">保存</button><button class="btn btn-primary add">添加新的工作经历</button><button class="btn btn-default cancel">取消</button>
+                <table>
+                </table>
+                <div class="addWorkExp" id="addWorkExp">
+                    <div class="clearfix">
+                        <label for="comName">公司名称：</label><div class="con">
+                            <input type="text" id="comName" class="input"></div>
+                    </div>
+                    <div class="clearfix">
+                        <label>时间：</label><div class="con">
+                            <input type="text" class="datepicker"><span>至</span><input type="text" class="datepicker"></div>
+                    </div>
+                    
+                    <div class="clearfix">
+                        <label for="workPositon">职位：</label><div class="con">
+                            <input type="text" id="workPositon" class="input"></div>
+                    </div>
+
+                    <div class="clearfix">
+                        <label for="workPositon">职位：</label><div class="con">
+                            <input type="text" id="workPositon" class="input"></div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="degree">学历：</label>
+                        <div class="con">
+                            <select id="degree">
+                                <option>请选择</option>
+                                <option>初中</option>
+                                <option>中技</option>
+                                <option>高中</option>
+                                <option>中专</option>
+                                <option>大专</option>
+                                <option>本科</option>
+                                <option>硕士</option>
+                                <option>博士</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="addWorkInfoBtnGrp" id="addWorkInfoBtnGrp">
+                        <button class="btn btn-primary add">确认添加</button>
+                        <button class="btn btn-default cancel">取消</button>
+                </div>
+                </div>
+                <!-- end addEduInfo-->
+                
+            </div><!--eduMaintain end-->
+            <div class="detailPanel2 work_expPanel" id="work_expPanel"><!----------------工作经验信息----------------->
+                <div class="detailPanel2_item">
+                    <div class="clearfix"><span id="work_expDuration" class="tit">2014.2 - 2015.6</span></div>
+                    <div class="clearfix"><span id="work_expCom" class="work_expCom tit">武汉吉肽生物科技有限公司</span></div>
+                    <div class="clearfix">
+                        <span class="tit">职位：</span><span class="tit_next" id="work_expJobName">产品助理</span>
+                        <span class="tit">行业类别：</span><span class="tit_next" id="work_expJobType">生物医疗</span>
+                        <span class="tit">企业性质：</span><span class="tit_next" id="work_expComType">民营</span>
+                        <span class="tit">规模：</span><span class="tit_next" id="work_expJobComSize">500-999人</span>
+                    </div>
+                    <div class="clearfix">
+                        <span class="tit descTit">工作描述：</span><p class="desc" id="work_expJobDesc">主要负责《武侠世界》等游戏程序客户端的开发，此外还负责部分游戏界面、游戏音乐设计及项目的统筹与安排，参与部分线上运营比较深入地了解了IT公司的内部运行方式，了解了开发、产品、运营、客服等角色的定位，为理清自己的职业方向打好了基础</p>
+                    </div>
+                </div>
+                <!--detailPanel2_item end-->
+            </div>
+            <!--detailPanel2 end-->
+            <div class="title clearfix" id="work_skill">
+                <span>工作技能</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel work_skillPanel">
+                <div class="row"><span><span id="work_skill_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="career_goal">
+                <span>职业目标</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel career_goalPanel">
+                <div class="row"><span><span id="career_goal_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="self_introduction">
+                <span>自我介绍</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel self_introductionPanel">
+                <div class="row"><span><span id="self_introduction_detail">无</span></span></div>
+            </div>
+        </div>
+        <!--detail end-->
+    </div>
+    <!--main end-->
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-i18n.js"></script>
+    <script src="~/Scripts/resume.js"></script>
+</body>
+</html>

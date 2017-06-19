@@ -1,0 +1,369 @@
+﻿@{
+    ViewBag.Title = "夷陵就业信息网站点内容管理系统";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>夷陵就业信息网站点内容管理系统</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/artdialog/css")
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    <script src="@Url.Content("~/My97DatePicker/WdatePicker.js")"></script>
+</head>
+<body class="indexbody">
+    <header class="header">
+        <div class="header-wrap">
+            <div class="header-banner">
+                <div class="header-logo">
+                    <h1 class="logo" title="内容管理系统"></h1>
+                </div>
+            </div>
+        </div>
+        <div class="main-top">
+            <a class="icon-menu"></a>
+            <h1 id="toplogo" class="logo" title="夷陵就业信息网内容管理系统" style="display: none;">
+                @Html.ActionLink("内容管理系统", "Index")
+            </h1>
+            <div id="main-nav" class="main-nav"></div>
+            <div class="nav-right">
+                <div class="info user-wrap">
+                    <a href="javascript: linkMenuTree(true, 'AccountUserProfile');" title="个人中心">
+                        <i></i>@Html.Label("管理员")
+                    </a>
+                </div>
+                <div class="info">
+                    @Html.ActionLink("修改密码", "ChangePassword", new { @id = "btnChangePassword", @title = "修改密码" })
+                </div>
+                <div class="info">
+                    @Html.ActionLink("退出", "Logout", new { @id = "btnExit", @title = "退出系统" })
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <!-- main-left start -->
+        <div class="main-left">
+            <h1 class="logo" title="站点内容管理系统"><span class="icon icon-pages"></span>@Html.ActionLink("内容管理系统", "Index")</h1>
+            <div id="sidebar-nav" class="sidebar-nav">
+                <div class="list-group selected" style="display: block;">
+                    <h1 title="基础">
+                        <img src="@Url.Content("~/Areas/Recruiting/Admin/Content/images/nav/home.png")"></h1>
+                    <div class="list-wrap">
+                        <h2>基础信息管理</h2>
+                        <ul>
+                            <li>
+                                <a navid="SysDefaultCenter" target="right">
+                                    <span>管理中心</span>
+                                </a>
+                                <ul style="display: block;">
+                                    <li>
+                                        <a navid="sysDefaultHome" href="@Url.Action("Desk")" target="right" title="首 页" class="selected">
+                                            <span>首 页</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a navid="AccountUserProfile" href="@Url.Action("Profile")" target="right" title="个人中心">
+                                            <span>个人中心</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a navid="AccountUserChangePassword" href="@Url.Action("ChangePassword")" target="right" title="修改密码">
+                                            <span>修改密码</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a navid="SysMessage" target="right">
+                                    <span>我的站内消息</span>
+                                </a>
+                                <ul style="display: block;">
+                                    <li>
+                                        <a navid="sysMessageEdit" href="@Url.Action("Edit", "Message")" target="right" title="写消息">
+                                            <span>写消息</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a navid="sysMessageInbox" href="@Url.Action("Inbox", "Message")" target="right" title="收件箱">
+                                            <span>收件箱</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a navid="sysMessageOutbox" href="@Url.Action("Outbox", "Message")" target="right" title="发件箱">
+                                            <span>发件箱</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                             <li>
+                                <a navid="SysDataAnalysis" target="right">
+                                    <span>数据统计</span>
+                                </a>
+                                <ul style="display: block;">
+                                    <li>
+                                        <a navid="sysDataHome" href="@Url.Action("DataAnalysis")" target="right" title="首 页">
+                                            <span>数据统计</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="list-group" style="display: none;">
+                    <h1 title="站点内容">
+                        <img src="@Url.Content("~/Areas/Recruiting/Admin/Content/images/nav/pus.png")"></h1>
+                    <div class="list-wrap">
+                        <h2>站点内容管理<i></i></h2>
+                        <ul>
+                          @*  @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                            {
+                                <li>
+                                    <a navid="sysJobs">
+                                        <span>企业职位</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a navid="sysJobsList" href="@Url.Action("Index", "Jobs")" target="right" title="职位列表与审核">
+                                                <span>职位列表与审核</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>       
+                            }*@
+                            @if (ViewBag.RoleId == 91 || ViewBag.RoleId == 9)
+                            {
+                                <li>
+                                    <a navid="sysArticle">
+                                        <span>内容管理</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a navid="sysArticleCategoryList" href="@Url.Action("Index", "ArticleCategory")" target="right" title="栏目分类">
+                                                <span>栏目分类管理</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a navid="sysArticleList" href="@Url.Action("Index", "Article")" target="right" title="文章管理">
+                                                <span>文章管理</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (ViewBag.RoleId == 91 || ViewBag.RoleId == 9)
+                            {
+                                <li>
+                                    <a navid="sysAttachment">
+                                        <span>资源管理</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a navid="sysPicutureList" href="@Url.Action("Index", "Picture")" target="right" title="首页轮播图">
+                                                <span>首页轮播图</span><!--图片资源-->
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a navid="sysAttachmentList" href="@Url.Action("Index", "Attachment")" target="right" title="附件资源">
+                                                <span>文件资源</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                            {
+                                <li>
+                                    <a navid="sysJobFair">
+                                        <span>招聘会管理</span>
+                                    </a>
+                                    <ul>
+                                       @* <li>
+                                            <a navid="sysJobFairAuditedList" href="@Url.Action("AuditList", "JobFair")" target="right" title="委托招聘申请列表">
+                                                <span>委托招聘申请列表</span>
+                                            </a>
+                                        </li>*@
+                                        <li>
+                                            <a navid="sysJobFairList" href="@Url.Action("Index", "JobFair")" target="right" title="招聘会列表">
+                                                <span>招聘会列表</span>
+                                            </a>
+                                        </li>
+                                        @*<li>
+                                            <a navid="sysJobFairList" href="@Url.Action("Index", "Article")" target="right" title="委托招聘">
+                                                <span>委托招聘</span>
+                                            </a>
+                                        </li>*@
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a navid="sysInterview">
+                                        <span>面试房间管理</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a navid="sysJobFairAudit" href="@Url.Action("Index", "Interview")" target="right" title="面试列表">
+                                                <span>面试列表</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                {
+                    <div class="list-group" style="display: none;">
+                        <h1 title="会员用户">
+                            <img src="@Url.Content("~/Areas/Recruiting/Admin/Content/images/nav/user.png")"></h1>
+                        <div class="list-wrap">
+                            <h2>会员用户管理<i></i></h2>
+                            <ul>
+                                <li>
+                                    <a navid="sysUser">
+                                        <span>用户管理</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a navid="sysUserUnAduitedList" href="@Url.Action("AuditCorpList", "User")" target="right" title="审核用户">
+                                                <span>企业注册审核</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a navid="sysUserList" href="@Url.Action("Index", "User")" target="right" title="用户列表">
+                                                <span>个人用户</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a navid="comUserList" href="@Url.Action("CorporationIndex", "User")" target="right" title="用户列表">
+                                                <span>企业用户</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                }
+                @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                {
+                    <div class="list-group" style="display: none;">
+                        <h1 title="大学实习报名系统">
+                            <img src="@Url.Content("~/Areas/Recruiting/Admin/Content/images/nav/sys.png")"></h1>
+                        <div class="list-wrap">
+                            <h2>实习报名系统管理<i></i></h2>
+                            <ul>
+                                @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                                {
+                                    <li>
+                                        <a navid="sysAccountUser">
+                                            <span>信息统计</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a navid="sysAccountUserList" href="@Url.Action("signupList", "College")" target="right" title="报名信息列表">
+                                                    <span>报名信息</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a navid="sysAccountUserList" href="@Url.Action("stationList", "College")" target="right" title="岗位信息列表">
+                                                    <span>岗位信息</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a navid="sysAccountUser">
+                                            <span>用户管理</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a navid="sysAccountUserList" href="@Url.Action("businessList", "College")" target="right" title="管理员列表">
+                                                    <span>企业注册审核</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+                @if (ViewBag.RoleId == 9)
+                {
+                    <div class="list-group" style="display: none;">
+                        <h1 title="系统">
+                            <img src="@Url.Content("~/Areas/Recruiting/Admin/Content/images/nav/sys.png")">
+                        </h1>
+                        <div class="list-wrap">
+                            <h2>系统管理<i></i></h2>
+                            <ul>
+                                @if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+                                {
+                                    <li>
+                                        <a navid="sysAccountUser">
+                                            <span>管理员管理</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a navid="sysAccountUserList" href="@Url.Action("Index", "AccountUser")" target="right" title="管理员列表">
+                                                    <span>管理员列表</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <!-- main-left end -->
+        <!-- main-container start -->
+        <div class="main-container">
+            <iframe id="right" name="right" frameborder="0" src="@Url.Action("Desk")"></iframe>
+        </div>
+        <!-- main-container end -->
+    </section>
+    <!-- Recommended script position -->
+    @Scripts.Render("~/artdialog/js")
+    @Scripts.Render("~/Recruiting/Admin/js/layoutIndex")
+    <script type="text/javascript">        
+        $(function () {
+            @*@if (ViewBag.RoleId == 92 || ViewBag.RoleId == 9)
+            {
+                <text>
+                    var unAuditEmployersTip = '@ViewBag.UnAuditEmployersTip';
+                    var unAuditJobsTip = '@ViewBag.UnAuditJobsTip';
+                    if (!unAuditEmployersTip || !unAuditEmployersTip) {
+                        return;
+                    } else {
+                        var htmlLink = "待办事项：";
+                        if (unAuditEmployersTip) {
+                            htmlLink += "<a href=\"javascript:window.parent.linkMenuTree(true, 'sysUserUnAduitedList');\" target='right'>" + unAuditEmployersTip + "</a>";
+                        }
+                        if (unAuditJobsTip) {
+                            htmlLink += "；<a href=\"javascript:window.parent.linkMenuTree(true, 'sysJobsList');\" target='right'>" + unAuditJobsTip + "</a>";                            
+                        }
+                        Common.tips({ type: 0, autoClose: false, content: htmlLink });
+                    }
+                </text>
+            }*@
+        });
+    </script>
+</body>
+</html>
+

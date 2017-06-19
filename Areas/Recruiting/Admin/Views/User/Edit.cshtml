@@ -1,0 +1,347 @@
+﻿@{
+    ViewBag.Title = "用户信息编辑";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>用户信息编辑</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("注册用户管理", "Index")
+                <span class="crumb-step">&gt;</span><span>用户信息编辑</span>
+            </div>
+        </div>
+        <!--导航栏-->        
+        <div class="result-wrap">
+            @using (Html.BeginForm("Edit", null, FormMethod.Post, new { @id="form1"}))
+            {
+                @Html.AntiForgeryToken()
+                <!--内容-->
+                <div id="floatHeadEdit" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">用户信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content"> 
+                    <dl>
+                        <dt>用户组别</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownList("TypeId", ViewBag.UserTypes as SelectList, "--请选择--")
+                            </div>
+                        </dd>
+                    </dl>               
+                    <dl>
+                        <dt>头像</dt>
+                        <dd>
+                            <input type="text" name="thumbnailUrl" id="thumbnailUrl" class="input normal fix_borderb" placeholder="头像" />
+                            <input type="hidden" id="hidThumbnailUrl" name="hidThumbnailUrl" value="" />
+                            <a id="linkUpImage" class="act" onclick="upImage(); ">上传图片</a>
+                            <div id="thumbnailPreview" style="display: none;">
+                                <span class="clear preview">                                    	
+                                    <img alt="" id="thumbnailImage" src="@Url.Content("~/img/loading.gif")" class="min-img" />
+                                    <a href="javascript:void(0);" class="thumb_x" title="删除">x</a>
+                                    <script type="text/plain" id="upload_ue" style="display: none;"></script>
+                                </span>
+                            </div>
+                        </dd>
+                    </dl>            
+                    <dl>
+                        <dt>用户名</dt>
+                        <dd>
+                            <input type="text" name="txtUserName" id="txtUserName" class="input normal" placeholder="用户名" datatype="*2-50" nullmsg="请输入用户名" sucmsg=""/>
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>昵 称</dt>
+                        <dd>
+                            <input type="text" name="txtNickName" id="txtNickName" class="input normal" placeholder="昵称"/>
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>真实姓名</dt>
+                        <dd>
+                            <input type="text" name="txtNickName" id="txtRealName" class="input normal" placeholder="真实姓名"/>
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>性 别</dt>
+                        <dd>
+                            <div class="rule-multi-radio">
+                                <span id="RadioButtonList1">
+                                    <input type="radio" name="listType" id="listGender_0" value="0" checked="checked">
+                                    <label for="listGender_0">未设定</label>                                
+                                    <input type="radio" name="listType" id="listGender_1" value="1">
+                                    <label for="listGender_1">男</label>
+                                    <input type="radio" name="listType" id="listGender_2" value="2">
+                                    <label for="listGender_0">女</label>
+                                </span>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>出生日期</dt>
+                        <dd>
+                            <input type="text" name="txtBirthDate" id="txtBirthDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate input" placeholder="出生日期">
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>专 业</dt>
+                        <dd>
+                            <input type="text" name="txtMajor" id="txtMajor" class="input" placeholder="专业">
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>学 历</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownList("DegreeId", ViewBag.Degrees as SelectList, "--请选择--")
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>学 位</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownList("GraduateId", ViewBag.Graduates as SelectList, "--请选择--")
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="applicant">
+                        <dt>现居地</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                <select name="listProvince" id="listProvince">
+                                    <option value="">--省--</option>
+                                    <option value="01">北京</option>
+                                    <option value="42">湖北</option>
+                                </select>
+                            </div>
+                            <div class="rule-single-select">
+                                <select name="listCity" id="listCity">
+                                    <option value="">--市--</option>
+                                    <option value="0101">北京</option>
+                                    <option value="4201">武汉</option>
+                                    <option value="4202">宜昌</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>企事业单位名称</dt>
+                        <dd>
+                            <input type="text" name="txtCorporationName" id="txtCorporationName" class="input normal" placeholder="企事业单位名称" />
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>法定代表人</dt>
+                        <dd>
+                            <input type="text" name="txtLegalRepresentative" id="txtLegalRepresentative" class="input normal" placeholder="法定代表人" />
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>所属行业</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                <select name="listIndustry" id="listIndustry">
+                                    <option value="">--请选择--</option>
+                                    <option value="01">行业1</option>
+                                    <option value="02">行业2</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>规 模</dt>
+                        <dd>
+                            <input type="text" name="txtCorporationScale" id="txtCorporationScale" class="input normal" placeholder="规模" />
+                            <span class="Validform_checktip">示例：50-99人，100-500人...</span>
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>企事业单位性质</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                <select id="listCorporationNatrue" name="listCorporationNatrue">
+                                    <option value="" selected="selected">--请选择--</option>
+                                    <option value="">国有企业</option>
+                                    <option value="">私营/民营/股份制企业</option>
+                                    <option value="">外资/合资/独资</option>
+                                    <option value="">机关/事业单位</option>
+                                    <option value="">其他</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl data-role="corporation">
+                        <dt>注册成立日期</dt>
+                        <dd>
+                            <input type="text" name="txtRegisterTime" id="txtRegisterTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate input" placeholder="注册成立日期">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>联系地址</dt>
+                        <dd>
+                            <input type="text" name="txtAddress" id="txtAddress" class="input normal" placeholder="联系地址" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>联系电话</dt>
+                        <dd>
+                            <input type="text" name="txtUserPhone" id="txtUserPhone" class="input normal" placeholder="联系电话" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>电子邮箱</dt>
+                        <dd>
+                            <input type="email" name="txtUserEmail" id="txtUserEmail" class="input normal" placeholder="电子邮箱" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>备 注</dt>
+                        <dd>
+                            <textarea name="txtUserRemark" id="txtUserRemark" rows="4" cols="20" class="input normal" placeholder="备注"></textarea>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>是否启用</dt>
+                        <dd>
+                            <div class="rule-multi-radio">                      
+                                <input id="listEnable_True" type="radio" name="listEnable" value="1" checked="checked"><label for="listEnable_True">是</label>
+                                <input id="listEnable_False" type="radio" name="listEnable" value="0"><label for="listEnable_False">否</label>   
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="提交保存" class="btn"/>
+                        <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);"/>
+                        <input type="hidden" name="hiddenId" id="hiddenId" Value="@ViewData["Id"]" />
+                    </div>
+                </div>
+                <!--/工具栏-->
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+        /* 声明几个上传变量 */
+        var thumbnailUrl = $("#thumbnailUrl"); /* 缩略图地址文本对象 */
+        var hidThumbnailUrl = $("#hidThumbnailUrl"); /* 缩略图地址隐藏域对象 */
+        var thumbnailPreview = $("#thumbnailPreview"); /* 缩略图地址文本对象 */
+        var thumbnailImage = $("#thumbnailImage"); /* 缩略图预览对象 */
+        var thumbX = $(".thumb_x"); /* 缩略图被移除控件 */
+
+        /* 实例化编辑器 */
+        var uploadUE = UE.getEditor('upload_ue');
+        uploadUE.ready(function () {
+            uploadUE.setHide(); /* 隐藏编辑器 */
+            /* 监听图片上 传*/
+            uploadUE.addListener('beforeInsertImage', function (t, arg) {
+                var src0 = arg[0].src; /* 只取第一张图片的路 */
+                thumbnailUrl.val(src0); /* 将地址赋值给相应的 input, 只取第一张图片的路径 */
+                hidThumbnailUrl.val(src0);
+                thumbnailPreview.show();
+                thumbnailImage.prop("src", src0); /* 图片预览 */
+                thumbX.show();
+            });
+
+            /* 文件上传监听
+            * 需要在ueditor.all.min.js文件中找到 d.execCommand("insertHtml",l); 之后插入d.fireEvent('afterUpfile',b)
+            */
+            uploadUE.addListener('afterUpfile', function (t, arg) {
+                alert('这是文件地址：' + arg[0].url);
+            });
+        });
+
+        /* 弹出图片上传的对话框 */
+        function upImage() {
+            var myImage = uploadUE.getDialog("insertimage");
+            myImage.open();
+        }
+
+        /* 弹出文件上传的对话框 */
+        function upFiles() {
+            var myFiles = uploadUE.getDialog("attachment");
+            myFiles.open();
+        }
+
+        /* 移除上传文件 */
+        $('.thumb_x').on('click', function () {
+            thumbnailImage.prop('src', '');
+            thumbnailUrl.val('');
+            hidThumbnailUrl.val('');
+            $(this).hide();
+            thumbnailPreview.hide();
+        });
+
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+            /*初始设置用户组别条件为个人用户*/
+            var listUserType = $("select[name='TypeId']");
+            f_onSetThead(listUserType.val());
+
+            /*用户组别事件绑定*/
+            $(listUserType).on("change", function () {
+                f_onSetThead($(this).val());
+            });
+        });
+
+        /* 根据用户组别加载字段 */
+        function f_onSetThead(typeId) {
+            var applicantColumns = $("#form1 dl[data-role='applicant']");
+            var corporationColumns = $("#form1 dl[data-role='corporation']");
+            switch (typeId) {
+                case "1":
+                case "applicant":
+                    $(corporationColumns).each(function (i, item) {
+                        $(this).hide();
+                    });
+                    $(applicantColumns).each(function (i, item) {
+                        $(this).show();
+                    });
+                    break;
+                case "2":
+                case "corporation":
+                    $(applicantColumns).each(function (i, item) {
+                        $(this).hide();
+                    });
+                    $(corporationColumns).each(function (i, item) {
+                        $(this).show();
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

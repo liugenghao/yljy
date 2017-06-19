@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "VideoPlayer";
+}
+<div class="video" id="HLSPlayer" >
+<SCRIPT>
+<!--
+/*
+* HLSPlayer参数应用=========================<br>
+* Contact QQ:261532593 
+* param {Object} vID        ID
+* param {Object} vWidth     播放器宽度设置
+* param {Object} vHeight    播放器宽度设置
+* param {Object} vPlayer    播放器文件
+* param {Object} vHLSset    HLS配置
+* param {Object} vPic       视频缩略图
+* param {Object} vCssurl    移动端CSS应用文件
+* param {Object} vHLSurl    HLS(m3u8)地址
+* ==========================================
+*/
+var vID        = ""; 
+var vWidth     = 420;                //播放器宽度设置
+var vHeight    = 320;                   //播放器宽度设置
+var vPlayer    =  '@Url.Content("~/HLSplayer.swf?v=1.5")'//"HLSplayer.swf?v=1.5"; //播放器文件
+var vHLSset    =  '@Url.Content("~/HLS.swf")'//"HLS.swf";             //HLS配置
+var vPic       = '@Url.Content("~/img/vico.png")'//"images/vico.png";    //视频缩略图
+var vCssurl    = '@Url.Content("~/img/mini.css")'//"images/mini.css";     //移动端CSS应用文件
+
+//HLS(m3u8)地址,适配PC,安卓,iOS,WP
+    var vHLSurl = "http://open.ys7.com/openlive/acbc52a8586c4b4b9170199e080809fb.m3u8";
+//-->
+</SCRIPT> 
+<script type="text/javascript" src="~/Scripts/hls.min.js"></script>
+</div>

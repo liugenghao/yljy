@@ -1,0 +1,324 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+
+@{
+    ViewBag.Title = "企业信息";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>个人信息</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i>
+            <span>个人信息</span>
+        </div>
+        <!--/导航栏-->
+        <div class="result-wrap" id="result-detail">
+            <!--内容-->
+            <div id="floatHead" class="content-tab-wrap">
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">用户信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <dl>
+                    <dt>用户名</dt>
+                    <dd>
+                        <label>@Model.Login_Id</label>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComName">单位名称：</label></dt>
+                    <dd>
+                        @Model.Name
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComCode">组织机构代码:</label></dt>
+                    <dd>
+                        @Model.Code
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComNumber">营业执照号码：</label></dt>
+                    <dd>
+                        @Model.Number
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComCerificatePicture">营业执照附件：</label></dt>
+                    <dd>
+                        @if(!string.IsNullOrEmpty(Model.LicensePic))    
+                        {                    
+                            <img alt="" id="thumbnailImage" src="@Model.LicensePic" class="min-img" />
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComIndustry">所属行业：</label>
+                    </dt>
+                    <dd>
+                        @if(Model.Industry!=null)
+                        {
+                            @Model.Industry.Name
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComType">单位类型：</label></dt>
+                    <dd>
+                        @if (Model.Etype != null)
+                        {     
+                            @Model.Etype.Name
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComEcoType">经济类型：</label></dt>
+                    <dd>
+                        @if (Model.Eco_Type != null)
+                        { 
+                            @Model.Eco_Type.Name
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComFund">注册资金：</label></dt>
+                    <dd>
+                        @Model.Fund
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComScale">人员规模：</label></dt>
+                    <dd>
+                        @if(Model.Scale!=null)
+                        { 
+                            @Model.Scale.Name 
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComAreaName">所属地区名称：</label></dt>
+                    <dd>
+                        @if (Model.City != null)
+                        {
+                            @Model.City.Name
+                        }
+                        @if (Model.Area_Code != null)
+                        {
+                            @Model.Area_Code.Name
+                        }
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComAddress">单位地址：</label></dt>
+                    <dd>
+                        @Model.Address
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComLegalPerson">法定代表人姓名：</label></dt>
+                    <dd>
+                        @Model.Inroduce
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComContact">联系人：</label></dt>
+                    <dd>
+                        @Model.Contact
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComContactPhone">联系电话：</label></dt>
+                    <dd>
+                        @Model.ContactPhone
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>备 注</dt>
+                    <dd>
+                        <p>@Model.Inroduce</p>
+                    </dd>
+                </dl>
+            </div>
+            <!--/内容-->
+            <!--工具栏-->
+            <div class="page-footer">
+                <div class="btn-wrap">
+                    <input type="button" name="btnReturn" id="btnRedrectToEdit" value="编辑个人信息" class="btn yellow" />
+                    <input type="hidden" name="hiddenId" id="hiddenId" Value="@ViewData["Id"]" />
+                </div>
+            </div>
+            <!--/工具栏-->
+        </div>
+        <div class="result-wrap" id="result-edit" style="display: none;">
+            @using (Html.BeginForm("Profile", null, FormMethod.Post, new { @id = "form1" }))
+            {
+                @Html.AntiForgeryToken()
+             
+                <!--内容-->
+                <div id="floatHeadEdit" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">用户信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <dl>
+                        <dt>联系人</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.Contact, new { id = "txtUserPhone", @class = "input normal" })
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>联系电话</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.ContactPhone, new { id = "txtUserPhone", @class = "input normal" })
+                        </dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>
+                            <label for="val">联系电话验证码：</label>
+                        </dt>
+                        <dd>
+                            <input type="text" maxlength="6" name="validCode" id="validCode" id="val" class="input normal" style="width: 128px;" datatype="n6-6" nullmsg="请输入6位验证码" errormsg="请输入6位验证码" />
+                            <input type="button" class="btn green code" id="btnSendCode" value="获取验证码" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>备 注</dt>
+                        <dd>
+                            @Html.TextAreaFor(m => m.Inroduce, new { id = "txtUserRemark", @class = "input normal", rows = "4", cols = "20" })
+                            @*<textarea name="txtUserRemark" id="txtUserRemark" rows="4" cols="20" class="input normal"></textarea>*@
+                        </dd>
+                    </dl>
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="提交保存" class="btn green" />
+                        <input type="button" name="btnReturn" id="btnReturn" value="取 消" class="btn yellow" />
+                        @Html.HiddenFor(m => m.Id)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+            /*编辑成功提示*/
+            var userName = '@ViewData["userName"]';
+            if (userName) {
+                var d = parent.dialog({
+                    title: "消息中心",
+                    content: "用户 " + userName + " 信息编辑成功！",
+                    okValue: '确定',
+                    ok: function () { },
+                    statusbar: "<p style='color: #999'>（对话框将在3秒后关闭）</p>"
+                }).show();
+                setTimeout(function () {
+                    d.close().remove();
+                }, 3000);
+            }
+
+            /*显示‘编辑个人信息’与取消‘编辑’事件注册*/
+            var btnReturn = $("input[type='button'][name='btnReturn']");
+            $(btnReturn).each(function (i, item) {
+                $(this).on("click", function () {
+                    $("#result-detail").toggle();
+                    $("#result-edit").toggle();
+                });
+            });
+
+            $("#btnSendCode").click(function () {
+                sendCode($(this));
+            });
+
+        });
+
+        /*发送验证码*/
+        var InterValObj; //timer变量，控制时间
+        var count = 60; //间隔函数，1秒执行
+        var curCount;//当前剩余秒数
+
+        function sendCode(obj) {
+            curCount = count;
+            /*设置button效果，开始计时*/
+            $(obj).val(curCount + "秒再获取");
+            $(obj).attr("disabled", "disabled").addClass("disabled");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+            /*向后台发送处理数据*/
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SendCode")',
+                dataType: 'json',
+                data: { "phone": $("#ComContactPhone").val() },
+                success: function (data, textStatus) {
+
+
+                },
+                error: function (msg, testStatus) {
+
+                }
+            });
+        }
+        /*timer处理函数*/
+        function SetRemainTime() {
+            if (curCount == 0) {
+                window.clearInterval(InterValObj);//停止计时器
+                $("#btnSendCode").removeAttr("disabled").removeClass("disabled");//启用按钮
+                $("#btnSendCode").val("重新发送验证码");
+                $("#validCode").val(""); //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+            }
+            else {
+                curCount--;
+                $("#btnSendCode").val(+curCount + "秒再获取");
+            }
+        }
+    </script>
+</body>
+</html>

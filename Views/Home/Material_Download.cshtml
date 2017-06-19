@@ -1,0 +1,36 @@
+﻿@model List<Ys.Model.Model.Home.AttachmentModel>
+@{
+    ViewBag.Title = "Material_Download";
+}
+<link href="~/Content/button-form-theme.css" rel="stylesheet" />
+<div class="current-position">
+    <div>
+        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Material_Download")">资料下载</a></span>
+    </div>
+</div>
+<div class="wrap">
+    <div class="Material_Download clearfix">
+        <ul id="mList">
+            @foreach (var attach in Model)
+            {
+                  <li>
+                      <figure>@attach.Remark</figure>
+                      <span>@attach.FileName</span>
+                      <a class="btn btn-default"  href="@attach.FileDir">下 载</a>
+                  </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var color = new Array("#6F5499", "#0769AD", "#1FA67A", "#563D7C", "#CF4646", "#3498DB", "#D30D15", "#0A64A4", "#F43C12", "#C3522F", "#1E2B33", "#605E5E", "#2B9646", "#00AEEF");
+        $("#mList li span").each(function (i) {
+            
+            colorIndex = Math.floor(Math.random() * 14);
+            $(this).css('background-color', color[colorIndex]);
+        });
+        //alert(Math.floor(Math.random() * 14));
+    })
+</script>

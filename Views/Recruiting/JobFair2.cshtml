@@ -1,0 +1,91 @@
+﻿@model PagedList<Ys.Model.Model.Home.Article>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "招聘会详情";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+<div class="main-wrap" id="main">
+    <div class="section white clearfix">
+        <div class="ht_20"></div>
+        <div class="result-wrap">
+            <!--导航栏-->
+            <div class="location breadcrumb">
+                <a href="/recruiting" class="home"><i></i><span>返回首页</span></a>
+                <a href="@Url.Action("JobFair2", "Recruiting")"><span>委托招聘</span></a>
+                
+            </div>
+            <!--/导航栏-->
+            <!--当前栏目-->
+            <div class="result-records">
+                <div class="ls_rows">
+                    <ul class="clearfix">
+                        <li class="current-title text-overflow" style="float: none;"><i></i>
+                            <label>委托招聘列表</label></li>
+                    </ul>
+                    <div class=" ht_5 defcaption"></div>
+                </div>
+            </div>
+            <!--/当前栏目-->
+            <!--内容-->
+            <div class="clear result-list jfList">
+                <div class="ht_10"></div>
+                <div class="view-article">
+                    <ul>
+                        @*<li class="clearfix"><a href="@Url.Action("News_Detail", new { id = 51 })">招聘会1</a><span>2016-08-07</span></li>
+                        <li class="clearfix"><a href="/">招聘会1</a><span>2016-08-07</span></li>
+                        <li class="clearfix"><a href="/">招聘会1</a><span>2016-08-07</span></li>
+                        <li class="clearfix"><a href="/">招聘会1</a><span>2016-08-07</span></li>
+                        <li class="clearfix"><a href="/">招聘会1</a><span>2016-08-07</span></li>
+                        <li class="clearfix"><a href="/">招聘会1</a><span>2016-08-07</span></li>*@
+                         @foreach (var jobfair in Model)
+                         {
+                            <li class="clearfix"><a href="@Url.Action("JobFair_Detail2", new { Id = jobfair.Id })" target="_blank">@jobfair.Title</a><span>@jobfair.Time.ToShortDateString()</span></li>
+                         }
+                    </ul>
+
+                    <div class="text-end">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="pagebar clearfix">
+                            @*<div class="left holder">
+                                @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new { @class = "listCount" })
+                                <label>条记录</label>
+                            </div>*@
+                            <div class="pagelist">
+
+                                @if (Model != null)
+                                {
+                                    @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                                }
+                            </div>
+                        </div>
+        </div>
+    </div>
+</div>
+<!--/主体区域-->
+<script type="text/javascript">
+    $(function () {
+        var employerApply = $("#employerApply");
+        f_onNavActive("wtzp");
+    });
+
+</script>
+

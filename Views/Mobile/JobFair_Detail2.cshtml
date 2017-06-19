@@ -1,0 +1,30 @@
+﻿@model Ys.Model.Model.Home.Article
+@{
+    ViewBag.Title = "招聘会详情";
+    Layout = "";
+}
+<!--主体区域-->
+<div class="container " id="main">
+
+        
+        <header>
+            <h1>@Model.Title</h1>
+        </header>   
+
+                    <span class="news-date">发布时间：@Model.Time.ToShortDateString()</span>
+
+
+                    <div class="news-container jobfair2">
+                        <div class="news-text">
+                            @Html.Raw(Model.Content)
+                        </div>
+                    </div>
+
+
+                    <div class="text-end">
+                         请通过PC端登陆夷陵信息就业网查看联系方式
+                    </div>
+ 
+           
+
+</div>

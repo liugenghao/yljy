@@ -1,0 +1,223 @@
+﻿@model PagedList<Ys.Model.Model.Recruit.JobFairMeeting>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "招聘会列表";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>招聘会列表</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    <script type="text/javascript" src="@Url.Content("~/My97DatePicker/WdatePicker.js")"></script>
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("内容管理", "Index")
+                <span class="crumb-step">&gt;</span><span>内容列表</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("Index", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th>招聘会时间：</th>
+                                    <td>
+                                        <input type="text" name="TimeStatr" id="TimeStart" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="@ViewBag.TimeStart" />
+                                        至
+                                        <input type="text" name="TimeEnd" id="TimeEnd" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="@ViewBag.TimeEnd" />
+                                    </td>
+                                    <th>关键字：</th>
+                                    <td>
+                                        <div class="util-bar">
+                                            <div class="r-list">
+                                                <input type="text" name="txtKeywords" id="txtKeywords" class="keyword" value="@ViewData["Keywords"]" />
+                                                <input type="submit" name="btnSearch" id="btnSearch" class="btn-search" value="查询" />
+                                                @Html.ActionLink("清空", "Index", null, new { @id = "btnClear", @class = "btn-clear" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--工具栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="add" href="@Url.Action("Edit")">
+                                        <i></i><span>新建招聘会</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkDelete")')">
+                                        <i></i><span>批量删除</span>
+                                    </a>
+                                    <input type="hidden" name="hidBulkIds" id="hidBulkIds" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">选择
+                            </th>
+                            <th style="width: 10%">招聘会编号
+                            </th>
+                            <th style="width: 15%">招聘会名称
+                            </th>
+                            <th style="width: 15%">招聘会时间
+                            </th>
+                            <th style="width: 15%">招聘会地点
+                            </th>
+                            <th style="width: 15%">主办单位
+                            </th>
+                            <th style="width: 15%">联系电话
+                            </th>
+                            <th style="width: 10%">状态
+                            </th>
+                            <th style="width: 15%">企业报名信息
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var meeting in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='1' title="选择" />
+                                </td>
+                                <td>
+                                    @meeting.Id
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", new { id = meeting.Id })" target="right" title="">@meeting.Name</a>
+                                </td>
+                                <td>
+                                    @meeting.JobFairDate.ToString("yyyy-MM-dd hh:mm:ss")
+                                </td>
+                                <td>
+                                    @meeting.Address
+                                </td>
+                                <td>
+                                    @meeting.Host
+                                </td>
+                                <td>
+                                    @meeting.Phone
+                                </td>
+                                <td>
+                                    @if (meeting.ApplyEndDate >DateTime.Now)
+                                    {
+                                        <text>可报名</text>
+                                    }
+                                    else
+                                    {
+                                        <text>结束报名</text>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", new { id = meeting.Id, selectedOption = 2 })" class="link">企业报名信息</a>
+                                </td>
+                                <td class="nowrap flex-box">
+                                    <a href="@Url.Action("Edit", new { id = meeting.Id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
+                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = meeting.Id })');"><span class="icon icon-trash"></span>删除</a>
+                                </td>
+                            </tr> 
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="ht_10">
+            </div>
+            <div class="pagelist default clearfix">
+
+                @if (Model != null)
+                {
+                    @Html.Pager(Model, new PagerOptions
+               {
+
+                   PageIndexParameterName = "id",
+                   ShowPrevNext = true,
+                   FirstPageText = "首页  ",
+                   PrevPageText = "  上一页  ",
+                   NextPageText = "  下一页  ",
+                   LastPageText = "  末页  ",
+                   PageIndexBoxId = "",
+                   ShowNumericPagerItems = true,
+                   PageNumberFormatString = "  {0}  ",
+                   DisabledPagerItemTemplate = "<span class=\"disabled\">{0}</span>",
+                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+
+                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+               })
+                }
+            </div>
+            <!--/内容底部-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+@*        alert(@ViewBag.Toggle)*@
+        $(function () {
+            
+            var bulkIds = '@ViewData["bulkIds"]';
+            if (bulkIds)
+                alert("批量执行的bulkIds: " + bulkIds);
+
+            $('.filterRadio').click(function () {
+
+                var id = $(this).val();
+                //alert(id);
+                var url = '@Url.Action("Index")'
+                window.location.href = url + "?typeId=" + id;
+            });
+
+
+        });
+    </script>
+</body>
+</html>

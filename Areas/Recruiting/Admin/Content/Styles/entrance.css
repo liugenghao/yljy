@@ -1,0 +1,153 @@
+﻿@charset "utf-8";
+/* Reset CSS 理念：清除和重置是紧密不可分的；特色：1.适应中文 2.基于最新主流浏览器)*/
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ { margin: 0; padding: 0; }
+
+/* 设置默认字体 */
+body, button, input, select, textarea {font: 14px/1.5 Arial, "Segoe UI", "Microsoft Yahei", "\5b8b\4f53", sans-serif, cursive; /* 用 ascii 字符表示，使得在任何编码下都无问题 */}
+
+h1 { font-size: 2em; /* 24px / 12px = 2 */}
+h2 { font-size: 1.5em; /* 18px / 12px = 1.5 */}
+h3 { font-size: 1.17em; }
+h4 { font-size: 1em; }
+h5, h6 { font-size: 100%; }
+
+i, cite, em, var, address, dfn { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
+small { font-size: .75em; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+abbr[title], acronym[title] {/* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */ border-bottom: 1px dotted; cursor: help;}
+q:before, q:after { content: ''; }
+
+/* 重置表单元素 */
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
+img, object { max-width: 100%;}
+img{-ms-interpolation-mode: bicubic; }
+
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */}
+
+/* 重置表格元素 */
+table {border-collapse: collapse;border-spacing: 0;}
+
+/* 重置 hr */
+hr {border: none;height: 1px;}
+
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html { overflow-y: visible; }
+
+/*-- 通用父子盒子嵌套浮动问题解决，开始 --*/
+.clearfix:after {content: ".";clear: both;display: block;height: 0;visibility: hidden;}
+.clearfix {display: inline-block;}
+
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/*-- reset css，结束 --*/
+
+/*-- 基础样式 start --*/
+a[href].flowhref:after {content: " (" attr(href) ") ";}
+
+a.act,
+input[type=submit].act,
+input[type=submit].act:hover,
+input[type=button].act,
+input[type=button].act:hover {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    font-weight: normal;
+    color: #666666;
+    cursor: pointer;
+    vertical-align: middle;
+    text-shadow: 0 1px 1px #999;
+    background: none;
+    padding: 0 10px;
+    border: solid 1px #b7b7b7;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+a.act:hover {text-decoration: none;}
+/*-- Hyper Link Styles end --*/
+
+/*--  input[type='radio'], input[type='checkbox'] 垂直对齐 --*/
+input[type='radio'], input[type='checkbox']{vertical-align: -3px; *vertical-align:middle; _vertical-align:3px; margin-right: 1px;}
+select{height: 22px; line-height: 22px;}
+
+/*-- Login Document Style --*/
+body, p, ul {margin: 0; padding: 0;}
+h1, h2, h3, h4, h5, h6{text-transform: none; font-weight: normal; margin-bottom: 0;}
+
+label{ vertical-align: middle;}
+img{ vertical-align: middle; font-size: .875em;}
+a{text-decoration: none;}
+a:hover{color: #333; text-decoration: underline;}
+
+.loginbody{background: url('../images/login/body-bg.jpg') repeat;}
+.content{margin: 0 auto; background: url(../images/login/bg_relation.png) no-repeat 15% 85%;}
+.relative{position: relative; }
+.section{position: relative; top: 0; margin: 0 auto; width: 88%; padding: 0 0.9%; overflow: hidden;}
+.header{
+	background: #354b66 url(../images/login/top_bg_list.gif) repeat 0 0;
+	border-bottom: 1px solid #eff4fa;
+    -moz-box-shadow: inset 0 1px 0 #ffffff,0 1px 5px #393939;
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),0 1px 5px rgba(57,57,57,0.075);
+    -webkit-box-shadow: inset 0 1px 0 #ffffff,0 1px 5px #393939;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),0 1px 5px rgba(57,57,57,0.075);
+    box-shadow: inset 0 1px 0 #ffffff,0 1px 5px #393939;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),0 1px 5px rgba(57,57,57,0.075);
+}
+.header-wrap{height: 69px; line-height: 69px;}
+.header-wrap .section{height: 100%;}
+.header-wrap .header-banner{background: url(../images/login/ui-logo2.png) no-repeat center; text-align: center; color: #999;}
+.header-banner a, 
+.header-banner span{margin: 0 1em; font-size: 1em; word-spacing: 1.125em;}
+
+/*--tabsbox --*/
+.tabsbox ul {margin: 0 0 1.125em; padding: 0; border-bottom:1px solid #d6dfea; text-align: left;}
+.tabsbox ul li {display: inline-block; border-bottom: none; line-height: 30px; min-width: 80px; text-align: center; margin-right: 10px;border-bottom:1px solid #fff;}
+.tabsbox ul li .linklabel {padding: 0 5px; color: #999; font-size: 18px; cursor: pointer;}
+.tabsbox ul li .icn-user i{ display: inline-block; width: 30px; height: 32px; margin-right: 5px; vertical-align: middle; background: url(../images/skin_icons.png) 0 -330px;}
+.tabscont {margin-top: 10px;}
+
+/*-- 登录页样式, 开始 --*/
+.login-wrap {margin: 7.5% auto; width: 292px; padding: 24px; text-align: center; background: #fff; border: 1px solid #d6dfea; border-radius: 4px; box-shadow: 1px 1px 1px #eee;}
+.login-form .col{ position:relative; margin-bottom: 1em; text-align: left; }
+.login-form .col .icon{ position:absolute; display: block; top: 13px; left: 10px; width:14px; height:14px; background:url(../images/skin_icons.png) no-repeat; cursor:pointer; }
+.login-form .col .redstar{ color: #f00; }
+.login-form .col .icon.user{ background-position:0 -140px; }
+.login-form .col .icon.pwd{ background-position:-28px -140px; }
+.login-form .col .icon.vercode{ background-position:-112px -55px; }
+.login-form .col .login-input{ padding: 3px 10px 3px 34px; border: 1px solid #e6e6e6; border-radius: 3px; font-size: .875em; height: 34px; line-height: 34px; width: 248px; color:#333; vertical-align:middle; }
+.login-form .col .login-input.reg-input{padding-left: 10px; line-height: 32px;}
+.codeimg{ cursor: pointer;}
+.login-form .col.btn{text-align: center;}
+.login-form .col .login-btn{ padding:5px 0; font-size: 1em; color:#fff; width:100%; line-height:28px; height:42px; background: #5299B7; border:0; border-radius:3px; cursor:pointer; }
+.login-form .col .login-btn:hover,
+.login-form .col .login-btn:focus{background: #117ea6;}
+
+.login-form .login-tips{ display:block; margin: 0 auto;padding: 1em 0; text-align: center; vertical-align: middle; }
+.login-tips i{ display: inline-block; margin-right: 4px; width: 20px; height: 18px; background: url(../images/valid_icons.png) 0 -60px no-repeat; text-indent: -9999px; vertical-align: middle; zoom:1; *display:inline; *text-indent:0; }
+.login-tips p{ font-size: .875em; color:#83b7ce; vertical-align:middle; zoom:1; *display:inline; }
+.login-tips p .notices{ color: #e40; }
+.login-tips p .notices i{ background-position: -20px -40px; }
+
+.footer {line-height: 2;font-size: .875em; /*border-top: 1px solid #d6dfea;*/ }
+.footer .footer-wrap{padding: 10px 0; /*border-top: 1px solid #e6e6e6;*/}
+.footer .section{ text-align: center;}
+.footer,
+.footer a{ color: #999; }
+.footer a{margin: 0 1em;}
+
+/*-- 登录页样式, 结束 --*/

@@ -1,0 +1,71 @@
+﻿@model PagedList<Ys.Model.Model.Home.Article>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "JobFair2";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mobile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="contatiner">
+        <header>
+            <h1>委托招聘信息</h1>
+        </header>
+        <div class="main">
+            <ul class="item">
+                @foreach (var jobfair in Model.OrderByDescending(m => m.Time).ToList())
+                { 
+                    <li>
+                    <div class="row">
+                        <div class="col-xs-12"><a class="smallTit" href="@Url.Action("JobFair_Detail2", new { id = jobfair.Id }) ">@jobfair.Title</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">发布日期： @jobfair.Time.ToShortDateString()</div>
+                    </div>
+                </li>
+                }
+                @*<li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">2016年夷陵区人力资源市场7月28日现场招聘会</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">夷陵区人力资源市场 </div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">2016年夷陵区人力资源市场7月28日现场招聘会</a></div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">夷陵区人力资源市场</div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">2016年夷陵区人力资源市场7月28日现场招聘会</a></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">夷陵区人力资源市场</div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>*@
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

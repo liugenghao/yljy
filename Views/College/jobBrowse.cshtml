@@ -1,0 +1,104 @@
+﻿@model List<Ys.Model.Model.College.jobEntries>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大学生实习报名系统-岗位一览</title>
+    <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet">
+    <link href="~/collegeSrc/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="Part-one-table">
+            <div class="g-in">
+                <img src="~/collegeSrc/image/collegeLogo.png" />
+            </div>
+        </div>
+        <div class="Part-two">
+            <a href="loginout" class="logioutBtn">
+                <img src="~/collegeSrc/image/logioutBtn.png" />
+            </a>
+            <div class="con-top">
+                <div class="con-word">
+                    <div class="con-user">@(ViewBag.userName == "" ? "岗位一览" : ViewBag.userName)</div>
+                </div>
+                <div class="con-line"></div>
+                <div class="con-btn">
+                    @if (ViewBag.intentionForms != null)
+                    {
+                        <a href="#" class="btn btn-primary" disabled="disabled">新增实习意向</a>
+                    }
+                    else
+                    {
+                        <a href="fillFrom" class="btn btn-primary">新增实习意向</a>
+                    }
+                </div>
+            </div>
+            <div class="con-bottom con-table">
+                <div class="row condition ">
+                    <div class="col-xs-2">
+                        <a href="myFillFrom"><span class="text-muted">我的实习意向</span></a>
+                    </div>
+                    <div class="col-xs-2">
+                        <a href="jobBrowse"><span class="text-primary">岗位一览</span></a>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>单位名称</th>
+                            <th>单位类别</th>
+                            <th>岗位类别</th>
+                            <th>工作地点</th>
+                            <th>实习时间</th>
+                            <th>是否提供食宿</th>
+                            <th>人数</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    @if (Model != null)
+                    {
+                        <tbody id="itemContainer">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.unitName</td>
+                                    <td>@item.companyType.companyName</td>
+                                    <td>@item.stationType.stationName</td>
+                                    <td>@item.workingPlace</td>
+                                    <td>@item.practiceTime</td>
+                                    <td>@(item.isAccommodate == "1" ? "是" : item.isAccommodate == "2" ? "否" : "")</td>
+                                    <td>@item.numPeople</td>
+                                    <td>@item.remark</td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tfoot>
+                            <tr>
+                                <td colspan='9'>暂无记录</td>
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+                <div class="pager">
+                    @Html.Pager("jobBrowse", "College", null, new PagerConfig { TotalRecord = (ViewBag.Num == null ? 0 : ViewBag.Num), PageSize = (ViewBag.PageSize == null ? 10 : ViewBag.PageSize), ShowGoTo = false })
+                </div>
+            </div>
+        </div>
+        <div class="Part-three">
+            版权所有：&copy;宜昌市夷陵区劳动就业管理局
+        </div>
+    </div>
+</body>
+
+</html>

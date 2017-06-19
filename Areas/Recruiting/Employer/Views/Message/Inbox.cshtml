@@ -1,0 +1,140 @@
+﻿@model List<Ys.Model.Model.Home.Message>
+
+@{
+    ViewBag.Title = "收件箱"; 
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>收件箱</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span><span>我的站内消息</span>
+                <span class="crumb-step">&gt;</span><span>收件箱</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="add" href="@Url.Action("Edit")">
+                                        <i></i><span>写消息</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript:void(0);" onclick="return ExePostBack('btnDelete');">
+                                        <i></i><span>删除</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="r-list">
+                            @using (Html.BeginForm("Index", null, FormMethod.Post, new { @id = "form1" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="text" name="txtKeywords" id="txtKeywords" class="keyword" value="@ViewData["Keywords"]" />
+                                <input type="submit" name="btnSearch" id="btnSearch" class="btn-search" value="查询" />
+                                @Html.ActionLink("清空", "Index", null, new { @id = "btnClear", @class = "btn-clear" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">选择
+                            </th>
+                            <th style="width: 5%">序号
+                            </th>
+                            <th style="width: 10%">消息类型
+                            </th>
+                            <th style="width: 10%">发件人
+                            </th>
+                            <th style="text-align: left;">主 题
+                            </th>
+                            <th style="width: 10%">时间
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var msg in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='@msg.Id' title="选择" />
+                                </td>
+                                <td>
+                                    @(Model.IndexOf(msg)+1)
+                                </td>
+                                <td>
+                                    @msg.MessageType.MsgTypeName
+                                </td>
+                                <td>@msg.Sender.LoginName
+                                </td>
+                                <td style="text-align: left;">
+
+                                    @Html.ActionLink(msg.Title, "Details/" + msg.Id, null, new { @title = msg.Title })
+                                </td>
+                                <td>@msg.SendTime.ToShortTimeString()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    @{if(Model.Count==0){
+                        <tfoot>
+                            <tr>
+                                <td colspan='6'>暂无记录</td>
+                            </tr>
+                        </tfoot>
+                        }
+                    }
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="ht_10">
+            </div>
+            <div class="pagelist">
+                <div class="l-btns">
+                    <span>显示 </span>
+                    <label id="lblPageSize"></label>
+                    <span>条/页</span>
+                </div>
+                <div id="PageContent" runat="server" class="default">
+                </div>
+            </div>
+            <!--/内容底部-->
+        </div>
+    </div>
+    <!--/main-->
+</body>
+</html>

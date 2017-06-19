@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "MonitorIndex";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/frame.css" rel="stylesheet" />
+    <!--[if lt IE 9]><script type="text/javascript" src="./js/html5shiv.js"></script><![endif]-->
+</head>
+
+<body>
+    <div class="monitor" id="monitor">
+        <object classid="clsid:CC3E034E-683F-4950-860F-16E81C63EE8E" id="MonitorActiveX" width="100%"></object>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/script.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var height = $('#monitor object').width();
+            $('#monitor object').height(height-200);
+
+            $(window).on('resize', function () {
+                var height = $('#monitor object').width();
+                $('#monitor object').height(height);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,406 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote {
+    padding: 0;
+    margin: 0;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+th {
+    text-align: center;
+}
+
+q:before,
+q:after {
+    content: '';
+}
+
+abbr,
+acronym {
+    border: 0;
+}
+
+a,
+a:hover,
+a:active,
+a:visited {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.clearfix:after {
+    content: "\200B";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+.float-left {
+    float:left;
+}
+.float-right {
+    float:right;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+img {
+    border: none;
+}
+
+.hide {
+    display: none;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+/* 设置默认字体 */
+body, button, input, select, textarea {font: 14px/1.5 Arial, "Segoe UI", "Microsoft Yahei", "\5b8b\4f53", sans-serif, cursive; /* 用 ascii 字符表示，使得在任何编码下都无问题 */}
+body{color: #606060;}
+
+h1, h2, h3, h4, h5, h6{font-size: 1.5em; font-variant: small-caps; text-transform: none; font-weight: 200; margin-bottom: 0;}
+h1{font-size: 2em; padding-bottom: 0;}
+h2{font-size: 1.5em;}
+h3{font-size: 1.17em;}
+h4{font-size: 1em;}
+h5, h6{font-size: 100%;}
+
+aside {
+    position: fixed;
+    border: 1px solid #e6e6e6;
+    top: 50px;
+    right: 1%;
+    width: 180px;
+    background: #fff;
+    text-align: center;
+}
+
+aside header {
+    background: rgba(0, 153, 204,0.5);
+    line-height: 40px;
+}
+
+.aside_content li {
+    line-height:50px;
+}
+
+.aside_content li a {
+    display: block;
+    width: 100%;
+}
+
+.main {margin: 0 auto;/*margin-right: 190px;*/}
+.basicInfo a{color: #337ab7;}
+.basicInfo .pic {
+        float: left;
+        width: 100px;
+        height: 120px;
+        text-align: center;
+        margin-right:10px;
+    }
+.main .basicInfo .pic img{
+    width:100%;
+    height:100%;
+}
+.basicInfo .personInfoMaintain {
+    float:left;
+    width:80%;
+}
+    .basicInfo table{
+        width:100%;
+    }
+.basicInfo table td {
+        width:20%;
+        padding:0 5px;
+    }
+ .basicInfo  table td.label {
+        width:9%;
+        padding:0;
+    }
+.personInfoMaintain input {
+    text-indent:5px;
+}
+.personInfoMaintainBtnGrp {
+    float:left;
+    width:100%;
+}
+
+
+
+    .basicInfo .con {
+        float: left;
+        width:80%;
+    }
+
+       .basicInfo .con .info {
+            height: 97px;
+        }
+
+
+            .basicInfo .con span.end {
+                border-right: none;
+            }
+
+    .main .detail h2 {
+        margin-top: 40px;
+    }
+
+    .main .detail .title {
+        margin-top: 20px;
+        border: 1px solid #eaeaee;
+        border-left: 4px solid #7FCBE5;
+    }
+
+        .main .detail .title span {
+            float: left;
+            font-size: 16px;
+            margin: 6px 10px;
+        }
+
+        .main .detail .title a {
+            float: right;
+            margin: 6px 10px;
+            color: #337ab7;
+        }
+
+            .main .detail .title a:hover {
+                color: #23527c;
+                text-decoration: none;
+                background-color: transparent;
+            }
+.main .detail h2.name {
+    font-size:2em;
+    font-weight:600;
+}
+    .main .detailPanel {
+        margin: 1em 0;
+        margin-left: 2em;
+    }
+
+    .main .detailPanel2 {
+        margin: 30px 20px;
+    }
+
+
+    .main .detailPanel span {
+        display: inline-block;
+        white-space: nowrap;
+        min-width: 128px;
+        margin: 5px 0;
+        font-size: 16px;
+    }
+.main .detailPanel .row>span
+{
+    width: 40%;
+}
+    .main .detailPanel2 .clearfix {
+        margin: 20px 0;
+    }
+
+    .main .detailPanel2 span {
+        display: inline-block;
+        font-size: 16px;
+    }
+
+        .main .detailPanel2 span.tit {
+            display: inline-block;
+            font-weight: 600;
+            margin-left: 20px;
+        }
+
+        .main .detailPanel2 span.descTit {
+            vertical-align: top;
+        }
+
+        .main .detailPanel2 span.tit_next {
+            margin-right: 20px;
+        }
+
+    .main .maintainPanel {
+        margin: 30px 50px;
+    }
+ .detailPanel2_item {
+    border-bottom:1px dashed #ddd;
+}
+.edu_expPanel .detailPanel2_item span {
+    display: inline-block;
+    float: left;
+    width: 100px;
+    white-space: nowrap;
+    text-align: center;
+    margin-right: 50px;
+}
+.work_expCom {
+    color:#55C2F9;
+}
+
+.maintainPanel .clearfix {
+    margin: 10px 0;
+}
+
+    .maintainPanel .clearfix span {
+        margin: 0 20px;
+    }
+
+    .maintainPanel .clearfix label {
+        width: 100px;
+        float: left;
+        line-height: 28px;
+        text-align: center;
+    }
+
+    .maintainPanel .clearfix .con {
+        width: 80%;
+        float: left;
+    }
+
+.maintainPanel table {
+    text-align: center;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+    .maintainPanel table th{        
+        white-space:nowrap;
+        padding: 10px 0;
+        border: 1px solid #ccc;
+        background: #eaeaee;
+    }
+    .maintainPanel table td {
+        white-space:nowrap;
+        padding: 10px 0;
+        border: 1px solid #ccc;
+        white-space:normal; 
+    }
+        .maintainPanel table th:last-child, .maintainPanel table td:last-child {
+            width: 150px;
+        }
+        .maintainPanel table td:first-child {
+            white-space:nowrap;
+        }
+
+    .maintainPanel table a {
+        margin: 0 2px;
+        padding: 1px 10px;
+    }
+
+.maintainPanel > button {
+    margin-right: 15px;
+}
+.maintainPanel > button:first-child {
+    width: 100px;
+}
+.maintainPanel .addEduInfoBtnGrp button {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+    .maintainPanel .addEduInfoBtnGrp button {
+        width: 80px;
+    }
+.maintainPanel span.tit {
+    display:inline-block;
+    font-weight:600;
+    text-align:right;
+    width:120px;
+}
+.maintainPanel .row {
+    margin:30px 0;
+    width:70%;
+}
+.jobIntensionMaintainPanel .save,.lg_specialityMaintainPanel .save {
+    margin-left:50px;
+}
+.jobIntensionPanel, .lg_specialityPanel {
+    width:70%;
+}
+.training_expPanel .clearfix {
+    margin:20px 0;
+}
+.training_exp_item {
+    margin-top:15px;
+    margin-left:30px;
+    margin-bottom:30px;
+    border-bottom:1px dashed #ddd;
+}
+.trainingCom {
+    margin-left:30px;
+}
+
+    .training_exp_item span.tit {
+        display:inline-block;
+        float:left;
+        vertical-align:top;
+        font-weight:600;
+        font-size:16px;
+    }
+.training_exp_item span.tit_next {
+    margin-right:20px;
+    font-size:16px;
+}
+.training_exp_item p.desc {
+    display:inline-block;
+    float:left;
+    width:80%;
+    font-size:16px;
+        word-wrap: break-word;  
+word-break: normal;
+}
+.work_expPanel p.desc {
+    display:inline-block;
+    float:left;
+    width:80%;
+    font-size:16px;
+    word-wrap: break-word;  
+word-break: normal;  
+
+}
+.work_expPanel .descTit {
+      display: inline-block;
+  float: left;
+  vertical-align: top;
+  font-weight: 600;
+  font-size: 16px;
+}
+#trainingDesc,#workExpDesc,#work_skillDesc,#cGoalDesc,#selfDesc {
+    width:65%;
+    height:120px;
+    padding:10px;
+    overflow:auto;
+    border-radius:5px;
+}
+.work_skillMaintainPanel .save,.career_goalMaintainPanel .save,.selfIntrMaintainPanel .save {
+    margin-left:100px;
+}
+.radiobuttonlist input[type=radio],
+.radiobuttonlist input[type=checkbox]{height: auto;}

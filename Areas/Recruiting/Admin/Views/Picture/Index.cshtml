@@ -1,0 +1,96 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+
+@{
+    ViewBag.Title = "图片资源视图";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>图片资源视图</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("图片资源概览", "Index")
+                <span class="crumb-step">&gt;</span><span>图片资源视图</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="search-wrap">
+                    <div class="search-content">
+                        <table>
+                            <tr>
+                                <td>资源类型：</td>
+                                <td>
+                                    <div class="rule-multi-radio">
+                                        <input id="listType_0" type="radio" name="listType" value="0" checked="checked">
+                                        <label for="listType_0">文章缩略图</label>
+                                    </div>
+                                    <input type="hidden" name="hidType" id="hidType" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <div class="ht_10"></div>
+                <div class="imglist">
+                    <ul>
+                        @if (Model != null)
+                        {
+                            foreach (var article in Model)
+                            {
+                                if (!string.IsNullOrEmpty(article.Thumbnail))
+                                {
+                            <li>
+                                <div class="details">
+                                    <div class="pic">
+                                        <img src="@article.Thumbnail" data-original="@article.Thumbnail" />
+                                    </div>
+                                    <i class="absbg"></i>
+                                    <h1>
+                                        <a href="@Url.Action("Edit", "Article", new { id=article.Id})" target="right">@article.Title</a>
+                                    </h1>
+                                    <div class="remark">
+                                        @article.PreviewContent
+                                    </div>
+                                </div>
+                            </li>
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    <script type="text/javascript">
+        $(function () {
+            //图片延迟加载
+            $(".pic img").lazyload({ effect: "fadeIn" });
+        });
+    </script>
+</body>
+</html>

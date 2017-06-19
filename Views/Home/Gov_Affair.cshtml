@@ -1,0 +1,75 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+<div class="affair_headerLog">
+    <img src="~/img/affairLogo.png" />
+</div>
+<div class="wrap">
+    <img class="pageLogTit" id="zwgk-letter" src="~/img/zwgk-letter.png" />
+    <div id="gov_affair" class="gov_affair clearfix">
+
+        <div class="gov_affair-menu">
+            <ul>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                    <li data-flag='@Model[i].Id' class="selected">@Model[i].Title</li>
+                    }
+                    else
+                    {
+                    <li data-flag='@Model[i].Id'>@Model[i].Title</li>
+                    }
+                }
+            </ul>
+        </div>
+
+        <div class="affair_con ">
+            <div class="headerLine"></div>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+
+                if (i == 0)
+                {
+                <div class="con" id='@Model[i].Id'>
+                    <div class="tit">@Model[i].Title</div>
+                    <p>
+                        @Html.Raw(Model[i].Content)
+                    </p>
+                </div>
+                }
+                else
+                {
+                <div class="con display-hide" id='@Model[i].Id'>
+                    <div class="tit">@Model[i].Title</div>
+                    <p>
+                        @Html.Raw(Model[i].Content)
+                    </p>
+                </div>
+                }
+            }
+        </div>
+    </div>
+    <!--gov_affair end-->
+</div>
+
+<script type="text/javascript">
+    pageFlag = "gov_affair";
+    $(document).ready(function (e) {
+        $(".gov_affair-menu li").on("click", function () {
+            $(".gov_affair-menu li").removeClass("selected");
+            var title = $(this).addClass("selected").text();
+            var flag = $(this).attr("data-flag");
+            $(".affair_con #tit").text(title);
+            $(".affair_con .con").each(function () {
+                $(this).hide();
+                if (flag == $(this).attr("id")) {
+                    $(this).show();
+                }
+            });
+        });
+        var height = $('.gov_affair-menu').height();
+        if ($('.affair_con').height() <= height) {
+            $('.affair_con').height(height);
+        }
+        $('.pageLogTit').animate({ top: '50px' }, 600, function () { });
+    });
+</script>

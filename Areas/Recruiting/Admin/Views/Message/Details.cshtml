@@ -1,0 +1,111 @@
+﻿@model Ys.Model.Model.Home.Message
+
+@{
+    ViewBag.Title = "消息详细"; 
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>消息详细</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span><span>我的站内消息</span>
+                <span class="crumb-step">&gt;</span><span>消息详细</span>
+            </div>
+        </div>
+        <!--导航栏-->        
+        <div class="result-wrap">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <p class="gray-999">
+                        <span class="icon icon-info"></span>【系统消息】表示由管理员群发给所有用户的消息信件；【私信消息】表示由您发送给您选择的一个或多个收件人的消息信件。
+                    </p>
+                </div>
+            </div>
+            <!--内容-->
+            <div id="floatHead" class="content-tab-wrap">                    
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">消息详细</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>            
+            <div class="tab-content" style="position: relative;">
+                <dl>
+                    <dt>消息类型</dt>
+                    <dd>
+                        @Model.MessageType.MsgTypeName
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>收 件 人</dt>
+                    <dd>
+                        @for (int i = 0; i < Model.Receive.Count; i++)
+                        {
+                            <span>@Model.Receive[i].LoginName;</span> 
+                        }                        
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>主 题</dt>
+                    <dd>
+                        @Model.Title
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>内 容</dt>
+                    <dd>
+                        @Html.Raw(Model.Content)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>发 件 人</dt>
+                    <dd>
+                        <label id="lblSendUser">@Model.Sender.LoginName</label>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>创建时间</dt>
+                    <dd>
+                        2015-12-15 00:00:00
+                    </dd>
+                </dl>
+            </div>
+            <!--/内容-->
+            <!--工具栏-->
+            <div class="page-footer">
+                <div class="btn-wrap">
+                    <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);"/>
+                    <input type="hidden" name="hiddenId" id="hiddenId" Value="@ViewData["Id"]" />
+                </div>
+            </div>
+            <!--/工具栏-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    <script type="text/javascript">
+        /* document.ready */
+        $(function () {
+            
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+﻿@model employment_bureau.Models.News_PageModel
+
+@*<div class="current-position">
+    <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="">新闻公告</a></span>&nbsp;&nbsp;<span><a href="#"></a></span>
+</div>*@
+<div class="affair_headerLog">
+    <img src="~/img/newsPageLogo.png" /></div>
+    
+<div class="wrap clearfix">
+    <img class="pageLogTit" id="xwgg-letter" src="~/img/xwgg-letter.png" />
+    <div class="newsPage">
+        <div class="head_notice">
+            <img src="~/img/iconfont-laba.png" />
+            <div id="scrollWord" class="scrollWord">
+                <div id="scrollContent" class="scrollContent">
+                    @foreach (var article in Model.Notice.Take(5).ToList())
+                    {
+                           <a href="@Url.Action("News_Detail", new {id=article.Id })" target="_blank">@article.Title</a>
+                    }
+                  
+                </div>
+            </div>
+        </div>
+
+        <div class="news_board_top">
+            <div class="headerLine hd-orange"></div>
+            <header class="clearfix">
+                <h3>近期头条</h3>
+            </header>
+
+            @{
+                var newsInfo = Model.News.FirstOrDefault(m => !string.IsNullOrEmpty(m.Thumbnail));
+                if (newsInfo != null)
+                {
+                <figure class="clearfix">
+                <a href="@Url.Action("News_Detail", "Home", new { id = newsInfo.Id })" target="_blank"><img src="@newsInfo.Thumbnail" /></a>
+                <div class="thumb_content">
+                    <a href="@Url.Action("News_Detail", "Home", new { id = newsInfo.Id })" target="_blank" class="thumb_title" title="@newsInfo.Title">@newsInfo.Title</a>
+                    @if (newsInfo.PreviewContent.Length > 85)
+                    { 
+                        <p>
+                            @newsInfo.PreviewContent.Substring(0, 85)....
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            @newsInfo.PreviewContent....
+                        </p>
+                    }
+                    <a class="more" href="javascript:">【详情】</a>
+                </div>
+                    
+            </figure>
+                    Model.News.Remove(newsInfo);
+                }              
+            
+            }
+
+            <!--news_board_list end-->
+
+        </div>
+        <!--news_board end-->
+        <div class="notice_board">
+            <div class="headerLine"></div>
+            <header class="clearfix">
+            <h3>公示公告</h3>
+            <a class="more more-b-r" href="@Url.Action("News_List")">更多>></a>
+        </header>
+
+            <ul class="notice_list">
+                @{           
+                    for (int i = 0; i < Model.Notice.Count; i++)
+                    {                   
+                    <li><a href="@Url.Action("News_Detail", "Home", new { id = Model.Notice[i].Id })" target="_blank">@Model.Notice[i].Title</a><span class="time_tag">[@Model.Notice[i].Time.ToShortDateString()]</span></li>
+                    }            
+                }
+            </ul>
+
+        </div>
+        <!--notice_board-->
+        <div class="clearfix">
+            <div class="news_board_list">
+                <div class="headerLine hd-lightBlue"></div>
+                <header class="clearfix">
+                    <h3>新闻列表</h3>
+                    <a class="more" href="@Url.Action("News_List")">更多>></a>
+                </header>
+
+                <ul>
+                    @{
+                        for (int i = 0; i < Model.News.Count; i++)
+                        {                   
+                        <li><a href="@Url.Action("News_Detail", "Home", new { id = Model.News[i].Id })">@Model.News[i].Title</a><span class="time_tag">[@Model.News[i].Time.ToShortDateString()]</span></li>
+                        }
+                    }
+                </ul>
+
+
+            </div>
+            <!--news_board_list end-->
+            <aside>
+            <div class="emphasis">
+                <div class="headerLine hd-grey"></div>
+                <header class="clearfix">
+                    <h3>热点要闻</h3>
+                </header>                                
+                <ul>
+                    @{  
+                        //foreach (var article in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
+                            foreach (var article in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
+                        {
+                        <li><a href="@Url.Action("News_Detail", "Home", new { id = article.Id })" title="@article.Title">@article.Title</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="pic_news">
+                <div class="headerLine hd-lightGreen"></div>
+                <header class="clearfix"><h3>图片新闻</h3></header>
+                <ul class="clearfix">
+                    @{  
+                        foreach (var article in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).Where(m => !string.IsNullOrEmpty(m.Thumbnail)).ToList())
+                        {
+                         
+                        <li>
+                            <a href="@Url.Action("News_Detail", "Home", new { id = article.Id })" title="@article.Title">
+                                <img src="@article.Thumbnail" />
+                            </a>
+                        </li>                   
+            
+                        }
+                    }
+                </ul>
+
+            </div>
+        </aside>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    pageFlag = "news_page";
+    (function ($) {
+        $.fn.extend({
+            roll: function (options) {
+                var defaults = {
+                    speed: 1
+                };
+                var options = $.extend(defaults, options);
+                var speed = (document.all) ? options.speed : Math.max(1, options.speed - 1);
+                if ($(this) == null) return;
+                var $container = $(this);
+                var $content = $("#scrollContent");
+                var init_left = 0;//$container.width();
+                $content.css({ left: parseInt(init_left) + "px" });
+                var This = this;
+                var time = setInterval(function () { This.move($container, $content, speed); }, 20); //setInterval会改变this指向，即使加了This=this，也要用匿名函数封装，这里调试了n久
+
+                $container.bind("mouseover", function () {
+                    clearInterval(time);
+                });
+                $container.bind("mouseout", function () {
+                    time = setInterval(function () { This.move($container, $content, speed); }, 20);
+                });
+
+                return this;
+            },
+            move: function ($container, $content, speed) {
+                var container_width = $container.width();
+                var content_width = $content.width();
+                if (parseInt($content.css("left")) + content_width > 0) {
+                    $content.css({ left: parseInt($content.css("left")) - speed + "px" });
+                }
+                else {
+                    $content.css({ left: parseInt(container_width) + "px" });
+                }
+            }
+        });
+    })(jQuery);
+    $(document).ready(function (e) {
+        $('.pageLogTit').animate({ top: '50px' }, 600, function () { });
+        setTimeout(function () {
+            $("#scrollWord").roll({ speed: 2.5 });
+        },2000)
+        
+    });
+</script>
+

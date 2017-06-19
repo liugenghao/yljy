@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "职位邀请函"; 
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BCe01f2a03336e188a8199d159b81f65"></script>
+<!--主体区域-->
+<div class="main-wrap wrap-post" id="main">
+    <div class="section clearfix">      	
+        <div class="ht_20"></div> 
+        <div class="main-wrap">      	
+        	<div class="ht_10"></div> 
+            <div class="result-wrap">
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="@Url.Action("Index", "Home", new { area="Recruiting/User"})" class="home"><i></i><span>管理首页</span></a>
+                    <a href="index.html"><span>面试邀约箱</span></a> 
+                    <i class="arrow"></i><span>面试邀请函</span>
+                </div>
+                <!--/导航栏-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="view-article">
+                        <div class="article-title">
+                            <div>
+                                <h2>
+                                    <em>XX有限责任公司 |</em>
+                                    <span>面试邀请函</span>
+                                </h2>                                
+                                <p>
+                                    发布于 <label id="lblcreateTime">2015-09-02</label>
+                                </p>
+                            </div>
+                            <span class="title-triangle"></span>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div class="article-manners">
+                            <div>
+                                <dl>
+                                    <dt>
+                                        <label>张三</label>：
+                                    </dt>
+                                    <dd>
+                                        您好！我们在夷陵就业信息网发布了以下职位，并通过夷陵就业信息网在线招聘系统邀请你进行在线面试，请查看下面的职位详情，如接受邀请，请务必注意面试时间，并提前安排好您的时间。
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div class="tab-content invitation">
+                            <div class="invitation-subject clearfix">
+                                <div class="left">
+                                    <h2>销售代表</h2>
+                                    <h3>
+                                        <label class="item-salary">8000-15000元/月</label> 
+                                        <label class="item-region">[ 湖北宜昌夷陵区 ]</label>
+                                    </h3>
+                                </div>
+                                <div class="right">
+                                    <div class="ht_15"></div>
+                                    <a class="right obj-apply-btn" href="javascript: void(0);">接受邀请</a>
+                                </div>
+                            </div>
+                            <dl class="clearfix">
+                                <dt>职位亮点</dt>
+                                <dd>
+                                    <div class="rule-multi-porp" id="itemContainer">
+                                    <span id="checkboxList1" style="display: none;">
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_1" value="1" />
+                                        <label for="listJobTag_1">五险一金</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_2" value="2" />
+                                        <label for="listJobTag_2">年终双薪</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_3" value="3" />
+                                        <label for="listJobTag_3">绩效奖金</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_4" value="4" />
+                                        <label for="listJobTag_4">年底分红</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_5" value="5" />
+                                        <label for="listJobTag_5">股票期权</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_6" value="6" />
+                                        <label for="listJobTag_6">加班补助</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_7" value="7" />
+                                        <label for="listJobTag_7">全勤奖</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_8" value="8" />
+                                        <label for="listJobTag_8">交通补助</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_9" value="9" />
+                                        <label for="listJobTag_9">餐补</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_10" value="10" />
+                                        <label for="listJobTag_10">房补</label>
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="listJobTag_11" value="11" />
+                                        <label for="listJobTag_11">通讯补贴</label>
+                                    </span>
+                                </div>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>职位要求</dt>
+                                <dd>
+                                    <div class="rule-multi-porp">
+                                        <span id="checkboxList2" style="display: none;">
+                                            <input type="checkbox" name="chkSingle" class="checkall" id="listJobLimit_1" value="1" />
+                                            <label for="listJobLimit_1">不限工作经验</label>
+                                            <input type="checkbox" name="chkSingle" class="checkall" id="listJobLimit_2" value="2" />
+                                            <label for="listJobLimit_2">本科及以上</label>
+                                            <input type="checkbox" name="chkSingle" class="checkall" id="listJobLimit_3" value="3" />
+                                            <label for="listJobLimit_3">接受应届生</label>
+                                            <input type="checkbox" name="chkSingle" class="checkall" id="listJobLimit_4" value="4" />
+                                            <label for="listJobLimit_4">普通话</label>
+                                            <input type="checkbox" name="chkSingle" class="checkall" id="listJobLimit_5" value="5" />
+                                            <label for="listJobLimit_5">年龄不限</label>
+                                        </span>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>职位详情</dt>
+                                <dd>
+                                    <div class="article-text" id="article-text" style="padding: 0;">
+                                        <p>岗位职责:<br>1、根据公司产品业务发展方向与需要，制定所在城市业务发展规划、年度app地推计划，并贯彻实施；<br>2、全权负责所在城市的市场拓展计划的实施及产品推广方案的执行，包括B端(健身房)与C端（客户群体），实现有效市场覆盖和app地推；<br>3、带领团队完成公司下达业绩指标，及梯队建设；<br>4、收集、整理、反馈区域市场数据及分析报告，并对公司提出有价值的改善方案，对公司的新项目开发提供市场支持，提出销售策略、销售政策的修订建议。<br><br>岗位要求:<br>1、大专及以上学历；两年以上APP地推及运营团队管理经验，有跨城管理经验者或熟悉健身市场营销方式优先；<br>2、具备省区的市场营销管理知识及组织实施能力，能够独立带领团队完成产品推广工作；<br>3、较强的沟通、协调、组织、执行能力及创新精神和团队合作精神，有广泛的客户资源和社会资源优先；<br>4、具有强烈的进取心，富有开拓精神,可适应出差；<br>5、有互联网、移动互联网，尤其是O2O行业经验者优先。<br></p>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <div class="apply">
+                                <div class="apply-btn">
+                                    <a class="obj-apply-btn" href="javascript: void(0);">接受邀请</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-suggest">
+                            <div><h2>该公司其他在招职位</h2></div>
+                            <div class="ls_rows result-jobs">
+                                <ul>
+                                    <li>
+                                        <p class="article-name"><a href="#">销售专员</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="article-name"><a href="#">客户代表</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        f_onNavActive("zw");
+    });
+</script>

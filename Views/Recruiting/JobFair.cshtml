@@ -1,0 +1,143 @@
+﻿@model PagedList<Ys.Model.Model.Recruit.JobFairMeeting>
+
+@using Webdiyer.WebControls.Mvc;
+
+@{
+    ViewBag.Title = "委托招聘";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+
+<!--主体区域-->
+@using (Html.BeginForm("JobFair", "Recruiting", FormMethod.Post, new { id = "Form1" }))
+{
+    <div class="main-wrap mainbg" id="main" style="background-image: url('@Url.Content("~/img/RecruitmentImages/cover_jobfairs.png")'); background-position: center top;">
+        <div class="section white clearfix">
+            <div class="main-wrap">
+                <div class="ht_10"></div>
+                <div class="result-wrap">
+                    <!--导航栏-->
+                    <div class="location breadcrumb">
+                        <a href="@Url.Action("Index", "Recruiting")" class="home"><i></i><span>返回首页</span></a>
+                        <a href="@Url.Action("Index", "Recruiting")"><span>委托招聘</span></a>
+                        <i class="arrow"></i><span>招聘会</span>
+                    </div>
+                    <!--/导航栏-->
+                    <!--当前栏目-->
+                    <div class="result-records">
+                        <div class="ls_rows">
+                            <ul class="clearfix">
+                                <li class="current-title"><i></i>
+                                    <label>招聘会</label></li>
+                                <li class="right">共有
+                                <label id="resultCount">@Model.Count</label>
+                                    条内容</li>
+                            </ul>
+                            <div class=" ht_5 defcaption"></div>
+                        </div>
+                    </div>
+                    <!--/当前栏目-->
+                    <!--内容-->
+                    <div class="clear result-list view-article">
+                        <div class="ht_10"></div>
+                        <div class="ls_rows jobfair-list">
+                            <ul id="result-articles">
+                                @foreach (var meeting in Model)
+                                {
+                                    <li>
+                                        <div class="item-index">@(Model.IndexOf(meeting) + 1)</div>
+                                        <dl class="clearfix">
+                                            <dd>
+                                                <label class="publish-time">@meeting.JobFairDate.ToString("yyyy-MM-dd")</label>
+                                                <a href="@Url.Action("JobFair_Detail", new { id = meeting.Id })" class="name">@meeting.Name 招聘会</a>
+                                            </dd>
+                                            <dd class="subject-wrap">
+                                                <p class="remark">
+                                                    参加企业：
+                                                    @{
+                                    string corpName = "";
+                                    foreach (var employer in meeting.JobFair.Select(m => m.Employer).Distinct())
+                                    {
+                                        corpName += employer.Name + ", ";
+
+                                    }
+                                   
+                                    if (corpName.Length > 0)
+                                    {
+                                        corpName.Remove(corpName.Length - 1, 1);
+                                    }
+                                                        <text>@corpName</text> 
+                                                    }
+                                                </p>
+                                            </dd>
+                                        </dl>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div class="pagebar clearfix">
+                            <div class="left holder">
+                                @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new { @class = "listCount" })
+                                <label>条记录</label>
+                            </div>
+                            <div class="pagelist">
+
+                                @if (Model != null)
+                                {
+                                    @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!--/内容-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        f_onNavActive("zph");
+
+        $(".listCount").change(function () {
+            $("#Form1").submit();
+        });
+
+        var resultJobs = $("#result-articles");
+        $("li", resultJobs).each(function (i, item) {
+            switch (i % 4) {
+                default:
+                case 0:
+                    $(this).addClass("red");
+                    break;
+                case 1:
+                    $(this).addClass("orange");
+                    break;
+                case 2:
+                    $(this).addClass("green");
+                    break;
+                case 3:
+                    $(this).addClass("blue");
+                    break;
+
+            }
+        })
+    });
+</script>

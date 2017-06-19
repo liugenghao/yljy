@@ -1,0 +1,129 @@
+﻿@model Ys.Model.Model.College.enterprises
+
+@{
+    ViewBag.Title = "企业注册审核";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>企业注册审核</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("企业注册审核列表", "businessList")
+                <span class="crumb-step">&gt;</span><span>企业注册审核</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <div class="result-wrap">
+            @using (Html.BeginForm("businessEdit", "College", FormMethod.Post, new { @id = "form1" }))
+            {
+                @Html.AntiForgeryToken()
+                <!--内容-->
+                <div id="floatHeadEdit" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">企业注册审核</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <dl>
+                        <dt>单位名称</dt>
+                        <dd>
+                            @Model.unitName
+                        </dd>
+                    </dl>
+                     <dl>
+                        <dt>负责人</dt>
+                        <dd>
+                            @Model.contactName
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>联系电话</dt>
+                        <dd>
+                            @Model.contactPhone
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>单位类别</dt>
+                        <dd>
+                            @Model.companyType.companyName
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>营业执照</dt>
+                        <dd>
+                            <a href="@Model.license" target="_blank">
+                            <img alt="" id="thumbnailImage" src="@Model.license" class="min-img" /></a>
+                        </dd>
+                    </dl>
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="审核通过" class="btn" />
+                        <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);" />
+                        @Html.HiddenFor(m => m.id)
+                    </div>
+                </div>
+                <!--/工具栏-->
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+            /*编辑成功提示*/
+            var userName = '@ViewData["userName"]';
+            if (userName) {
+                var d = parent.dialog({
+                    title: "消息中心",
+                    content: "用户 " + userName + " 信息编辑成功！",
+                    okValue: '确定',
+                    ok: function () { },
+                    statusbar: "<p style='color: #999'>（对话框将在3秒后关闭）</p>"
+                }).show();
+                setTimeout(function () {
+                    d.close().remove();
+                }, 3000);
+            }
+
+            /*显示‘编辑个人信息’与取消‘编辑’事件注册*/
+            var btnReturn = $("input[type='button'][name='btnReturn']");
+            $(btnReturn).each(function (i, item) {
+                $(this).on("click", function () {
+                    $("#result-detail").toggle();
+                    $("#result-edit").toggle();
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

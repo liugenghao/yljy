@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>夷陵就业信息网</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Content/RecruitmentCss")
+    @Scripts.Render("~/bundles/jquery")    
+    @Scripts.Render("~/Scripts/RecruitmentCommon")
+    <!--[if lt IE 9]>@Scripts.Render("~/bundles/html5shiv")<![endif]-->
+</head>
+<body>
+    <!--头部 start-->
+	<div class="header" id="header">
+    	<div class="topview">
+        	<div class="section">
+            	<div class="title"><i></i><span>夷陵区劳动局主办 <b>&middot;</b> <a href="@Url.Action("Index","RecruitingSys")">夷陵就业信息网</a></span></div>
+                <div class="toplink">
+                    <span></span>
+                    <a href="javascript:SetHome(this, window.location);" class="f_link" title="设为首页"><span class="f_icons icn_sethome"></span><span class="hovertext">设为首页</span></a>                    
+                    <a href="javascript:AddFavorite(window.location, document.title);" class="f_link" title="加入收藏"><span class="f_icons icn_setfav"></span><span class="hovertext">加入收藏</span></a>  
+                </div>
+                <div class="divider right"></div>
+                <div class="toplink">
+                    <span></span>
+                    <a href="@Url.Action("Login","Home")" class="f_link" id="linkuser"><span class="f_icons icn_user"></span><span class="hovertext">登录</span></a> 
+                    <a href="register.html" class="f_link linkreg" title="注册"><span class="f_icons icn_register"></span><span class="hovertext">注册</span></a>  
+                </div>
+            </div>
+        </div>
+    	<div class="header-wrap">
+        	<div class="section">
+            	<div class="logo"></div>
+            </div>
+        </div>
+    </div>
+    <!--/头部-->   
+    <!--导航资源--> 
+    <div class="menu">
+        <div class="section nav" id="nav">
+            <ul>                    
+                <li>
+                    <a class="topnav" href="@Url.Action("Index","Recruiting")">首 页</a>                    
+                </li>
+                <li>   
+                    <a class="topnav" href="@Url.Action("Article", "Recruiting", new { cataId=1})">新闻中心</a>        
+                </li>
+                <li>   
+                    <a class="topnav" href="@Url.Action("Article", "Recruiting", new { cataId=2})">委托招聘</a>        
+                </li>
+                <li>   
+                    <a class="topnav" href="@Url.Action("Jobs","Recruiting")">职 位</a>
+                </li>
+                <li>   
+                    <a class="topnav" href="@Url.Action("Companies","Recruiting")">公 司</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--/导航资源--> 
+    @RenderBody()
+    <!--底部-->    
+    <div class="footer" id="footer">
+    	<!--版权声明-->
+        <div class="footer-wrap">
+        	<div class="section">
+            	<p class="foot-links">
+                	<a href="@Url.Action("Index","Recruiting")">首页</a>
+                    <a href="@Url.Action("Article","Recruiting")">委托招聘</a>
+                    <a href="@Url.Action("Jobs","Recruiting")">职位</a>
+                    <a href="@Url.Action("Companies","Recruiting")">公司</a>
+                    <a href="@Url.Action("Comennt","Recruiting")">意见反馈</a>
+                </p>
+                <p>主办单位：宜昌市夷陵区劳动就业管理局</p>
+                <p class="copyrights"><span>版权所有 © 2015 夷陵区就业信息网</span><span>鄂ICP备XXXXXXXXXX.</span><span>招聘QQ群1：36080585</span><span>招聘QQ群2：222648357</span></p>
+            </div>
+        </div>
+        <!--版权声明-->
+    </div>
+    <!--/底部-->
+    <!--全局部件-->
+    <div class="asid-left">
+    	<ul class="ls_rows">
+        	<li>
+            	<a><img alt="" src="" /></a>
+            </li>
+        </ul>
+    </div>
+    <div class="asid_share" id="asid_scroll">
+    	<ul class="ls_rows">
+        	<li id="go-jobs" class="asid_share_box red_bag" style="display: none;">
+            	<a href="#jobs">最新职位</a>
+            </li>
+            <li id="go-companies" class="asid_share_box" style="display: none;">
+            	<a href="#companies">人才推介</a>
+            </li>
+            <li id="go-feedback" class="asid_share_box">
+            	<a href="javascript:void(0);" class="feedback"><i></i><span class="hide">意见反馈</span></a>
+            </li>
+            <li class="asid_share_box">
+            	<a href="javascript:void(0);" class="go-top"><i></i><b></b><span class="hide">回到顶部</span></a>
+            </li>
+        </ul>
+    </div>
+    <!--/全局部件-->
+</body>
+</html>

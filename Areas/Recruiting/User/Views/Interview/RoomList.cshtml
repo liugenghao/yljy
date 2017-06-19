@@ -1,0 +1,238 @@
+﻿@model List<Ys.Model.Model.Recruit.InterviewModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>我的面试</title>
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home" target="right"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>在线面试</span>
+            <i class="arrow"></i><span>面试房间列表</span>
+        </div>
+        <!--/导航栏-->
+        <!--内容-->
+        <div id="floatHead" class="content-tab-wrap">
+            <div class="content-tab">
+                <div class="content-tab-ul-wrap">
+                    <ul>
+                        <li><a href="javascript:void(0);" class="selected">面试房间列表</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+@*            <div class="toolbar">
+                <div class="box-wrap">
+                    <a class="menu-btn"></a>
+                    <div class="l-list">
+                        <ul class="act-list">
+                            <li>
+                                <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                    <i></i><span>全选</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="del" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkDelete")')" >
+                                    <i></i><span>删除</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>*@
+            <table class="ltable">
+                <thead>
+                    <tr>
+                        @*<th style="width: 10%;">选择
+                        </th>*@
+                        <th style="width: 10%;">房间编号
+                        </th>
+                        <th>招聘公司
+                        </th>
+                        <th>面试时间
+                        </th>
+                        <th>状态
+                        </th>
+                        <th>操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="itemContainer">
+                    @{
+                        int i = 1;
+                        foreach (var interview in Model)
+                        {
+                        <tr data-id="@interview.Id">
+                           @* <td>
+                                <input type="checkbox" name="chkSingle" class="checkall" value='id' title="选择" />
+                            </td>*@
+                            <td>
+                                @i
+                            </td>
+                            <td>
+                                @interview.ResumePost.Job.Employer.Name
+                            </td>
+                            
+                            @{
+                            TimeSpan ts = interview.InterviewTime - DateTime.Now;
+                            }
+             
+                            @if (ts.Seconds > 0)
+                            {
+                                <td class="countDownPanel" id="countDownPanel">
+                                    <p class="t-time">@interview.InterviewTime.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                                    <p class="ui-ok countClock">
+                                        <span>还剩 </span>
+                                        <span class="day"></span><span> 天 </span>
+								        <span class="hour"></span><span> 小时 </span>
+								        <span class="minute"></span><span> 分 </span>
+								        <span class="second"></span><span> 秒 </span>
+                                    </p>
+                                </td>
+                                <td>未开启
+                                </td>
+                                <td class="enterRoomBtn">
+                                    <a  href="@Url.Action("OnlineInterview", new { id = interview.Id })" target="right" title="进入房间"><span class="icon icon-check"></span>进入房间</a>
+                                </td>
+                                @*<td class="nowrap">
+                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = 3 })');"><span class="icon icon-trash"></span>删除</a>
+                                </td>*@
+                            }
+                            else if(ts.Hours==0)
+                            {
+                                @*<td>
+                                    <label class="ui-ok">-</label>
+                                </td>*@
+                                <td>
+                                   
+                                </td>
+                                <td>
+                                    <label class="ui-ok">已开启</label>
+                                </td>
+                                <td class="nowrap">
+                                    <a href="@Url.Action("OnlineInterview", new { id = interview.Id })" target="right" title="进入房间"><span class="icon icon-check"></span>进入房间</a>
+                                </td>
+                            }
+                            else if (ts.Hours < 0)
+                            {
+                                <td>-</td>
+                                <td>
+                                    <label class="ui-error">房间已过期</label>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            }
+                        </tr>
+                        }                        
+                    }
+                </tbody>
+                <tfoot style="display: none;">
+                    <tr>
+                        <td colspan='5'>暂无记录</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="ht_10"></div>
+            <div class="pagelist">
+                <div class="l-btns">
+                    <span>显示 </span>
+                    <label>10</label><span> 条/页</span>
+                </div>
+                <div class="default">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    <script type="text/javascript">
+            
+            
+            
+            //var rows = $("#itemContainer>tr");
+            //$(rows).each(function () {
+            //    var cell = $(this).find("td:eq(2)");
+            //    var timeText = $(cell).children("p:eq(0)").text();
+            //    var time = new Date(timeText);
+            //    var timeDistance = time - new Date();
+            //    if (timeDistance > 0) {//房间倒计时
+            //        countDown(time, cell.find(".countClock .day"), cell.find(".countClock .hour"), cell.find(".countClock .minute"), cell.find(".countClock .second"));
+            //    } else {
+            //        alert(1);
+            //        if (timeDistance / 86400000 <= -1) {//房间过期
+
+            //        } else {//开启房间 
+            //            $(this).find("td:eq(3)").html('<label class="ui-ok">已开启</label>');
+            //        }
+            //    }
+            //});
+            var rows = $("#itemContainer>tr");
+            $(rows).each(function () {
+                var timeCell = $(this).find("td:eq(2)");
+                var stateCell = $(this).find("td:eq(3)");
+                var maintainCell = $(this).find("td:eq(4)");
+                var timer = setInterval(function () {
+                    var interviewTime = new Date($(timeCell).children("p:eq(0)").text());
+                    var now = new Date();
+                    var time_distance = interviewTime - now;
+                    if (time_distance > 0) {
+                        // 天
+                        var int_day = Math.floor(time_distance / 86400000)
+                        time_distance -= int_day * 86400000;
+                        // 时
+                        var int_hour = Math.floor(time_distance / 3600000)
+                        time_distance -= int_hour * 3600000;
+                        // 分
+                        var int_minute = Math.floor(time_distance / 60000)
+                        time_distance -= int_minute * 60000;
+                        // 秒 
+                        var int_second = Math.floor(time_distance / 1000)
+                        // 时分秒为单数时、前面加零 
+                        if (int_day < 10) {
+                            int_day = "0" + int_day;
+                        }
+                        if (int_hour < 10) {
+                            int_hour = "0" + int_hour;
+                        }
+                        if (int_minute < 10) {
+                            int_minute = "0" + int_minute;
+                        }
+                        if (int_second < 10) {
+                            int_second = "0" + int_second;
+                        }
+                        $(timeCell).find(".day").text(int_day);
+                        $(timeCell).find(".hour").text(int_hour);
+                        $(timeCell).find(".minute").text(int_minute);
+                        $(timeCell).find(".second").text(int_second);
+                        if (int_day == 0 && int_hour == 0 && int_minute && int_second == 0) {
+                            $(timeCell).html("");
+                            $(stateCell).html('<label class="ui-ok">已开启</label>');
+                            $(maintainCell).find("a").show();
+                        }
+                    } else {
+                    }
+                    }, 1000);
+            });
+            
+       
+
+    </script>
+</body>
+</html>

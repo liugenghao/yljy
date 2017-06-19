@@ -1,0 +1,167 @@
+﻿@model Ys.Model.Model.Recruit.PersonModel
+@{
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+@Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+
+<div class="section white clearfix">
+    <div class="current-position">
+        <div>
+            <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Register_jump")">用户注册</a></span>&nbsp;>&nbsp;<span class="third_t"><a href="#">求职者注册</a></span>
+        </div>
+    </div>
+    <div class="register_p_board edge_round regbg-p">
+        @using (Html.BeginForm("Register_p", "Recruiting", FormMethod.Post, new { id = "form1", @class = "register_p_form" }))
+        {
+            <div class="tab-content">
+                <h2>求职者注册</h2>
+                <dl class="clearfix">
+                    <dt>
+                        <label for="Login_Name">用户名：</label>
+                    </dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Login_Name, new { @class = "input normal", datatype = "*6-15", sucmsg=" ", nullmsg = "用户名不能为空", ajaxurl = Url.Action("CheckLoginName") })
+                    </dd>
+                </dl>
+                <dl class="clearfix">
+                    <dt>
+                        <label for="Login_Pwd">密 码：</label>
+                    </dt>
+                    <dd>
+                        @Html.PasswordFor(m => m.Login_Pwd, new { @class = "input normal", datatype = "*6-15", sucmsg=" " })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComUserPwdConfirm">确认密码：</label></dt>
+                    <dd>
+                        @Html.Password("pwd", null, new { @class = "input normal", id = "UserPwdConfirm", datatype = "*", recheck = "Login_Pwd", sucmsg=" ", errormsg = "两次输入的密码不一致" })
+                    </dd>
+                </dl>
+@*                <dl class="clearfix">
+                    <dt>
+                        <label for="Phone">图形验证码：</label>
+                    </dt>
+                    <dd>
+                        <input type="text" maxlength="6" name="validCode2" id="validCode2" class="input validate" style="width: 128px;" />
+                         <img class="validatePic" id="valiCode" style="cursor: pointer;" src="/Recruiting/GetValidateCode" alt="验证码" />
+                            <span class="Validform_checktip " id="prompt"></span>
+                    </dd>
+                    
+                </dl>*@
+                <dl class="clearfix">
+                    <dt>
+                        <label for="Phone">手 机：</label>
+                    </dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "input normal", id = "phoneNum", datatype = "m", sucmsg=" ", nullmsg = "手机号不能为空", ajaxurl = Url.Action("CheckPhone") })
+                    </dd>
+                </dl>
+                @*<dl class="clearfix">
+                    <dt>
+                        <label for="val">手机验证码：</label>
+                    </dt>
+                    <dd>
+                        <input type="text" maxlength="6" name="validCode" id="validCode" id="val" class="input normal" style="width: 128px;" datatype = "n6-6" nullmsg="请输入6位验证码" errormsg="请输入6位验证码" />
+                        <input type="button" class="btn green code" id="btnSendCode" value="获取验证码" />
+                    </dd>
+                </dl>*@
+                <dl class="clearfix">
+                    <dd>
+                        <div class="ht_10"></div>
+                        <input type="submit" value="提交注册" class="btn" />
+                    </dd>
+                </dl>
+                <dl class="clearfix">
+                    @ViewBag.ErrorMsg
+                </dl>
+            </div>
+        }
+        
+ 
+ 
+  
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#form1").initValidform();
+        $("#valiCode").bind("click", function () {
+            this.src = "/Recruiting/GetValidateCode?time=" + (new Date()).getTime();
+        });
+        $("#validCode2").blur(function () {
+            if ($(this).val().length != 4) {
+                $("#prompt").addClass("Validform_wrong").text("请输入4位数验证码");
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("CheckValCode")',
+                dataType: 'json',
+                data: { "param": $("#validCode2").val() },
+                success: function (data, textStatus) {
+                    if (data.status == 'y') {
+                        $("#prompt").removeClass("Validform_wrong");
+                        $("#prompt").addClass("Validform_right").text("验证正确");
+                    } else {
+                        $("#prompt").removeClass("Validform_right");
+                        $("#prompt").addClass("Validform_wrong").text("验证码错误");
+                    }
+                    //alert(data.status)
+                },
+                error: function (msg, testStatus) {
+                    $("#prompt").removeClass("Validform_right");
+                    $("#prompt").addClass("Validform_wrong").text("连接错误");
+
+                }
+                });
+            }
+            
+        
+        });
+    })
+    /**********************发送验证码开始倒计时*****************************/
+    /*发送验证码*/
+    var InterValObj; //timer变量，控制时间
+    var count = 120; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    $("#btnSendCode").click(function () {
+        sendCode($(this));
+    });
+
+    function sendCode(obj) {
+        curCount = count;
+        //设置button效果，开始计时
+        $(obj).val(curCount + "秒再获取");
+        $(obj).attr("disabled", "disabled").addClass("disabled");
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        //向后台发送处理数据            
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendCode")',
+                dataType: 'json',
+                data: { "phone": $("#phoneNum").val() },
+                success: function (data, textStatus) {
+                   
+
+                },
+                error: function (msg, testStatus) {
+
+                }
+            });
+        }
+        //timer处理函数
+        function SetRemainTime() {
+            if (curCount == 0) {
+                window.clearInterval(InterValObj);//停止计时器
+                $("#btnSendCode").removeAttr("disabled").removeClass("disabled");//启用按钮
+                $("#btnSendCode").val("重新发送验证码");
+                $("#validCode").val(""); //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+            }
+            else {
+                curCount--;
+                $("#btnSendCode").val(+curCount + "秒再获取");
+            }
+        }
+</script>
+
+<!--wrap end-->

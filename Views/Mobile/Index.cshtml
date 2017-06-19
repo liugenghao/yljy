@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mobile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+
+    <div class="contatiner">
+        <header>
+            <h1>职位搜索</h1>
+        </header>
+        @using (Html.BeginForm("Result", null, FormMethod.Get, new { @id = "searchForm" }))
+{
+        <input type="text"  name="txtKeyword" id="txtKeyword" class="form-control search" placeholder="输入关键字"/>
+        <div class="condition">
+            <div class="row"><span>工作类别：</span>
+                @Html.DropDownList("jobType", ViewBag.JobTypeSL as SelectList, "不限", new { id = "listJobType" })</div>
+            <div class="row"><span>工作经验：</span>@Html.DropDownList("workYear", ViewBag.WorkYearSL as SelectList, "不限", new { id = "listWorkYears" })</div>
+            <div class="row"><span>学历要求：</span> @Html.DropDownList("degree", ViewBag.DegreeSL as SelectList, "不限", new { @class = "filter" })</div>
+            <div class="row"><span>薪资要求：</span>@Html.DropDownList("payLevel", ViewBag.PayLeveSL as SelectList, "不限", new { @class = "filter" })</div>
+        </div>
+        <div class="btnGrp">
+            <input type="submit" class="btn btn-primary" value="搜索"/>
+            <input type="reset" class="btn btn-primary" value="重置">
+        </div>
+        }
+    </div>
+
+</body>
+</html>

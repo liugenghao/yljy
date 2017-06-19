@@ -1,0 +1,341 @@
+﻿@model  PagedList<Ys.Model.Model.Recruit.ResumeModel>
+
+@using Webdiyer.WebControls.Mvc;
+
+@{
+    ViewBag.Title = "最新人才";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+@using (Html.BeginForm("Humans", null, FormMethod.Post, new { @id = "searchForm" }))
+{
+    <div class="main-wrap" id="main">
+        <div class="ht_20"></div>
+        <div class="section search-wrap">
+            <div class="tab-content">
+                @Html.AntiForgeryToken()
+                <dl class="search-box">
+                    <dt>关键字：</dt>
+                    <dd>
+                        <input type="text" name="txtKeyword" id="txtKeyword" class="input normal" value="@ViewBag.keyword" />
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="搜索人才" class="btn" />
+                        <a id="more-search" class="more-search" href="javascript: void(0);"><span class="search-hide-box">收起</span>高级搜索<span class="icon"></span></a>
+                    </dd>
+                </dl>
+                <div class="search-hide-box clearfix">
+                    <div class="clear search-group">
+                        <dl>
+                            <dt class="label">专 业：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("specialty", ViewBag.SpecialtySL as SelectList, "不限", new { @class = "filter" })
+                                </div>
+                                @*<input type="text" class="input normal" name="major" id="major" size="20" value="" placeholder="专业">*@
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">学 历：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("degree", ViewBag.DegreeSL as SelectList, "不限", new { @class = "filter" })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="clear search-group">
+                        <dl>
+                            <dt class="label">应聘职位类型：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("jobType", ViewBag.JobTypeSL as SelectList, "不限", new { id = "listJobType" })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">月薪要求：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("payLevel", ViewBag.PayLeveSL as SelectList, "不限", new { @class = "filter" })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="search-group large">
+                        <input type="submit" name="btnSubmit" id="btnSubmit2" value="搜索人才" class="btn" />
+                        <input type="button" name="btnClear" id="btnClear" value="清 空" class="btn clear" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ht_20"></div>
+        <div class="section white clearfix">
+            <div>
+                <div class="ht_10"></div>
+                <div class="result-wrap">
+                    <div class="clear result-list">
+                        <div class="ls_rows">
+                            <ul class="toolbar clearfix">
+                                <li>
+                                    <button class="btn yellow">收藏简历</button>
+                                </li>
+                            </ul>
+                            <ul class="col-wrap clearfix">
+                                <li class="half-space">
+                                    <input type="checkbox" name="checkAll" id="checkAll" value="" onclick="checkboxAll(this);" />
+                                    <label for="checkAll">全选</label>
+                                </li>
+                                <li>简历名称
+                                </li>
+                                <li>姓名
+                                </li>
+                                <li>性别
+                                </li>
+                                <li>学历
+                                </li>
+                                <li>专业
+                                </li>
+                                <li>现居地
+                                </li>
+                                <li>更新时间
+                                </li>
+                            </ul>
+                            <div class="result-jobs ">
+                                @foreach (var resume in Model)
+                                { 
+                                    <ul class="col-wrap clearfix">
+                                        <li class="half-space">
+                                            <input type="checkbox" name="chkSingle" class="checkall" value="@resume.Id"/>
+                                        </li>
+                                        <li>
+                                            <h4 class="article-name">
+                                                <a class="resume_name" href="@Url.Action("Details", "Resume", new { id = resume.Id, area = "Recruiting/user" })" target="_blank">@resume.Name</a>
+                                            </h4>
+                                        </li>
+                                        @if(resume.PersonalModel!=null){
+                                        <li>
+                                            
+                                                @resume.PersonalModel.Person_Name
+ 
+                                            
+                                        </li>
+                                        <li>
+                                            @resume.PersonalModel.Person_Sex
+                                        </li>
+                                        <li>
+                                            @resume.PersonalModel.HighDegree.DegreeName
+                                        </li>
+                                        <li>@resume.PersonalModel.Specialty.SpecialtyName
+                                        </li>
+                                        <li>@resume.PersonalModel.Person_Address
+                                        </li>
+                                        <li>@resume.LastModifyTime.ToShortDateString()</li>
+                                        <li class="half-space">
+                                            <a class="toggle-resume" href="javascript: void(0);"><i></i></a>
+                                        </li>
+                                        <li class="clearfix hide-box">
+                                            <div class="pic left">
+                                                <img src="/img/default-avartar.png">
+                                            </div>
+                                            <div class="resume-short left">
+                                                <div class="con">
+                                                    <div class="tag-features">
+                                                        <span>@resume.PersonalModel.Person_Sex</span>
+                                                        <span>@resume.PersonalModel.Person_Marriage</span>
+                                                        <span>@resume.PersonalModel.Person_Birthday.ToShortDateString() 生</span>
+                                                        <span>户口：@resume.PersonalModel.Person_Anmelden</span>
+                                                        <span>现居地：@resume.PersonalModel.Person_Address</span>
+                                                        <span class="end">@resume.PersonalModel.Person_WorkYear 工作经验</span>
+
+                                                    </div>
+                                                    @*  <div class="tag-features">
+                                                        <span class="end">身份证：@resume.PersonalModel.Person_Cid</span>
+                                                        <span class="end">电话：@resume.PersonalModel.Person_Tel</span>
+                                                        <span class="end">电子邮箱：@resume.PersonalModel.Person_Email</span>
+                                                    </div>*@
+                                                    @if (@resume.JobObjective != null)
+                                                    {
+                                                        <h4 class="subject-tit">&nbsp;&nbsp;<i></i>求职意向</h4>
+                                                   
+                                                        <div class="tag-features">
+                                                            <span class="end">应聘职位类型：@resume.JobObjective.JobType.Name</span>
+                                                            <span class="end">求职类型：@resume.JobObjective.JobAttr.Name</span>
+                                                            <span class="end">月薪要求：@resume.JobObjective.PayLevel.Name</span>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="buttons left">
+                                                <a class="act" href="@Url.Action("Details", "Resume", new { id = resume.Id, area = "Recruiting/user" })" target="_blank">查看详情</a>
+                                                <div class="ht_10"></div>
+                                                <div>
+                                                    @if (ViewBag.FavoriteResume != null)
+                                                    {
+                                                        List<int> favoriteId = ViewBag.FavoriteResume as List<int>;
+                                                        var flag = favoriteId.Contains(resume.Id);
+                                                        @Html.CheckBox("favorite", flag, new { id = "favoriteCheck_" + resume.Id, @data_id = resume.Id, @class = "favoriteCheck", style = "display: none;" });
+                                                                                                                                                                                                             if (flag)
+                                                                                                                                                                                                             {
+                                                        <label id="linkFavoriteCheck_@resume.Id" for='favoriteCheck_@resume.Id' class="obj-fav-btn actived"><i></i>已收藏</label>
+                                                                                                                                                                                                             }
+                                                                                                                                                                                                             else
+                                                                                                                                                                                                             {
+                                                        <label id="linkFavoriteCheck_@resume.Id" for='favoriteCheck_@resume.Id' class="obj-fav-btn"><i></i>收藏</label>
+                                                                                                                                                                                                             }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="obj-fav-btn" href="javascript: favoriteResume(@resume.Id);"><i></i>收藏</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </li>
+                                        }
+                                    </ul>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="pagebar clearfix">
+                            <div class="left holder">
+                                @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new { @class = "listCount" })
+                                <label>条记录</label>
+                            </div>
+                            <div class="pagelist">
+
+                                @if (Model != null)
+                                {
+                                    @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                                }
+                            </div>
+                            @*<div class="right holder">
+                                @Html.Pager(Model, new PagerOptions
+                                   {
+
+
+                                       AlwaysShowFirstLastPageNumber = true,
+                                       PageIndexParameterName = "id",
+                                       ShowPrevNext = true,
+                                       FirstPageText = "首页  ",
+                                       PrevPageText = "  上一页  ",
+                                       NextPageText = "  下一页  ",
+                                       LastPageText = "  末页  ",
+                                       PageIndexBoxId = "",
+                                       ShowNumericPagerItems = true,
+                                       PageNumberFormatString = "  {0}  ",
+                                       DisabledPagerItemTemplate = "<span>{0}</span>",
+                                       CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>"
+                                   })
+                            </div>*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script src="~/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".filter").change(function () {
+            $("#searchForm").submit();
+        });
+        $(".listCount").change(function () {
+            $("#searchForm").submit();
+        });
+        $(".favoriteCheck").change(function () {
+            var sign = $(this).is(":checked");
+            var resumeId = $(this).attr("data-id");
+            favoriteResume(resumeId, sign);
+        });
+
+
+        f_onNavActive("rc");
+
+        var searchHideBox = $(".search-hide-box");
+        var moreSearchFlag = $("#hidMoreSearch").val();
+        if (moreSearchFlag == "1") {
+            f_onToggleSearchBox();
+        }
+        $("#more-search").on("click", function () {
+            f_onToggleSearchBox();
+        });
+
+        var toggleResumeLinks = $(".toggle-resume");
+        $(toggleResumeLinks).each(function () {
+            $(this).on("click", function (e) {
+                $(this).parent().next(".hide-box").slideToggle();
+                $(this).toggleClass("actived");
+            });
+        });
+    });
+
+    /*高级搜索切换*/
+    function f_onToggleSearchBox() {
+        $(".search-hide-box").toggle();
+        $("#btnSubmit").toggle();
+        $("#txtKeyword").toggleClass("large");
+        $("#more-search>.icon").toggleClass("icon-up");
+    }
+    /*收藏*/
+    function favoriteResume(data, sign) {
+        var resumeId = data;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("FavoriteResume")',
+            data: { "resume": resumeId, "sign": sign },
+            success: function (data, textStatus) {
+                // $("#favoriteCheck").val(false);
+                if (data.Sign != null) {
+                    var d = top.dialog({
+                        id: 'dialog' + new Date().getMilliseconds(),
+                        quickClose: true// 点击空白处快速关闭
+                    });
+                    var sign = data.Sign;
+                    var objId = "linkFavoriteCheck_" + resumeId;
+                    var linkFavoriteCheck = $("#" + objId);
+                    if (sign) {
+                        linkFavoriteCheck.addClass("actived").html("<i></i>已收藏");
+                        d.content("添加收藏成功");
+                    } else {
+                        linkFavoriteCheck.removeClass("actived").html("<i></i>收藏");
+                        d.content("取消收藏成功");
+                    }
+                    d.show(document.getElementById(objId));
+                    setTimeout(function () {
+                        d.close().remove();
+                    }, 2000);
+                }
+                else {
+                    alert("请先登录");
+                    $(document.body).html(data);
+                }
+            },
+            error: function (msg, testStatus) {
+                window.location.href = '@Url.Action("Login", "Recruiting")';
+            }
+        });
+        }
+</script>

@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "夷陵区远程监控系统登录";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>夷陵区远程监控系统登录</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/login_index.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="loginPanel" id="loginPanel">        
+        <div class="login_error_prompt hide" id="login_error_prompt">
+            <p>@ViewData["signInfo"]</p>
+        </div>
+        <div class="clearfix">
+                <img class="login_header" src="~/img/camera.png" />
+            <h1 class="map_logo" id="map_logo">夷陵区就业培训管理系统</h1>
+        </div>
+        
+    @*<form class="form-horizontal" method="post">*@
+    <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="@Url.Action("Login_Index")">
+        <div class="form-group">
+            <input type="text" class="form-control" id="inputUsername" name="username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="密码">
+        </div>
+        <div class="btn_group">
+            <input type="submit" class="btn btn-primary login_btn" id="login_btn" value="登  陆" />
+            <input type="button" class="btn btn-default reset_btn" onclick="window.location.href = window.location.href;" value="重  置"/>
+        </div>
+
+    </form>
+    </div>
+    <footer>
+        <p>夷陵区远程教室监控系统&nbsp;&nbsp;&nbsp;&copy;夷陵区劳动保障就业局</p>
+        @*<p>请使用谷歌、火狐或IE9以上浏览器访问本系统</p>*@<p>建议设置1366 &times;768以上分辨率进行浏览 以获取最佳浏览体验</p>
+    </footer>
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/frame.js"></script>
+    <script type="text/javascript">
+        $(function () {   
+            var username = '@ViewData["username"]';
+            $('#inputUsername').val(username);            
+            var loginPanelHeight;
+            adjustPanel();
+            adjustFooter();
+            
+            function adjustFooter() {          
+                var windowWidth = $(window).width();
+                var footerWidth = $('footer').width();
+                var offset = (windowWidth - footerWidth) / 2;
+                offset = offset >= 0 ? offset : 0;
+                $('footer').css('marginLeft', offset);
+                var windowWidth = $(window).height();
+                if (windowWidth < 500) {
+                    $('footer').hide();
+                } else {
+                    $('footer').show();
+                }
+            }
+            function adjustPanel() {
+                var windowWidth = $(window).width();
+                var windowHeight = $(window).height();
+                var panelHeigtht = $('#loginPanel').height();
+                var panelwidth = $('#loginPanel').width();
+                var offset = (windowHeight - panelHeigtht- 100) / 2;
+                offset = offset >= 40 ? offset : 40;
+                $('#loginPanel').offset({ top: offset });
+                $('#loginPanel').css('margin-left', (windowWidth - panelwidth)/2-20)
+                loginPanelHeight = offset;
+            }
+
+            $(window).on('resize', function () {
+                adjustPanel();
+                adjustFooter();                
+            });    
+            if ('@ViewData["signInfo"]') {
+                //alert(@ViewData["signInfo"]);
+                $('#login_error_prompt').removeClass('hide');
+                $('#login_error_prompt').animate({ 'opacity': 1 });
+                setTimeout(function () {
+                    $('#login_error_prompt').addClass('hide');
+                }, 2500);
+
+            }
+            $('#login_btn').on('click',function(){
+                return validUserPass();    
+            });
+            function validUserPass() {
+                var username = $.trim($('#inputUsername').val());
+                var password =$.trim($('#inputPassword').val());
+                if (username=="" || password=="") {
+                    $('#login_error_prompt p').text('用户名或密码不能为空');
+                    $('#login_error_prompt').removeClass('hide');
+                    $('#login_error_prompt').animate({ 'opacity': 1 });
+                    setTimeout(function () {
+                        $('#login_error_prompt').addClass('hide');
+                    }, 2500);
+                    return false;
+                }
+                return true;
+            }
+            
+            //String.prototype.trim = function () {//删除前后空格
+            //    return this.replace(/(^\s*)|(\s*$)/g, '');
+            //};
+        });
+
+    </script>
+</body>
+
+</html>

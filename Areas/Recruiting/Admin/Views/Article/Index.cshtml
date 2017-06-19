@@ -1,0 +1,294 @@
+﻿@model PagedList<Ys.Model.Model.Home.Article>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "内容列表";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>内容列表</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("内容管理", "Index")
+                <span class="crumb-step">&gt;</span><span>内容列表</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("Index", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th>栏目分类：</th>
+                                    <td>
+                                        <div id="wrapUserTypes" class="rule-multi-radio wrap-types">
+                                            <span id="RadioButtonList1">
+                                                <input type="radio" class="filterRadio" name="listType" id="listType" value="" checked="checked">
+                                                <label for="listType">全部</label>
+                                                @foreach (var type in ViewBag.Categories as SelectList)
+                                                {
+                                                    if (type.Selected)
+                                                    {
+                                                        
+                                                    <input type="radio" class="filterRadio" name="listType" id="listType_@type.Value" value="@type.Value" checked="checked" >
+                                                    }
+                                                    else
+                                                    {
+                                                    <input type="radio" class="filterRadio" name="listType" id="listType_@type.Value" value="@type.Value">
+                                                    }
+                                                    <label for="listType_@type.Value">@type.Text</label>
+                                                }
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>关键字：</th>
+                                    <td>
+                                        <div class="util-bar">
+                                            <div class="r-list">
+                                                <input type="text" name="txtKeywords" id="txtKeywords" class="keyword" value="@ViewData["Keywords"]" />
+                                                <input type="submit" name="btnSearch" id="btnSearch" class="btn-search" value="查询" />
+                                                @Html.ActionLink("清空", "Index", null, new { @id = "btnClear", @class = "btn-clear" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--工具栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="add" href="@Url.Action("Edit")">
+                                        <i></i><span>新增</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkDelete")')">
+                                        <i></i><span>批量删除</span>
+                                    </a>
+                                    <input type="hidden" name="hidBulkIds" id="hidBulkIds" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">选择
+                            </th>
+                            <th style="width: 5%">序号
+                            </th>
+                            <th style="width: 15%">分类
+                            </th>
+                            <th style="width: 20%">标题
+                            </th>
+                            <th style="width: 15%">作者
+                            </th>
+                            <th style="width: 15%">发布时间
+                            </th>
+                            <th style="width: 10%">状态（草稿/已发布）
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var article in Model.ToList())
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='1' title="选择" />
+                                </td>
+                                <td>
+                                    @(Model.IndexOf(article) + 1)   
+                                </td>
+                                <td>
+                                    @article.ArticleType.TypeName
+                                </td>
+                                <td>
+                                    @Html.ActionLink(article.Title, "Edit/" + article.Id, null, new { @title = article.Title })
+                                </td>
+                                <td>
+                                    @article.Author
+                                </td>
+                                <td>
+                                    @article.Time.ToString("yyyy-MM-dd")
+                                </td>
+
+                                @if (article.State == 1)
+                                {<td><span>已发布</span>
+                                    @if (article.ArticleType_Id == 1 || article.ArticleType_Id == 2)
+                                    {
+                                        <a class="tit" href="@Url.Action("News_Detail", "Home", new { area = "", id = article.Id })" title="@article.Title" target="_blank">预览</a>
+                                    }
+                                    else if (article.ArticleType_Id == 4)
+                                    {
+                                        <a class="tit" href="@Url.Action("Gov_Affair", "Home", new { area = ""})" title="@article.Title" target="_blank">预览</a>
+                                    }
+                                    else if (article.ArticleType_Id == 5 || article.ArticleType_Id == 9)
+                                    {
+                                        <a class="tit" href="@Url.Action("Lesgislation_Detail", "Home", new { area = "", id = article.Id })" title="@article.Title" target="_blank">预览</a>
+                                    }else if (article.ArticleType_Id == 10)
+                                    {
+                                        <a class="tit" href="@Url.Action("JobFair_Detail2", "Recruiting", new { area = "", id = article.Id })" title="@article.Title" target="_blank">预览</a>
+                                    }
+                                    else if (article.ArticleType_Id == 7 )
+                                    {
+                                        <a class="tit" href="@Url.Action("Lesgislation_Detail", "Home", new { area = "", id = article.Id })" title="@article.Title" target="_blank">预览</a>
+                                    }
+                                </td>
+                                }
+                                else
+                                {
+                                    <td>草稿
+                                    </td>
+                                }
+
+                                <td class="nowrap flex-box">
+                                    @if (article.ArticleType_Id == 2)
+                                    {
+                                        if (!article.Top)
+                                        {
+                                        <span class="setTop">
+                                            <a href="javascript:setTop(@article.Id)" title="置顶"><span class="icon icon-edit"></span>置顶</a>
+                                        </span>
+                                        }
+                                        else
+                                        {
+                                        <span class="setTop">
+                                            <a href="javascript:cancelTop(@article.Id)" title="取消置顶"><span class="icon icon-edit"></span>取消置顶</a>
+                                        </span>  
+                                        }
+                                    }
+                                    <a href="@Url.Action("Edit/" + article.Id)" title="编辑"><span class="icon icon-edit"></span>编辑</a>
+                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete/" + article.Id)');"><span class="icon icon-trash"></span>删除</a>
+                                </td>
+                            </tr> 
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="ht_10">
+            </div>
+            <div class="pagelist default clearfix">
+
+                @if (Model != null)
+                {
+                    @Html.Pager(Model, new PagerOptions
+               {
+
+                   PageIndexParameterName = "id",
+                   ShowPrevNext = true,
+                   FirstPageText = "首页  ",
+                   PrevPageText = "  上一页  ",
+                   NextPageText = "  下一页  ",
+                   LastPageText = "  末页  ",
+                   PageIndexBoxId = "",
+                   ShowNumericPagerItems = true,
+                   PageNumberFormatString = "  {0}  ",
+                   DisabledPagerItemTemplate = "<span class=\"disabled\">{0}</span>",
+                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+
+                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+               })
+                }
+            </div>
+            <!--/内容底部-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        var typeId;
+
+        function cancelTop(id) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UnTop")',
+                dataType: 'json',
+                data: { "id": id },
+                success: function (data, textStatus) {
+                    $(".setTop").html(' <a href="javascript:setTop(' + id + ') " title="置顶"><span class="icon icon-edit"></span>置顶</a>');
+                },
+                error: function (msg, testStatus) {
+                    alert(JSON.stringify(msg));
+                }
+            });
+
+        }
+        function setTop(id) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Top")',
+                dataType: 'json',
+                data: { "id": id },
+                success: function (data, textStatus) {
+                    $(".setTop").html(' <a href="javascript:cancelTop(' + id + ')" title="取消置顶"><span class="icon icon-edit"></span>取消置顶</a>');
+                },
+                error: function (msg, testStatus) {
+                    alert(JSON.stringify(msg));
+                }
+            });
+
+        }
+        $(function () {
+            var bulkIds = '@ViewData["bulkIds"]';
+            if (bulkIds)
+                alert("批量执行的bulkIds: " + bulkIds);
+
+            $('.filterRadio').click(function () {
+                typeId = $(this).val();
+                var id = $(this).val();
+                //alert(id);
+                var url = '@Url.Action("Index")'
+                    window.location.href = url + "?typeId=" + id;
+                });
+
+
+        });
+    </script>
+</body>
+</html>

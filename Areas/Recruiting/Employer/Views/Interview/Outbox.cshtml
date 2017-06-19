@@ -1,0 +1,194 @@
+﻿@model PagedList<Ys.Model.Model.Recruit.InterviewModel>
+
+@using Webdiyer.WebControls.Mvc;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>我的面试</title>
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+    <script type="text/javascript" src="~/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>邀约箱</span>
+            <i class="arrow"></i><span>已发出的面试邀约</span>
+        </div>
+        <!--/导航栏-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("Outbox", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th style="vertical-align: text-top;">发出时间：</th>
+                                    <td>
+                                        <input type="text" name="txtTimeStart" id="txtTimeStart" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',position:{left:20, top:10}})" placeholder="请输入起始时间" />
+                                        至
+                                        <input type="text" name="txtTimeEnd" id="txtTimeEnd" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',position:{left:20, top:10}})" placeholder="请输入截止时间" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>关键字：</th>
+                                    <td>
+                                        <input type="text" name="txtKeywords" id="txtKeywords" class="input normal" style="width: 426px;" placeholder="请输入关键字" />
+                                    </td>
+                                    <td rowspan="2">
+                                        <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
+                                        <a class="btn yellow" href="@Url.Action("Outbox")" id="btnClear">清 空</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--内容-->
+            <div id="floatHead" class="content-tab-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript:void(0);" onclick="return ExePostBack('btnDelete');">
+                                        <i></i><span>删除</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">选择
+                            </th>
+                            <th style="width: 20%;">招聘公司
+                            </th>
+                            <th style="width: 40%;">职位
+                            </th>
+                            <th style="width: 10%;">面试时间
+                            </th>
+                            <th style="width: 10%;">状态
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var interview in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="chkSingle" class="checkall" value='id' title="选择" />
+                                </td>
+                                <td>@interview.ResumePost.Job.Employer.Name
+                                </td>
+                                <td>
+                                    <div class="subject-wrap">
+                                        <h4>邀请
+                                            @if (interview.ResumePost.Resume.PersonalModel != null)
+                                            {
+                                                @Html.ActionLink(interview.ResumePost.Resume.PersonalModel.Person_Name, "Details", "Resume", new { id = interview.ResumePost.Resume.Id, area = "Recruiting/User" }, new { target = "_blank", @title = "查看TA的简历" })
+                                            }
+                                            else
+                                            {
+                                                 @Html.ActionLink("TA", "Details", "Resume", new { id = interview.ResumePost.Resume.Id, area = "Recruiting/User" }, new { target = "_blank", @title = "查看TA的简历" })
+                                            }
+                                            参加面试，职位：
+                                        @Html.ActionLink(interview.ResumePost.Job.JobName, "Job_Detail", "Recruiting", new { id = interview.ResumePost.Job.Id, area = "" }, new { target = "_blank", @title = "职位详情" })
+                                        </h4>
+                                        <p class="subject-remark">
+                                            <span>招聘人数：<label>@interview.ResumePost.Job.PersonNum 人</label></span>
+                                            <span>工作地点：<label>@interview.ResumePost.Job.WorkAddress.Name</label></span>
+                                            <span>薪资：<label>@interview.ResumePost.Job.PayLevel.Name</label></span>
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>@interview.InterviewTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    @if (interview.UserState == 0)
+                                    {
+                                        <span>未接受</span> 
+                                    }
+                                    else
+                                    {
+                                        <span class="ui-ok">已接受</span>
+                                    }
+                                </td>
+                                <td class="nowrap">
+                                    <a href="@Url.Action("InvitationLetter", "Recruiting", new { id = interview.Id, area = "" })" class="act" target="_blank" title="查看邀请函">查看邀请函</a>
+                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = interview.Id })');"><span class="icon icon-trash"></span>删除</a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                    <tfoot style="display: none;">
+                        <tr>
+                            <td colspan='5'>暂无记录</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="ht_10"></div>
+                <div class="pagelist">
+                    <div class="l-btns">
+                        <span>显示 </span>
+                        <label id="lblPageSize">10</label><span> 条/页</span>
+                    </div>
+                    <div class="default">
+                        @if (Model != null)
+                        {
+                            @Html.Pager(Model, new PagerOptions
+                       {
+
+                           PageIndexParameterName = "id",
+                           ShowPrevNext = true,
+                           FirstPageText = "首页  ",
+                           PrevPageText = "  上一页  ",
+                           NextPageText = "  下一页  ",
+                           LastPageText = "  末页  ",
+                           PageIndexBoxId = "",
+                           ShowNumericPagerItems = true,
+                           PageNumberFormatString = "  {0}  ",
+                           DisabledPagerItemTemplate = "<span>{0}</span>",
+                           CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+
+                           //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                       })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+</body>
+</html>

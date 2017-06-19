@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "管理主页";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>内容管理首页</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><span class="icon icon-sound2"></span> <label>欢迎使用站点内容管理系统，建站的首选工具。</label></div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h3><span class="icon icon-gear"></span> 数据统计</h3>
+            </div>
+            <div class="result-content">
+                <div class="dashboard-wrap">
+                    <ul class="statistic-box clearfix">
+                        @foreach(Ys.Model.SimpleEntity<int> item in ViewBag.SumList as List<Ys.Model.SimpleEntity<int>>){
+                            <li>
+                                <h4>@item.Value</h4>
+                                <p>@item.Name</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h3><span class="icon icon-star"></span> 快捷操作</h3>
+            </div>
+            <div class="result-content">
+                <div class="short-wrap">
+                    <a href="javascript:window.parent.linkMenuTree(true, 'sysArticleList');"><i class="icon icon-compose"></i>内容发布</a>
+                    <a href="javascript:window.parent.linkMenuTree(true, 'sysAttachmentList');"><i class="icon icon-pages"></i>文件资源管理</a>
+                    <a href="javascript:window.parent.linkMenuTree(true, 'sysUserUnAduitedList');"><i class="icon icon-check"></i>会员审核</a>
+                </div>
+            </div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h3><span class="icon icon-pages"></span> 系统基本信息</h3>
+            </div>
+            <div class="result-content">
+                <ul class="sys-info-list">                    
+                    <li>
+                        <label class="res-lab">服务器名称：</label><span class="res-info">@Server.MachineName</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">操作系统：</label><span class="res-info">@Environment.OSVersion</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">运行环境：</label><span class="res-info">@Request.ServerVariables["SERVER_SOFTWARE"]</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">网站域名：</label><span class="res-info">www.domain.com</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">系统版本：</label><span class="res-info">V1.0</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">附件上传目录：</label><span class="res-info">/ueditor/net/upload/</span>
+                    </li>
+                    <li>
+                        <label class="res-lab">附件上传大小限制：</label><span class="res-info">20M</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h3><span class="icon icon-info"></span>使用帮助</h3>
+            </div>
+            <div class="result-content">
+                <ul class="sys-info-list">
+                    <li>
+                        <label class="res-lab">在线求助：</label><span class="res-info"><a class="qq-link" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=4ba39c297a33fa548de56a257f6128c7c9e3dd14473e4c86557d93f2197c33e8"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="JS-前端开发" title="JS-前端开发" style="vertical-align: middle;"></a> </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--/main-->    
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        $(function () {
+            var bgcolors = ["#00c0ef", "#dd4b39", "#00a65a"];
+            var statistics = $(".dashboard-wrap>ul>li");
+            $(statistics).each(function (i, item) {
+                $(this).css("background-color", bgcolors[i]);
+            });
+        });
+    </script>
+</body>
+</html>

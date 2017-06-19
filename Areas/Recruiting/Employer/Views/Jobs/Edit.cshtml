@@ -1,0 +1,250 @@
+﻿@model Ys.Model.Model.Recruit.JobModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>职位编辑</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" target="right" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>职位管理</span>
+            <i class="arrow"></i><span>职位编辑</span>
+        </div>
+        <!--/导航栏-->
+        <div class="result-wrap">
+            @using (Html.BeginForm("Edit", null, FormMethod.Post, new { @id = "form1" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("Id")
+                <!--内容-->
+                <div id="floatHead" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">职位信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <dl>
+                        <dt>职位名称</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.JobName, new { id = "txtName", @class = "input normal", datatype = "*2-255", nullmsg = "请输入名称", sucmsg = "" })
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>职位类型</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.JobTypeId, ViewBag.JobTypes as SelectList, "--请选择职位类型--", new { @class = "input normal", datatype = "*", nullmsg = "请选择职位类型", sucmsg = " " })
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>主体内容</dt>
+                        <dd>
+                            @Html.TextAreaFor(m => m.Others, new { id = "txtContent", @class = "input normal", rows = "5", cols = "30", style = "width: 99%; height: 200px" })
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>亮点标签</dt>
+                        <dd class="tag-wrap">
+                            <h4>增加职位亮点标签<span class="color3a">（选择职位亮点，提升职位吸引力，有效增加职位投递率）</span></h4>
+                            <div>
+                                <p>最多选择8个标签</p>
+                                <p class="rule-multi-porp" id="itemContainer">
+                                    <span id="checkboxList1" style="display: none;">
+                                        @foreach (var sign in ViewBag.JobSignSL as IEnumerable<SelectListItem>)
+                                        {
+                                            if (sign.Selected)
+                                            {
+                                            <input type="checkbox" name="chkSingle" class="checkall" value="@sign.Value" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                            <input type="checkbox" name="chkSingle" class="checkall" value="@sign.Value" />
+                                            }
+                                           
+                                            <label for="listJobTag_1">@sign.Text</label>
+                                        }
+                                       
+                                    </span>
+                                </p>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>招聘人数</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.PersonNum, null, new { id = "txtRecruitNumber", @class = "input normal", datatype = "n", nullmsg = "请填写数字", sucmsg = "" })
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>学历要求</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.DegreeId, ViewBag.Degrees as SelectList, "--请选择--", new { @class = "input normal", datatype = "*", nullmsg = "请选择学历", sucmsg = " " })
+                                @*<select id="listDegree" name="listDegree">
+                                    <option value="" selected="selected">不限</option>
+                                    <option value="1">博士研究生</option>
+                                    <option value="2">硕士研究生</option>
+                                    <option value="3">本科</option>
+                                    <option value="4">专科</option>
+                                </select>*@
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>工作经验</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.WorkYearId, ViewBag.WorkYears as SelectList, "--请选择--", new { @class = "input normal", datatype = "*", nullmsg = "请选择工作经验", sucmsg = " " })
+                                @* <select id="listWorkYears" name="listWorkYears">
+                                    <option value="" selected="selected">不限</option>
+                                    <option value="1">1-3年</option>
+                                    <option value="2">3-5年</option>
+                                    <option value="3">5年以上</option>
+                                </select>*@
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>职位薪资</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.PayLevelId, ViewBag.PayLevels as SelectList, "--请选择--", new { @class = "input normal", datatype = "*", nullmsg = "请选择薪资范围", sucmsg = " " })
+                                @*<select id="listSalary" name="listSalary">
+                                    <option value="" selected="selected">不限</option>
+                                    <option value="1">2K以下</option>
+                                    <option value="2">2K-5K</option>
+                                    <option value="3">5K-8K</option>
+                                    <option value="4">8K-10K</option>
+                                    <option value="5">10K-15K</option>
+                                    <option value="6">15K-20K</option>
+                                    <option value="7">20K以上</option>
+                                </select>*@
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>工作性质</dt>
+                        <dd>
+                            <div class="rule-single-select">
+
+                                @Html.DropDownListFor(m => m.JobAttrId, ViewBag.WorkAttrs as SelectList, "--请选择--", new { @class = "input normal", datatype = "*", nullmsg = "请选择工作性质", sucmsg = " " })
+
+
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>工作地点</dt>
+                        <dd>
+                            <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.RegionId, ViewBag.City as SelectList, "--请选择--", new { @class = "input normal", datatype = "*", nullmsg = "请选择工作地点", sucmsg = " " })
+                            </div>
+                            @* <div class="rule-single-select">
+                                @Html.DropDownListFor(m => m.WorkAddress.Id, ViewBag.Area as SelectList, "--请选择--", new {id="ComAreaName" })
+                            </div>*@
+                            @*  <div class="rule-single-select">
+                                <select id="ComCity" name="ComCity">
+                                    <option value="" selected="selected">--市--</option>
+                                </select>
+                            </div>
+                            <div class="rule-single-select">
+                                <select id="ComAreaName" name="ComAreaName">
+                                    <option value="" selected="selected">--区--</option>
+                                </select>
+                            </div>*@
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>详细地址</dt>
+                        <dd>
+                            @Html.TextAreaFor(m => m.JobDes, new { id = "txtAddress", @class = "input normal", @style = "width: 445px;", rows = "4" })
+                        </dd>
+                    </dl>
+                 @*   <dl>
+                        <dt>状 态</dt>
+                        <dd>
+                            <div class="rule-multi-radio">
+                                @Html.RadioButton("State", 0, new { id = "listEnable_False", @checked = "checked" })<label for="listEnable_False">存为草稿</label>
+                                @Html.RadioButton("State", 1, new { id = "listEnable_True" })<label for="listEnable_True">审核发布</label>
+                            </div>
+                        </dd>
+                    </dl>*@
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="提交保存" class="btn green" />
+                        <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);" />
+                        <input type="hidden" name="hiddenId" id="hiddenId" Value="@ViewData["Id"]" />
+                    </div>
+                </div>
+                <!--/工具栏-->
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+        /* 实例化编辑器 */
+        var options = { scaleEnabled: true };
+        var space = $('#txtContent'); // ezj 内容
+        options.initialFrameWidth = space.width();
+        options.initialFrameHeight = space.height();
+        var contentUE = UE.getEditor('txtContent', options);
+
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+
+            @*$("#ComCity").change(function () {
+                var id = $('#ComCity').val();
+                $.ajax({
+                    url: '@Url.Action("GetCounty")' + "?id=" + id,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        $("#ComAreaName option").remove();
+                        for (i in data) {
+                            var text = data[i].Name;
+                            var value = data[i].Id;
+                            $('#ComAreaName').append("<option value='" + value + "'>" + text + "</option>");
+                            //$(".rule-single-select").ruleSingleSelect();
+                        }
+                    }
+                });
+
+            });*@
+        });
+
+
+    </script>
+</body>
+</html>

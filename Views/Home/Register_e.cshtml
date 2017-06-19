@@ -1,0 +1,109 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+@{
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<link href="~/Content/register_e.css" rel="stylesheet" />
+<div class="main-wrap clearfix">
+    <div class="section">
+        <div class="ht_20"></div>
+        <!--导航栏-->
+        <div class="location breadcrumb">
+            <a href="/or/index.html" class="home"><i></i><span>返回首页</span></a>
+            <a href="index.html">
+                <span>新闻中心</span>
+            </a> 
+            <a href="@Url.Action("Register_jump")">
+                <i class="arrow"></i><span>用户注册</span>
+            </a>
+            <i class="arrow"></i>
+            <span>企业注册</span>
+        </div>
+        <!--/导航栏-->
+        <div class="industrySelecting_head display-hide" id="industrySelecting_head">
+            <span>选择行业</span>
+            <button class="cancel">取消</button>
+            <button class="confirm">确认</button>
+        </div>
+        <div class="industrySelecting display-hide" id="industrySelecting">
+            @{
+                List<Ys.Model.Model.Dict.IndustryTypeModel> industryTypeList = ViewData["Industry"] as List<Ys.Model.Model.Dict.IndustryTypeModel>;
+                foreach (Ys.Model.Model.Dict.IndustryTypeModel inModel in industryTypeList)
+                {
+                    if (inModel.Plant_Id.EndsWith("00"))
+                    {
+                <div class="row clearfix">
+                    <div class="ind_subject">@inModel.Name<span></span></div>
+                    <div class="ind_child">
+                        @{
+                        string superNum = inModel.Plant_Id.Remove(inModel.Plant_Id.Length - 2, 2);
+                        for (int i = 0; i < industryTypeList.Count; i++)
+                        {
+                            Ys.Model.Model.Dict.IndustryTypeModel tempModel = industryTypeList[i];
+                            if (!tempModel.Plant_Id.EndsWith("00") && tempModel.Plant_Id.StartsWith(superNum) && tempModel.Plant_Id.Length == superNum.Length + 2)
+                            {
+                            <div class="ind_child_item">
+                                <input type="checkbox" id='@tempModel.Id' /><label for='@tempModel.Id'>@tempModel.Name</label>
+                            </div>
+                            }
+
+                        }
+                        }
+                    </div>
+                </div>     
+                    }
+                }
+            }
+
+        </div>
+        @*new { @class = "infoContent" }*@
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            @Html.AntiForgeryToken()
+            @Html.Hidden("State.Id",1)
+            <label for="ComUserName">用户名:</label>@Html.TextBoxFor(m => m.Login_Id, new { id = "ComUserName" })<br />
+            <label for="ComUserPwd">密码:</label>@Html.PasswordFor(m => m.Login_Pwd, new { id = "ComUserPwd" })<br />
+            <label for="ComUserPwdConfirm">确认密码:</label>@Html.PasswordFor(m => m.Login_Pwd, new { id = "ComUserPwdConfirm" })<br />
+            <label for="ComName">单位名称:</label>@Html.TextBoxFor(m => m.Name, new { id = "ComName" })<br />
+            <label for="ComCode">组织机构代码:</label>@Html.TextBoxFor(m => m.Code, new { id = "ComCode" })<br />
+            <label for="ComNumber">工商营业执照号码：</label>@Html.TextBoxFor(m => m.Number, new { id = "ComNumber" })<br />
+            @Html.Hidden("Industry.Id", null, new { id = "Industry" })
+            <label for="ComIndustry">所属行业：</label><span id="ComIndustry" class="ComIndustry">请选择<span class="triangle"></span></span><br />
+            <label for="ComType">单位类型：</label>@Html.DropDownListFor(m => m.Etype.Id, ViewData["Etype.Id"] as List<SelectListItem>, new { id = "ComType" })<br />
+            <label for="ComEcoType">经济类型：</label>@Html.DropDownListFor(m => m.Eco_Type.Id, ViewData["Eco_Type.Id"] as List<SelectListItem>, new { id = "ComType" })<br />
+            <label for="ComFund">注册资金：</label>@Html.TextBox("Fund", null, new { id = "ComFund" })<br />
+            <label for="ComScale">人员规模：</label>@Html.DropDownListFor(m => m.Scale.Id, ViewData["Scale.Id"] as List<SelectListItem>, new { id = "ComType" })<br />
+            <label for="ComAreaName">所属地区名称：</label>@Html.DropDownListFor(m => m.City.Id, ViewData["City.Id"] as List<SelectListItem>, new { id = "ComCity", @class = "areaSlt1" })
+            @Html.DropDownListFor(m => m.Area_Code.Id, ViewData["Area_Code.Id"] as List<SelectListItem>, new { id = "ComAreaName", @class = "areaSlt2" })<br />
+            <label for="ComAddress">单位地址：</label>@Html.TextBox("Address", null, new { id = "ComAddress" })<br />
+            <label for="ComIntroduce">单位介绍：</label>@Html.TextBox("Inroduce", null, new { id = "ComIntroduce" })<br />
+            <label for="ComLegalPerson">法定代表人姓名：</label>@Html.TextBox("Legalperson", null, new { id = "ComLegalPerson" })<br />
+            <label for="ComContact">联系人：</label>@Html.TextBox("Contact", null, new { id = "ComContact" })<br />
+            <label for="ComContactPhone">联系电话：</label>@Html.TextBox("ContactPhone", null, new { id = "ComContactPhone" })<br />
+            <input type="submit" value="注册" class="btn" /> <input type="reset" value="重置" class="btn yellow" />
+        }
+    </div>
+</div>
+<!--wrap end-->
+<script src="~/Scripts/register_e.js"></script>
+<script type="text/javascript">
+    $("#ComCity").change(function () {
+        var id = $('#ComCity').val();
+        $.ajax({
+            url: '@Url.Action("GetCounty")' + "?id=" + id,
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                $("#ComAreaName option").remove();
+                for (i in data) {
+                    var text = data[i].Name;
+                    var value = data[i].Id;
+                    $('#ComAreaName').append("<option value='" + value + "'>" + text + "</option>");
+                }
+            }
+        });
+
+    });
+
+</script>
+

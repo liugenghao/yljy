@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>欢迎登录夷陵就业信息网站点内容管理系统</title>
+    @*@Styles.Render("~/Areas/Recruiting/Admin/Content/css/entrance")*@  
+    <link href="~/Areas/Recruiting/Admin/Content/Styles/entrance.css" rel="stylesheet" />  
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body class="loginbody">
+    <!--头部 start-->
+    <div class="header" id="header">            
+        <div class="header-wrap">
+            <div class="section header-banner"></div>
+        </div>
+    </div>
+    <!--/头部-->
+    <div class="content">
+    <!--登录区域-->
+        <div class="login-wrap">
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @id="form1"}))
+            {
+                @Html.AntiForgeryToken()
+                <div>        	
+                    <div class="tabsbox">
+                        <ul>
+                            <li><label class="linklabel icn-user selected"><i></i>管理员登录</label></li>
+                        </ul>
+                    </div>
+                    <div class="ht_5"></div>
+                </div>
+                <div class="login-form">
+                    <div class="col">
+                        <input type="text" id="txtUserName" name="txtUserName" class="login-input" placeholder="用户名" title="用户名" />
+                        <label class="icon user" for="txtUserName"></label>
+                    </div>
+                    <div class="col">
+                        <input type="password" id="txtPassword" name="txtPassword" class="login-input" placeholder="密码" title="密码" />
+                        <label class="icon pwd" for="txtPassword"></label>
+                    </div>
+@*                    <div class="col">
+                        <input type="text" id="txtVerifyCode" name="txtVerifyCode" class="login-input" placeholder="验证码" title="验证码" style="width: 112px;" />
+                        <label class="icon vercode" for="txtVerifyCode"></label>
+                        <img alt="验证码" src="" width="112" height="36" />
+                    </div>*@
+@*                    <div class="login-tips">
+                        <p id="msgtip" runat="server"><i></i>请输入用户名和密码</p>
+                    </div>*@
+                    <div class="col btn">
+                        <input type="submit" id="btnSubmit" name="btnSubmit" value="登 录" class="login-btn" />
+                    </div>
+                </div>
+            }
+        </div> 
+        <!--/登录区域-->
+    </div>
+    <!--底部-->    
+    <div class="clear footer" id="footer">
+    	<div class="footer-wrap">
+            <!--版权声明-->
+    	    <div class="section" style="margin-top:150px;">
+    	        
+    	        <p>
+    	            Copyright &copy;2015 夷陵区劳动就业保障局 All Rights Reserved.
+    	        </p>
+                <p>
+    	            技术支持：湖北元速科技有限公司
+    	        </p>
+    	    </div>
+            <!--版权声明-->
+        </div>
+    </div>
+    <!--/底部-->
+</body>
+</html>

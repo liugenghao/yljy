@@ -1,0 +1,205 @@
+﻿@model List<Ys.Model.Model.Recruit.JobFairMeeting>
+
+@using Webdiyer.WebControls.Mvc;
+
+@{
+    ViewBag.Title = "我参加的招聘会";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>我参加的招聘会</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+    <script type="text/javascript" src="~/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" target="right" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>我参加的招聘会</span>
+        </div>
+        <!--/导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    <table class="search-tab">
+                        <tbody>
+                            <tr>
+                                <th>时间：</th>
+                                <td>
+                                    <input type="text" name="TimeStatr" id="TimeStart" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                                    至
+                                    <input type="text" name="TimeEnd" id="TimeEnd" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--列表-->
+            <div class="table-container">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="del" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkDelete")')" >
+                                        <i></i><span>删除</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <table class="ltable">
+                    <thead>
+                        <tr>
+
+                            <th>招聘会编号
+                            </th>
+                            <th style="width: 15%;">招聘会名称
+                            </th>
+                            <th style="width: 15%;">招聘会时间
+                            </th>
+                            <th style="width: 15%;">招聘会地点
+                            </th>
+                            <th style="width: 15%;">主办单位
+                            </th>
+                            <th style="width: 10%;">联系电话
+                            </th>
+                            <th style="width: 10%;">状态
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @*.Where(m=>m.ApplyEndDate>DateTime.Now)*@
+                        @foreach (var meeting in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @meeting.Id
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("JobFair_Detail", "Recruiting", new { id = meeting.Id, area = "" })" class="link" target="_blank">@meeting.Name</a>
+                                </td>
+                                <td>@meeting.JobFairDate.ToString("yyyy-MM-dd hh:mm:ss")
+                                </td>
+                                <td>@meeting.Address
+                                </td>
+                                <td>@meeting.Host
+                                </td>
+                                <td>@meeting.Phone
+                                </td>
+                                <td>
+                                    @{
+                                        var now = DateTime.Now;
+                                        if (now < meeting.ApplyEndDate)
+                                    {
+                                        <text>开放报名中</text>
+                                    }
+                                    else
+                                    {
+                                        <text>报名结束</text>
+                                    }
+                                        }
+                                </td>
+                                <td class="nowrap">
+                                    <p>
+                                        
+                            
+                            @if (now < meeting.ApplyEndDate){
+                                        <a title="企业报名" href="@Url.Action("ApplyEdit", new { meetingId = meeting.Id })" class="btn-delete link"><span class="icon icon-person"></span>企业报名</a>}else{
+                                        
+                                        }
+                                            
+                                            
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!--/列表-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        /*创建委托招聘申请窗口*/
+        function f_onAddApplication(obj) {
+            if ($(obj).hasClass("disabled"))
+                return;
+            var jobArray = [];
+            $('.tab-item li').each(
+                function () {
+                    if ($(this).hasClass("actived")) {
+                        // alert($(this).attr("data-id"));
+                        jobArray.push($(this).attr("data-id"));
+                    }
+                }
+            );
+            var d = top.dialog({
+                title: '企业新建了委托招聘申请，将发送给系统管理员',
+                content: '@Html.Raw(Html.Partial("Dialog").ToHtmlString().Replace("\r\n", ""))',
+                width: "600px",
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    var contentData = { "JobId": JSON.stringify(jobArray), "HopeTime": top.$("#txtHopeTime").val() };
+                    /*ajax 提交到确认订单*/
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create", "JobFair")',
+                        dataType: 'json',
+                        data: contentData,
+                        success: function (data, textStatus) {
+                            var sucDialog = top.dialog({
+                                title: "对话框将在3秒内关闭...",
+                                content: "委托招聘申请创建成功，将发送给系统管理员！"
+                            });
+                            sucDialog.show();
+                            setTimeout(function () {
+                                sucDialog.close().remove();
+                            }, 3000);
+                        },
+                        error: function (msg, testStatus) {
+                            alert(JSON.stringify(msg));
+                        }
+                    });
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.showModal();
+        }
+    </script>
+</body>
+</html>

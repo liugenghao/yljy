@@ -1,0 +1,431 @@
+﻿@model Ys.Model.Model.College.jobEntries
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大学生实习报名系统-岗位录入</title>
+    <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet">
+    <link href="~/collegeSrc/css/index.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="Part-one">
+            <div class="g-in">
+                <img src="~/collegeSrc/image/collegeLogo.png" />
+            </div>
+        </div>
+        <div class="Part-two">
+            <a href="loginout" class="logioutBtn">
+                <img src="~/collegeSrc/image/logioutBtn.png" />
+            </a>
+            <div class="con-top">
+                <div class="con-word">
+                    <div class="con-station">岗位录入<span class="con-name">[ @ViewBag.unitName ]</span></div>
+                </div>
+                <div class="con-line"></div>
+            </div>
+            <div class="con-bottom clearfix">
+                @using (Html.BeginForm("publishJobEidt", "College", FormMethod.Post, new { @id = "form1", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">岗位类别</label>
+                        <div class="col-sm-6">
+                            <select id="stationTypeID" name="stationTypeID" class="form-control" style="width:40%;">
+                                <option value="0">--请选择岗位类别--</option>
+                                @if (ViewBag.stationtype != null)
+                                {
+                                    foreach (var item in (List<Ys.Model.Model.College.stationTypes>)ViewBag.stationtype)
+                                    {
+                                        if (Html.ViewBag.stationID == @item.id)
+                                        {
+                                <option value="@item.id" selected>@item.stationName</option>
+                                        }
+                                        else
+                                        {
+                                <option value="@item.id">@item.stationName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工作地点</label>
+                        <div class="col-sm-6">
+                            <select id="workingPlace" name="workingPlace" class="form-control" style="width:40%;">
+                                <option value="0">--请选择居住地--</option>
+                                @if (Model != null)
+                                {
+                                    if (Model.workingPlace == "小溪塔街道")
+                                    {
+                                        <option value="小溪塔街道" selected>小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "夷陵经济开发区街道")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道" selected>夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "樟村坪镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇" selected>樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                            <option value="太平溪镇">太平溪镇</option>
+                                            <option value="三斗坪镇">三斗坪镇</option>
+                                            <option value="乐天溪镇">乐天溪镇</option>
+                                            <option value="龙泉镇">龙泉镇</option>
+                                            <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                            <option value="邓村乡">邓村乡</option>
+                                            <option value="下堡坪乡">下堡坪乡</option>
+                                            <option value="黄花镇">黄花镇</option>
+                                            <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "雾渡河镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇" selected>雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "分乡镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇" selected>分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "太平溪镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇" selected>太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "三斗坪镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇" selected>三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "乐天溪镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇" selected>乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "龙泉镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇" selected>龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "鸦鹊岭镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇" selected>鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "邓村乡")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡" selected>邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "下堡坪乡")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡" selected>下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "黄花镇")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇" selected>黄花镇</option>
+                                        <option value="东城试验区">东城试验区</option>
+                                    }
+                                    else if (Model.workingPlace == "东城试验区")
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区" selected> 东城试验区</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="小溪塔街道">小溪塔街道</option>
+                                        <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区"> 东城试验区</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="小溪塔街道">小溪塔街道</option>
+                                    <option value="夷陵经济开发区街道">夷陵经济开发区街道</option>
+                                        <option value="樟村坪镇">樟村坪镇</option>
+                                        <option value="雾渡河镇">雾渡河镇</option>
+                                        <option value="分乡镇">分乡镇</option>
+                                        <option value="太平溪镇">太平溪镇</option>
+                                        <option value="三斗坪镇">三斗坪镇</option>
+                                        <option value="乐天溪镇">乐天溪镇</option>
+                                        <option value="龙泉镇">龙泉镇</option>
+                                        <option value="鸦鹊岭镇">鸦鹊岭镇</option>
+                                        <option value="邓村乡">邓村乡</option>
+                                        <option value="下堡坪乡">下堡坪乡</option>
+                                        <option value="黄花镇">黄花镇</option>
+                                        <option value="东城试验区"> 东城试验区</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">实习时间</label>
+                        <div class="col-sm-6">
+                            <select id="practiceTime" name="practiceTime" class="form-control" style="width:40%;">
+                                @if (Model != null)
+                                {
+                                    if (Model.practiceTime == "1个月")
+                                    {
+                                        <option value="1个月" selected>1个月</option>
+                                        <option value="2个月">2个月</option>
+                                        <option value="3个月">3个月</option>
+                                    }
+                                    else if (Model.practiceTime == "2个月")
+                                    {
+                                        <option value="1个月">1个月</option>
+                                        <option value="2个月" selected>2个月</option>
+                                        <option value="3个月">3个月</option>
+                                    }
+                                    else if (Model.practiceTime == "3个月")
+                                    {
+                                        <option value="1个月">1个月</option>
+                                        <option value="2个月">2个月</option>
+                                        <option value="3个月" selected>3个月</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1个月">1个月</option>
+                                        <option value="2个月">2个月</option>
+                                        <option value="3个月">3个月</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="1个月">1个月</option>
+                                    <option value="2个月">2个月</option>
+                                    <option value="3个月">3个月</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">是否提供食宿</label>
+                        <div class="col-sm-2">
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.isAccommodate, "1", new { @name = "myradio", @id = "radio2", @class = "minimal", @checked = true }) 是
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.isAccommodate, "2", new { @name = "myradio", @id = "radio1", @class = "minimal" }) 否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">人数</label>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.numPeople, new { id = "numPeople", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-5">
+                            @Html.TextAreaFor(m => m.remark, 3, 4, new { id = "txtUserName", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <input type="button" name="btnReturn" id="btnReturn" value="取消" class="btn default" onclick="javascript: history.back(-1);" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="Part-three">
+            版权所有：&copy;宜昌市夷陵区劳动就业管理局
+        </div>
+        <!-- 弹窗提示区域开始 -->
+        <div class="my-alert-mask" style="display:none;"></div>
+        <div class="alert my-alert alert-info alert-dismissible" style="display:none;width:20px;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4 class="alert-title"><i class="icon fa fa-check"></i>标题</h4>
+            <div class="alert-con">
+                内容
+            </div>
+        </div>
+    </div>
+    <script src="~/collegeSrc/js/jquery.min.js"></script>
+    <script src="~/collegeSrc/js/bootstrap.min.js"></script>
+    <script src="~/collegeSrc/js/my-alert.js"></script>
+    @Html.Raw(ViewBag.js)
+</body>
+</html>

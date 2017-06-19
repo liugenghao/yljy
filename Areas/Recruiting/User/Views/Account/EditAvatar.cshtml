@@ -1,0 +1,233 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>设置头像</title>
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+    <link href="~/Areas/Recruiting/User/Content/Styles/jquery.jcrop.css" rel="stylesheet" />
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home" target="right"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>我的简历</span>
+            <i class="arrow"></i><span>修改照片</span>
+        </div>
+        <!--/导航栏-->
+        <div class="result-wrap" id="result-detail">
+            <!--内容-->
+            <div id="floatHead" class="content-tab-wrap">
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">当前我的头像</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <p>如果您还没有设置自己的头像，系统会显示为默认头像，您需要自己上传一张新照片来作为自己的个人头像。</p>
+                <div class="img_box">
+                    <img src="~/img/user_avatar.png" width="180" height="180" />
+                </div>
+                <strong>设置我的新头像</strong>
+                <p>上传成功后，请裁剪合适的头像确认保存后才能生效。</p>
+                @using (Html.BeginForm("EditAvatar", "Account", FormMethod.Post, new { @id = "upload_form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    int resumeId = ViewBag.ResumeId;
+                    @Html.Hidden("resumeId", resumeId)
+                    <div class="avatar_upload">
+                        <input type="hidden" id="hidThumbnailUrl" name="hidThumbnailUrl" value="" />
+                        <a id="linkUpImage" class="files" href="javascript: upImage(); " title="上传图片"></a>
+                        <script type="text/plain" id="upload_ue" style="display: none;"></script>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="avatar_box clearfix">
+                        <div class="avatar_big_warp">
+                            <div class="avatar_big_box">
+                                <div class="avatar_big_pic">
+                                    <img id="target" src="~/img/pic_bg.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="avatar_small_warp">
+                            <div class="avatar_small_box">
+                                <div class="avatar_small_pic">
+                                    <img id="preview" src="~/img/pic_bg.png" />
+                                </div>
+                            </div>
+                            <p style="text-align: center;">
+                                <strong>头像预览区</strong>
+                            </p>
+                            <p style="text-align: center;">
+                                <input type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" value="确定保存" />
+                            </p>
+                            <p>提示：生成头像大小180*180相素上传图片后，左侧选取图片合适大小，然后点击确定保存按钮将设置新的头像。</p>
+                        </div>
+                    </div>
+                    <input id="hideFileName" name="hideFileName" type="hidden" />
+                    <input id="hideX1" name="hideX1" type="hidden" value="0" />
+                    <input id="hideY1" name="hideY1" type="hidden" value="0" />
+                    <input id="hideWidth" name="hideWidth" type="hidden" value="0" />
+                    <input id="hideHeight" name="hideHeight" type="hidden" value="0" />
+                }
+                <!--/设置头像-->
+            </div>
+        </div>
+    </div>
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    @Scripts.Render("~/ueditor/js")
+    <script src="~/Areas/Recruiting/User/Content/Scripts/jquery.jcrop.min.js"></script>
+    <script type="text/ecmascript">
+        /* 声明几个上传变量 */
+        var jcrop_api, boundx, boundy;
+        var hidThumbnailUrl = $("#hidThumbnailUrl"); /* 缩略图地址隐藏域对象 */
+
+        /* 实例化编辑器 */
+        var uploadUE = UE.getEditor('upload_ue');
+        uploadUE.ready(function () {
+            uploadUE.setHide(); /* 隐藏编辑器 */
+            /* 监听图片上 传*/
+            uploadUE.addListener('beforeInsertImage', function (t, arg) {
+                alert(JSON.stringify(arg[0]));
+                var src0 = arg[0].src; /* 只取第一张图片的路 */
+                hidThumbnailUrl.val(src0);  /* 将地址赋值给相应的 input, 只取第一张图片的路径 */
+                if (src0) {
+                    //初始化
+                    InitJcrop();
+                    jcrop_api.setImage(src0, function () {
+                        $('#hideFileName').val(src0);
+                        $('#preview').attr('src', src0);
+                        var bounds = jcrop_api.getBounds();
+                        boundx = bounds[0];
+                        boundy = bounds[1];
+                        jcrop_api.setSelect([0, 0, 180, 180]);
+                    });
+                } else {
+                    $.dialog.alert(data.msg);
+                }
+            });
+
+            /* 文件上传监听
+            * 需要在ueditor.all.min.js文件中找到 d.execCommand("insertHtml",l); 之后插入d.fireEvent('afterUpfile',b)
+            */
+            uploadUE.addListener('afterUpfile', function (t, arg) {
+                alert('这是文件地址：' + arg[0].url);
+            });
+        });
+
+        /* 弹出图片上传的对话框 */
+        function upImage() {
+            var myImage = uploadUE.getDialog("insertimage");
+            myImage.open();
+        }
+
+        //提交裁剪
+        function CropSubmit(webpath) {
+            $("#upload_form").ajaxSubmit({
+                url: '@Url.Action("EditAvatar", "Account")',
+                type: "post",
+                dataType: "json",
+                timeout: 200000,
+                success: function (data, textStatus) {
+                    if (data.status == 1) {
+                        $.dialog.tips("头像上传成功！", 2, "32X32/succ.png", function () {
+                            location.reload();
+                        });
+                    } else {
+                        $.dialog.alert(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.dialog.alert("状态：" + textStatus + "；出错提示：" + errorThrown);
+                }
+            });
+            return false;
+        }
+
+        //上传头像
+        function Upload(webpath) {
+            //开始提交
+            $("#upload_form").ajaxSubmit({
+                beforeSubmit: function (formData, jqForm, options) {
+                    //隐藏上传按钮
+                    $(".avatar_upload .files").eq(0).hide();
+                    //显示LOADING图片
+                    $(".avatar_upload .uploading").eq(0).show();
+                },
+                success: function (data, textStatus) {
+                    if (data.status == 1) {
+                        //初始化
+                        InitJcrop();
+                        jcrop_api.setImage(data.path, function () {
+                            $('#hideFileName').val(data.path);
+                            $('#preview').attr('src', data.path);
+                            var bounds = jcrop_api.getBounds();
+                            boundx = bounds[0];
+                            boundy = bounds[1];
+                            jcrop_api.setSelect([0, 0, 180, 180]);
+                        });
+                    } else {
+                        $.dialog.alert(data.msg);
+                    }
+                    $(".avatar_upload .files").eq(0).show();
+                    $(".avatar_upload .uploading").eq(0).hide();
+                },
+                error: function (data, status, e) {
+                    $.dialog.alert("上传失败，错误信息：" + e);
+                    $(".avatar_upload .files").eq(0).show();
+                    $(".avatar_upload .uploading").eq(0).hide();
+                },
+                url: webpath + "tools/upload_ajax.ashx?action=SingleFile&DelFilePath=hideFileName",
+                type: "post",
+                dataType: "json",
+                timeout: 60000
+            });
+            return false;
+        }
+
+        //初始化Jcrop
+        function InitJcrop() {
+            //var jcrop_api, boundx, boundy;
+            $("#target").Jcrop({
+                onChange: updatePreview,
+                onSelect: updatePreview,
+                aspectRatio: 1,
+                boxWidth: 350,
+                boxHeight: 350
+            }, function () {
+                jcrop_api = this;
+            });
+        };
+        //头像预览图
+        function updatePreview(c) {
+            if (parseInt(c.w) > 0) {
+                var rx = 180 / c.w;
+                var ry = 180 / c.h;
+                $('#preview').css({
+                    width: Math.round(rx * boundx) + 'px',
+                    height: Math.round(ry * boundy) + 'px',
+                    marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                    marginTop: '-' + Math.round(ry * c.y) + 'px'
+                });
+                $('#hideX1').val(Math.round(c.x));
+                $('#hideY1').val(Math.round(c.y));
+                $('#hideWidth').val(Math.round(c.w));
+                $('#hideHeight').val(Math.round(c.h));
+            }
+        };
+    </script>
+</body>
+</html>

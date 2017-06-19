@@ -1,0 +1,190 @@
+﻿@model PagedList<Ys.Model.ClassInfoModel>
+
+@using Webdiyer.WebControls.Mvc;
+
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/frame.css" rel="stylesheet" />
+    <!--[if lt IE 9]><script type="text/javascript">window.location.href = '@Url.Action("IE8Update")'</script><![endif]-->
+</head>
+
+<body>
+    <div class="student_list_panel" id="student_list_panel">
+        @using (Html.BeginForm("ViewAll", "ClassManager", FormMethod.Get, new {id="searchForm" }))
+        {
+            <div class="table_wrap">
+                <div class="list_header clearfix">
+                    <button class="export_excel btn btn-success"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;导出培训记录</button>
+                    <button class="btn btn-danger classDetClose" id="classDetClose">关闭培训记录</button>
+                    <div class="con_search_panel">
+                        <span class="seachByTimeTag">按时间查询:</span>
+                        <input type="text" class="form-control  datepicker" name="sTime" value='@ViewBag.sTime' />
+                        <span>至</span>
+                        <input type="text" class="form-control  datepicker" name="eTime" value='@ViewBag.eTime' />
+                        <button class="btn btn-primary" type="submit">确认</button>
+                        <button class="btn btn-warning" type="button">重置</button>
+        
+                    </div>
+                </div>
+                <ul class="hide assistAside" id="assistAside">
+                    <li class="clearfix">
+                        <button class="go_top_btn" id="go_top_btn" title="回到顶部"></button>
+                    </li>
+                    <li class="clearfix">
+                        <button class="export_excel_btn" data-toggle="modal" data-target="#exportConfirmPanel" title="导出Excel表"></button>
+                    </li>
+                </ul>
+                <ul class="hide assistThead clearfix">
+                    <li>名称</li>
+                    <li>地址</li>
+                    <li>区域</li>
+                    <li>所属机构</li>
+                    <li>课程</li>
+                    <li>开始时间</li>
+                    <li>结束时间</li>
+                    <li>负责人</li>
+                    <li>联系电话</li>
+                    @*<li class="info">管理员操作</li>*@
+                </ul>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>地址</th>
+                                <th>区域</th>
+                                <th>所属机构</th>
+                                <th>课程</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>负责人</th>
+                                <th>联系电话</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stuTable">
+                            @if (Model != null)
+                            {
+                                foreach (Ys.Model.ClassInfoModel classInfo in Model)
+                                {
+                                <tr data-id="@classInfo.ID">
+                                    <td>@classInfo.Name</td>
+                                    <td>@classInfo.Address</td>
+                                    <td>@classInfo.Region.RegionName</td>
+                                    <td>@classInfo.InstitutionId</td>
+                                    <td>@classInfo.Course</td>
+                                    <td>@classInfo.StartDate.ToString("yyyy年MM月dd日")</td>
+                                    <td>@classInfo.EndDate.ToString("yyyy年MM月dd日")</td>
+                                    <td>@classInfo.Admin</td>
+                                    <td>@classInfo.Tel</td>
+                                </tr>
+                                }
+                            }
+                        
+                        </tbody>
+                    </table>
+                    <!--table end-->
+                    @Html.RadioButton("itemShowCount", 10,true, new { id = "itemShow10", @class = "itemShowCount" })<span><i></i><label for="itemShow10">一页10条</label></span>
+                    @Html.RadioButton("itemShowCount", 20, new { id = "itemShow20", @class = "itemShowCount" })<span><i></i><label for="itemShow20">一页20条</label></span>
+                    @Html.RadioButton("itemShowCount", 30, new { id = "itemShow30", @class = "itemShowCount" })<span><i></i><label for="itemShow30">一页30条</label></span>
+                    @*<div class="itemNumContr"><a href="javascript:" class="itemShow10">一页10条</a><a href="javascript:" class="itemShow20">一页20条</a><a href="javascript:" class="itemShow30">一页30条</a></div>*@
+                    <div class="pageTools clearfix">
+                        @if (Model != null)
+                        {
+                            @Html.Pager(Model, new PagerOptions
+               {
+                   PageIndexParameterName = "id",
+                   ShowPrevNext = true,
+                   FirstPageText = "首页  ",
+                   PrevPageText = "  上一页  ",
+                   NextPageText = "  下一页  ",
+                   LastPageText = "  末页  ",
+                   PageIndexBoxId = "",
+                   ShowNumericPagerItems = true,
+                   PageNumberFormatString = "  {0}  ",
+                   DisabledPagerItemTemplate = "<span>{0}</span>",
+                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+               })                    
+                            <div class="resultTips">共有 @Model.TotalItemCount 条记录</div>
+                        }
+                    </div>
+                </div>
+                <!--table_wrap end-->
+            </div>
+        }
+        <!--table_wrap end-->
+    </div>
+    <!--student_list_panel end-->
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-i18n.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/frame.js"></script>
+    <script type="text/javascript">
+        function valid() {
+            try {
+                var startT = $(".con_search_panel input").eq(0).val().split('-').join('');
+                var endT = $(".con_search_panel input").eq(1).val().split('-').join('');
+                if (parseInt(endT) >= parseInt(startT)) {
+                    return true;
+                } else {
+                    alert('结束时间必须大于等于起始时间');
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+            //alert(split(startT));
+
+        }
+        $(function () {
+            $('.itemShowCount').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).next('span').addClass('selected');
+                }
+            })
+            //$('.itemShowCount + span').on('click', function () {
+            //    $('.itemShowCount + span').removeClass('selected');
+            //    $(this).addClass('selected');
+            //})
+            $(".itemShowCount").change(function () {
+                $("#searchForm").submit();
+            });
+            $(".btn-warning").click(function () {
+                window.location.href = '@Url.Action("ViewAll", "ClassManager")'
+            });
+            /*--------------点击导出xls表按钮----------*/
+            $(".export_excel").on('click', function () {
+                window.location.href = '@Url.Action("DownloadRecord", "ClassManager")'
+                //$("#exportConfirmPanel .modal-body span").text('<' + className + '>');
+            });
+
+            $('#classDetClose').on('click', function () {
+                window.parent.closeStuListPanel();
+            })
+
+            $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd', changeMonth: true,
+                changeYear: true,
+                yearRange: "2015:2030",
+                showAnim: "blind",
+                //defaultDate: '-22y'
+            });//set dateFormat
+        });
+
+    </script>
+</body>
+
+</html>

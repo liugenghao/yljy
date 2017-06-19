@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "资讯";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+
+<!--主体区域-->
+<div class="main-wrap mainbg" id="main">
+    <div class="section white clearfix">
+        <div class="ht_20"></div>
+        <div class="block-aside">
+            <div class="sidebar clearborder">
+                <div class="headtitle"><h2>关于我们</h2></div>                                 	
+                <div class="side-nav">
+                    <ul>
+                        <li class="node actived">
+                            <a class="top-title" href="@Url.Action("Contact", "Recruiting")">联系我们</a>                                  
+                        </li>
+                        <li class="node">
+                            <a class="top-title" href="@Url.Action("Statement", "Recruiting")">法律声明</a>                                  
+                        </li>
+                        <li class="node">
+                            <a class="top-title" href="@Url.Action("About", "Recruiting")">关于我们</a>                                  
+                        </li>
+                        <li class="node">
+                            <a class="top-title" href="@Url.Action("FAQ", "Recruiting")">常见问题</a>                                  
+                        </li>                             
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="block-right">
+            <div class="result-wrap">  
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="/or/index.html" class="home"><i></i><span>返回首页</span></a>
+                    <a href="index.html">
+                        <span>关于我们</span>
+                    </a> 
+                    <i class="arrow"></i>
+                    <span>联系我们</span>
+                </div>
+                <!--/导航栏-->
+                <!--当前栏目-->
+                <div class="result-records">
+                    <div class="ls_rows">
+                        <ul class="clearfix">
+                            <li class="current-title"><i></i><label>联系我们</label></li>
+                        </ul>
+                        <div class=" ht_5 defcaption"></div>
+                    </div>
+                </div>
+                <!--/当前栏目-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="ht_10"></div>
+                    <div class="view-article">     
+                        <div class="article-text" id="article-text" style="padding-top: 0;">
+                            <div class="ui-index-contact" id="contact">
+                                <div class="head-title">
+                                    <h3><span>联系方式</span><span class="en-text">Contact Us</span></h3>
+                                </div>
+                                <div class="ls_rows">
+                                    <ul>
+                                        <li>
+                                            <label>通讯地址：</label>湖北省宜昌市夷陵区湖光路8号
+                                        </li>
+                                        <li>
+                                            <label>邮政编码：</label>443100
+                                        </li>
+                                        <li>
+                                            <label>联系电话：</label>0717-7816006
+                                        </li>
+                                        <li>
+                                            <label>电子邮件：</label><a href="mailto:13854875@qq.com">13854875@qq.com</a>
+                                        </li>
+                                        <li>
+                                            <label>客服QQ号：</label><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=13854875&site=qq&menu=yes"><img border="0" style="vertical-align: middle;" src="http://wpa.qq.com/pa?p=2:13854875:41" alt="点击这里给我（QQ：13854875）发消息" title="点击这里给我（QQ：13854875）发消息"></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="ht_10"></div>
+                                <div class="head-title" style="display: none;">
+                                    <h3><span>意见反馈</span><span class="en-text">We Would Love To Hear From You</span></h3>
+                                </div>
+                                <div class="ls_rows" style="display: none;">
+                                    @using (Html.BeginForm("Edit", null, FormMethod.Post, new { @id = "form1" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("Id")
+                                        <h4 class="ui-colremark">如果您有好的建议或任何想要咨询的信息可以及时与我们联系，请填写正确的联系方式，以便我们在最短的时间内与您联系，我们期待您的关注。</h4>
+                                        <ul class="contact-form" id="contact-form">
+                                            <li><input name="userName" type="text" id="userName" class="common-text" placeholder="姓名或称呼"></li>
+                                            <li><input name="userPhone" type="text" id="userPhone" class="common-text" placeholder="联系电话"></li>
+                                            <li><input name="userEmail" type="text" id="userEmail" class="common-text" placeholder="电子邮箱"></li>
+                                            <li><textarea name="userMessage" rows="4" cols="20" id="userMessage" class="common-textarea" placeholder="内容..."></textarea></li>
+                                            <li>
+                                                <span class="left" style="margin-right: 1em;">
+                                                    <input name="TextBox4" type="text" id="TextBox4" class="common-text" placeholder="验证码" style="width:100px;">
+                                                    <img alt="验证码" src="" width="112" height="36" style="vertical-align: middle;">
+                                                </span>
+                                                <span class="left">
+                                                    <input type="submit" name="btnSend" value="提 交" id="btnSend" class="obj-apply-btn" style="line-height: 38px;">
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                                <div class="ht_20"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                   
+                <!--/内容-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+	
+</script>

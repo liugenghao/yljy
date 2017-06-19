@@ -1,0 +1,299 @@
+﻿@model Ys.Model.ClassInfoModel
+@{
+    ViewBag.Title = "ClassManager";
+    Layout = "";
+}
+@using (Ajax.BeginForm("Save", "ClassManager", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "tips" }, new { @class = "infoContent", onsubmit = "" }))
+{
+    @Html.Hidden("ID")
+    @Html.Hidden("InstitutionId")
+    @Html.Hidden("PointX")
+    @Html.Hidden("PointY")
+    <label class="infoContentLab" for="className">教室名称</label>
+    @Html.TextBox("Name", null, new { @class = "form-control className editable", id = "className", disabled = "disabled" })
+    <label class="infoContentLab" for="classAddress">教室地址</label><br />
+    @Html.TextBox("Address", null, new { @class = "form-control classAddress editable", id = "classAddress", disabled = "disabled" })
+    <button type="button" class="btn btn-default modifyClassPosition editable" disabled="disabled" onclick="modifyClassPosition()">定位</button>
+    <label class="infoContentLab">所属乡镇</label>
+    @Html.DropDownListFor(m => m.Region.RegionID, ViewData["Region.RegionID"] as List<SelectListItem>, new { id = "className", @class = "form-control region editable", disabled = "disabled" })
+    <label class="infoContentLab" for="classCourse">培训课程</label>
+    @Html.TextBox("Course", null, new { @class = "form-control classCourse editable", id = "classCourse", disabled = "disabled" })
+    <label class="infoContentLab">培训周期</label>
+    <div class="clearfix">
+        @Html.TextBox("StartDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodStart editable datepicker", disabled = "disabled" }) <span>至</span>
+        @Html.TextBox("EndDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodEnd editable datepicker", disabled = "disabled" })
+    </div>
+    
+    <label class="infoContentLab" for="classSchedule">上课时间</label>
+    @Html.TextBox("Time", null, new { @class = "form-control classSchedule editable", id = "classSchedule", disabled = "disabled" })
+    <label class="infoContentLab" for="classPrincipal">负责人</label>
+    @Html.TextBox("Admin", null, new { @class = "form-control classPrincipal editable", id = "classPrincipal", disabled = "disabled" })
+    <label class="infoContentLab" for="classTel">联系电话</label>
+    @Html.TextBox("Tel", null, new { @class = "form-control classTel editable", id = "classTel", disabled = "disabled" })
+    @*<label class="infoContentLab" for="classVideo">摄像头</label>
+    @Html.TextBoxFor(m => m.VideoName, null, new { @class = "form-control classTel editable", id = "classVideo", disabled = "disabled" })
+    
+    *@<div class="edit_btn">
+        @if (ViewBag.Add != "add")
+        {
+            <button type="button" class="btn btn-default" onclick="openMonitor()">监 控</button>
+        }
+        @if (@Session["InsId"].ToString() == Model.InstitutionId || @Session["roleId"].ToString() == "0")
+        {
+            if (ViewBag.Add != "add")
+            {
+            <button type="button" class="btn btn-warning" onclick="doEdit()">编 辑</button>
+            }
+            <button type="submit" class="btn btn-primary editable" disabled="disabled">保 存</button>
+        }
+        @if (@Session["roleId"].ToString() == "0" && ViewBag.Add != "add")
+        {
+            <button type="button" class="btn btn-danger delete_btn">删 除</button>
+        }
+    </div>
+}
+
+<div class="close_btn">
+    <button type="button" id="close_editPanelBtn" class="btn btn-default"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>关 闭</button>
+</div>
+<!----------- 删除确认弹窗 ----------->
+<div class="deleteConfirmPanel" id="deleteConfirmPanel">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">提示</h4>
+        </div>
+        <!--删除教室弹窗-modal-header-->
+        <div class="modal-body">
+            <img src="~/img/delete_bg.png" />
+            是否要删除：<<span></span>>的信息
+        </div>
+        <!--删除教室弹窗-modal-body-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="delete_confirm" onclick="del()">确 认</button>
+            <button type="button" class="btn btn-default close_confirmPanel" id="close_confirmPanel">关 闭</button>
+        </div>
+        <!--删除教室弹窗-modal-footer end-->
+    </div>
+    <!--删除教室弹窗-modal-content end-->
+</div>
+<!--删除教室弹窗-modal end-->
+
+<script>
+    function deleteDrawMaker() {
+        if (markerTemp) {
+            markerTemp.setMap(null);
+            markerTemp = null;
+        }
+        if (selectedMaker) {
+            selectedMaker.setMap(null);
+            selectedMaker = null;
+        }
+        if (tempInfoWin) {
+            tempInfoWin.close();
+            tempInfoWin = null;
+        }
+        $("#PointX").val(0);
+        $("#PointY").val(0);
+    }
+    function modifyClassPosition() {
+        modifyPosition = true;
+
+        if (selectedMaker) {
+
+            infoWin.close();
+            selectedMaker.setDraggable(true);
+            if (tempInfoWin) {
+
+            }
+            else {
+                tempInfoWin = new qq.maps.InfoWindow({
+                    map: map,
+                    content: '<div>点击我拖动  <button onclick="deleteDrawMaker()" >删除</button></div>',
+                    position: selectedMaker
+                });
+                qq.maps.event.addListener(tempInfoWin, "closeclick", function () {
+
+                    deleteDrawMaker();
+                });
+            }
+            tempInfoWin.open();
+            var size = new qq.maps.Size(32, 32);
+            selectedMaker.setIcon(new qq.maps.MarkerImage('@Url.Content(@"~/img/address.png")', null, null, null, size));
+            qq.maps.event.clearListeners(selectedMaker, "dragend");
+            var dragEvent = qq.maps.event.addListener(selectedMaker, 'dragend', function (event) { //拖拽完以后存入临时变量
+                $("#PointX").val(event.latLng.getLng());
+                $("#PointY").val(event.latLng.getLat());
+            });
+        }
+        else {
+            map.setOptions({
+                draggableCursor: "crosshair",
+                disableDoubleClickZoom: false
+            })
+            qq.maps.event.addListenerOnce(
+                map,
+                "dblclick",
+                function (event) {
+                    var pointInfo = { Point: event.latLng, Name: "未命名" };
+                    $("#PointX").val(event.latLng.getLng());
+                    $("#PointY").val(event.latLng.getLat());
+                    markerTemp = createMarker(pointInfo);
+                    markerTemp.setDraggable(true);
+                    if (tempInfoWin) {
+
+                    }
+                    else {
+                        tempInfoWin = new qq.maps.InfoWindow({
+                            map: map,
+                            content: '<div style="text-align:center;">点击锚点拖动<button onclick="deleteDrawMaker()" >删除锚点</button></div>',
+                            position: markerTemp
+                        });
+                        qq.maps.event.addListener(tempInfoWin, "closeclick", function () {
+
+                            deleteDrawMaker();
+                        });
+                    }
+                    tempInfoWin.open();
+                    var size = new qq.maps.Size(32, 32);
+                    markerTemp.setIcon(new qq.maps.MarkerImage('@Url.Content(@"~/img/address.png")', null, null, null, size));
+                    qq.maps.event.clearListeners(markerTemp, "dragend");
+                    var dragEvent = qq.maps.event.addListener(markerTemp, 'dragend', function (event) { //拖拽完以后存入临时变量
+                        $("#PointX").val(event.latLng.getLng());
+                        $("#PointY").val(event.latLng.getLat());
+                    });
+
+                    map.setOptions({
+                        draggableCursor: "pointer",
+                        disableDoubleClickZoom: true
+                    })
+                });
+
+            }
+        }
+
+        function del() {
+            var id = '@Model.ID';
+                $.ajax({
+                    url: "../ClassManager/Delete/" + id,
+                    type: 'GET',
+                    timeout: 20000,
+                    success: function (data) {
+                        // alert('删除成功');
+                        selectedClassId = null;
+                        selectedMaker = null;
+                        getAllClass();
+                        closeStuListPanel();
+                        $('#classEditPanel').stop().animate({
+                            left: 0
+                        }, 500, function () {
+                            $('#classEditPanel').hide();
+                        });
+                        $('#classEditPanelAfter').css('opacity', 0).hide();
+
+                        stopEdit();
+
+                    }
+                });
+            }
+            $('.edit_btn .delete_btn').on('click', function () {
+                $('#deleteConfirmPanel').show().stop().animate({
+                    'opacity': 1
+                }, 500);
+                $('#deleteConfirmPanel .modal-body span').text('@Model.Name');
+        });
+        $('#deleteConfirmPanel .modal-content').width($('#classEditPanel').width() - 20);
+        $('#close_confirmPanel').on('click', function () {
+            $('#deleteConfirmPanel').stop().animate({
+                'opacity': 0
+            }, 100, function () {
+                $('#deleteConfirmPanel').hide();
+            });
+
+        });
+        $('.close span').on('click', function () {
+            $('#deleteConfirmPanel').stop().animate({
+                'opacity': 0
+            }, 100, function () {
+                $('#deleteConfirmPanel').hide();
+            });
+        });
+        function tips(data) {
+            modifyPosition = true;
+            if (tempInfoWin) {
+                tempInfoWin.close();
+                tempInfoWin = null;
+            }
+
+            $('.editable').attr('disabled', 'disabled');
+            getAllClass();
+            //var id = '@Model.ID';
+        }
+    function doEdit() {
+        $('.editable').removeAttr('disabled');
+    }
+    function stopEdit() {
+        stopModifyClassPosition();
+    }
+
+    var asideHeight = $('aside').height();
+    var asideWidth = $('aside').width();
+    var editPanelWidth = $('#classEditPanel').width();
+    var editPanelHeight = $('#classEditPanel').height();
+    //var inputFormHeight = asideHeight / 26;
+
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+    $(".datepicker").datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "2015:2030"
+
+    });
+
+    var inputFormHeight = asideHeight / 26;
+    $('#classEditPanel .form-control').css({
+        'height': inputFormHeight,
+        'line-height': inputFormHeight + 'px',
+        'paddingTop': 0,
+        'paddingBottom': 0
+    });
+    $('#classEditPanel .modifyClassPosition').css({
+        'line-height': (inputFormHeight - 5) + 'px',
+    });
+    $('#classEditPanel span').css({
+        'line-height': inputFormHeight + 'px'
+    });
+    $('#classEditPanel label').css({
+        'marginTop': asideHeight / 90,
+        'fontSize': (asideHeight + asideWidth) / 80
+    });
+    $('#classEditPanel .edit_btn').css({
+        'marginTop': asideHeight / 40
+    });
+    $('#classEditPanel .close_btn').css({
+        'marginTop': asideHeight / 40
+    });
+
+    $('#close_editPanelBtn').on('click', function () {
+        $('#classEditPanel').stop().animate({
+            left: 0
+        }, 500, function () {
+            $('#classEditPanel').hide();
+        });
+        $('#classEditPanelAfter').css('opacity', 0).hide();
+        closeStuListPanel();
+        stopEdit();
+    });
+
+
+    var startTime = $('.classPeriodStart').val().split(' ')[0];
+    var endTime = $('.classPeriodEnd').val().split(' ')[0];
+    startTime = startTime == '0001/1/1' ? '' : startTime;
+    endTime = endTime == '0001/1/1' ? '' : endTime;
+    $('.classPeriodStart').val(startTime);
+    $('.classPeriodEnd').val(endTime);
+    //console.log('startTime:' + startTime + '\n' + 'endTime:' + endTime)
+
+</script>

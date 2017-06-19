@@ -1,0 +1,116 @@
+﻿@model Ys.Model.Model.College.intentionForms
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大学生实习报名系统-我的实习意向</title>
+    <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet">
+    <link href="~/collegeSrc/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="Part-one-table">
+            <div class="g-in">
+                <img src="~/collegeSrc/image/collegeLogo.png" />
+            </div>
+        </div>
+        <div class="Part-two-table">
+            <a href="loginout" class="logioutBtn">
+                <img src="~/collegeSrc/image/logioutBtn.png" /></a>
+            <div class="con-top">
+                <div class="con-word">
+                    <div class="con-user">@(ViewBag.userName == "" ? "我的实习意向" : ViewBag.userName)</div>
+                </div>
+                <div class="con-line"></div>
+                <div class="con-btn">
+                    @if (Model != null)
+                    {
+                        <a href="#" class="btn btn-primary" disabled="disabled">新增实习意向</a>
+                    }
+                    else
+                    {
+                        <a href="fillFrom" class="btn btn-primary">新增实习意向</a>
+                    }
+                </div>
+            </div>
+            <div class="con-bottom con-table">
+                <div class="row condition">
+                    <div class="col-xs-2">
+                        <a href="myFillFrom"><span class="text-primary">我的实习意向</span></a>
+                    </div>
+                    <div class="col-xs-2">
+                        <a href="jobBrowse"><span class="text-muted">岗位一览</span></a>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>身份证号</th>
+                            <th>就读学校</th>
+                            <th>入学时间</th>
+                            <th>毕业时间</th>
+                            <th>学历</th>
+                            <th>专业</th>
+                            <th>手机号</th>
+                            <th>紧急联系人</th>
+                            <th>紧急联系人电话</th>
+                            <th>意向单位类别</th>
+                            <th>意向岗位类别</th>
+                            <th>居住地</th>
+                            <th>意向工作地</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    @if (Model != null)
+                    {
+                        <tbody id="itemContainer">
+                            <tr>
+                                <td>@Model.name</td>
+                                <td>@(Model.sex == "1" ? "男" : Model.sex == "2" ? "女" : "")</td>
+                                <td>@Model.identity</td>
+                                <td>@Model.attendSchool</td>
+                                <td>@Model.entrance</td>
+                                <td>@Model.graduation</td>
+                                <td>@Model.education</td>
+                                <td>@Model.major</td>
+                                <td>@Model.mobile</td>
+                                <td>@Model.contactName</td>
+                                <td>@Model.contactPhone</td>
+                                <td>@Model.companyType.companyName</td>
+                                <td>@Model.stationType.stationName</td>
+                                <td>@Model.liveWhere</td>
+                                <td>@Model.wrokAddr</td>
+                                <td class="nowrap flex-box">
+                                    <a href="@Url.Action("myFillFromEidt", new { id = Model.id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tfoot>
+                            <tr>
+                                <td colspan='16'>暂无记录</td>
+                            </tr>
+                        </tfoot>
+                    }
+
+                </table>
+            </div>
+        </div>
+        <div class="Part-three">
+            版权所有：&copy;宜昌市夷陵区劳动就业管理局
+        </div>
+    </div>
+</body>
+
+</html>

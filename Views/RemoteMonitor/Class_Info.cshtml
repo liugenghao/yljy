@@ -1,0 +1,54 @@
+﻿@model Ys.Model.ClassDetails
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/frame.css" rel="stylesheet" />
+    <!--[if lt IE 9]><script type="text/javascript">window.location.href = '@Url.Action("IE8Update")'</script><![endif]-->
+</head>
+
+<body>
+    <div class="class_info" id="class_info">
+        <ul class="clearfix">
+            <li class="item">培训项目
+                <br>
+                <span>@Model.ClassInfo.Course</span></li>
+            <li class="period">培训周期
+                <br>
+                <span>@Model.ClassInfo.StartDate.ToString("yyyy年MM月dd日")至 @Model.ClassInfo.EndDate.ToString("yyyy年MM月dd日")</span></li>
+            <li class="teacher">授课人
+                <br>
+                <span>王永</span></li>
+            <li class="organization">培训机构
+                <br>
+                <span>金鑫教育培训中心</span></li>
+            <li class="stuNum">学员人数
+                <br>
+                <span>@Model.StudentInfoList.Count.ToString()人</span></li>
+            <li class="principal">负责人
+                <br>
+                <span>@Model.ClassInfo.Admin / <i>136175234314X</i></span></li>
+            <li class="schedule">上课时间
+                <br>
+                <span>@Model.ClassInfo.Time</span></li>
+            <li class="address">上课地点
+                <br>
+                <span>@Model.ClassInfo.Address</span></li>
+            <li class="region">所属区域
+                <br>
+                <span>@Model.ClassInfo.Region.RegionName</span></li>
+        </ul>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/script.js"></script>
+</body>
+
+</html>

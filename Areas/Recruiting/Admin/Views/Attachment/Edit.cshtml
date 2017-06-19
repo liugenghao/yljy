@@ -1,0 +1,170 @@
+﻿@model Ys.Model.Model.Home.AttachmentModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>文件上传</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("文件资源管理", "Index")
+                <span class="crumb-step">&gt;</span><span>文件上传</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <div class="result-wrap">
+            @using (Html.BeginForm("Edit", null, FormMethod.Post, new { @id = "form1" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+                <!--内容-->
+                <div id="floatHead" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">文件信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <dl>
+                        <dt>选择文件</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.FileDir, new { id = "txtFileUrl", @class = "input normal fix_borderb" })
+                            <a id="linkUpImage" class="act" onclick="upFiles(); ">上传文件</a>
+                            <div class="clear file_list" style="display: none;">
+                                <ul>
+                                    <li>
+                                        <input type="hidden" name="hidFileUrl" id="hidFileUrl" value="" />
+                                        <a id="link_lifile" class="gray-999" target="_blank"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <script type="text/plain" id="upload_ue" style="display: none;"></script>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>文件名称</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.FileName, new { id = "txtName", @class = "input normal" })
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>文件类型</dt>
+                        <dd>
+                            <div class="input normal">
+                                <label id="txtFileType"></label>
+                            </div>
+                            @Html.HiddenFor(m => m.FileType, new { id = "hidFileType" })
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>备注与说明</dt>
+                        <dd>
+                            @Html.TextAreaFor(m => m.Remark, new { id = "txtRemark", @class = "input normal", rows = "5", cols = "30" })
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>状 态</dt>
+                        <dd>
+                            <div class="rule-multi-radio">
+                                @Html.RadioButtonFor(m => m.State, 0, new { id = "listEnable_False" })<label for="listEnable_False">存为草稿</label>
+                                @Html.RadioButtonFor(m => m.State, 1, new { id = "listEnable_True" })<label for="listEnable_True">审核发布</label>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <!--/内容-->
+                <!--工具栏-->
+                <div class="page-footer">
+                    <div class="btn-wrap">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="提交保存" class="btn" />
+                        <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);" />
+            
+                    </div>
+                </div>
+                <!--/工具栏-->
+            }
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
+    <script src="~/ueditor/ueditor.config.js"></script>
+    <script src="~/ueditor/ueditor.all.js"></script>
+    @*@Scripts.Render("~/ueditor/js")*@
+    <script type="text/javascript">
+        /* 声明几个上传变量 */
+        var txtFileUrl = $("#txtFileUrl"); /* 文件地址文本对象 */
+        var hidFileUrl = $("#hidFileUrl"); /* 文件地址隐藏域对象 */
+        var txtName = $("#txtName");
+        var txtFileType = $("#txtFileType");
+        var hidFileType = $("#hidFileType");
+
+        /* 实例化编辑器 */
+        var uploadUE = UE.getEditor('upload_ue');
+        uploadUE.ready(function () {
+            //uploadUE.setHide(); /* 隐藏编辑器 */            
+            /* 文件上传监听
+            * 需要在ueditor.all.min.js文件中找到 d.execCommand("insertHtml",l); 之后插入d.fireEvent('afterUpfile',b)
+            */
+
+            uploadUE.addListener('afterUpfile', function (t, arg) {
+                var file_url = arg[0].url;
+                var title = arg[0].title;
+                var file_type = "";
+                if (title) {
+                    file_type = title.substr(title.lastIndexOf("."), title.lehgth);
+                }
+
+                //文件名称字段友情赋值
+                $(".file_list").show().find("li a").prop("href", file_url).text(file_url);
+                $("#txtFileUrl").val(file_url);
+                hidFileUrl.val(file_url);
+                txtName.val(title);
+                hidFileUrl.val(file_url);
+                txtFileType.text(file_type);
+                hidFileType.val(file_type);
+            });
+        });
+
+        /* 弹出文件上传的对话框 */
+        function upFiles() {
+            var myFiles = uploadUE.getDialog("attachment");
+            myFiles.open();
+        }
+
+        /* document.ready */
+        $(function () {
+            /*初始化表单验证*/
+            $("#form1").initValidform();
+
+            var fileUrl = "";
+            @*@if (Model != null)
+            {
+                <text>fileUrl = '@Model.Thumbnail';</text>
+            }
+            if (fileUrl) {
+                txtfileUrl.val(fileUrl);
+            }*@
+        });
+    </script>
+</body>
+</html>

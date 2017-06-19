@@ -1,0 +1,170 @@
+﻿@model Ys.Model.InstitutionModel
+@{
+    ViewBag.Title = "";
+    Layout = "";
+}
+@using (Ajax.BeginForm("Save", "InstitutionManager", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "tips" }, new { @class = "infoContent" }))
+{
+    @Html.Hidden("Id")
+    @Html.Hidden("State")
+    <label class="infoContentLab" for="InstitutionName">机构名称</label>
+    @Html.TextBox("Name", null, new { @class = "form-control className editable", id = "InstitutionName", disabled = "disabled" })
+    <label class="infoContentLab" for="InstitutionAddress">机构地址</label>
+    @Html.TextBox("Address", null, new { @class = "form-control className editable", id = "InstitutionAddress", disabled = "disabled" })
+    <label class="infoContentLab" for="InstitutionPrincipal">负责人</label>
+    @Html.TextBox("Admin", null, new { @class = "form-control classPrincipal editable", id = "InstitutionPrincipal", disabled = "disabled" })
+    <label class="RoleId" for="RoleId">机构类型</label>
+    @Html.DropDownListFor(m => m.RoleId, ViewData["RoleId"] as List<SelectListItem>, new { @class = "form-control InstitutionPrincipal editable", disabled = "disabled" })
+    <label class="infoContentLab" for="InstitutionTel">联系电话</label>
+    @Html.TextBox("Tel", null, new { @class = "form-control classTel editable", id = "InstitutionTel", disabled = "disabled" })
+    <label class="infoContentLab" for="InstitutionLogin">登录名</label>
+    @Html.TextBox("LoginId", null, new { @class = "form-control classTel editable", id = "InstitutionLogin", disabled = "disabled" })
+    <label class="infoContentLab" for="InstitutionPwd">登录密码</label>
+    @Html.TextBox("LoginPwd", null, new { @class = "form-control classTel editable", id = "InstitutionPwd", disabled = "disabled" })  
+    <label class="infoContentLab" for="InstitutionValidity">失效日期</label>
+    @Html.TextBox("Validity",null, new { @class = "form-control  classTel editable datepicker", id = "InstitutionValidity", disabled = "disabled" })  
+    <div class="edit_btn">
+
+        @if (ViewBag.Add != "add")
+        {
+            <button type="button" class="btn btn-warning" onclick="doEdit()">编 辑</button>
+        }
+        <button type="submit" class="btn btn-primary editable" disabled="disabled">保 存</button>
+
+        @if (ViewBag.Add != "add")
+        {
+            <button type="button" class="btn btn-danger delete_btn">删 除</button>
+        }
+    </div>
+}
+<div class="close_btn">
+    <button type="button" id="close_editPanelBtn" class="btn btn-default"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>关 闭</button>
+</div>
+<!----------- 删除确认弹窗 ----------->
+<div class="deleteConfirmPanel" id="deleteConfirmPanel">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">提示</h4>
+        </div>
+        <!--删除教室弹窗-modal-header-->
+        <div class="modal-body">
+            <img src="~/img/delete_bg.png" />
+            是否要删除：<<span></span>>的信息
+        </div>
+        <!--删除教室弹窗-modal-body-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="delete_confirm" onclick="del()">确 认</button>
+            <button type="button" class="btn btn-default close_confirmPanel" id="close_confirmPanel">关 闭</button>
+        </div>
+        <!--删除教室弹窗-modal-footer end-->
+    </div>
+    <!--删除教室弹窗-modal-content end-->
+</div>
+<!--删除教室弹窗-modal end-->
+<script>
+    function del() {
+        var id = '@Model.Id';
+        $.ajax({
+            url: "/InstitutionManager/Delete/" + id,
+            type: 'GET',
+            timeout: 20000,
+            success: function (data) {
+                // alert('删除成功');
+                getInstitution();
+                selectedInstitutionId = null;
+            }
+        });
+    }
+    $('.edit_btn .delete_btn').on('click', function () {
+        $('#deleteConfirmPanel').show().stop().animate({
+            'opacity': 1
+        }, 500);
+        $('#deleteConfirmPanel .modal-body span').text('@Model.Name');
+    });
+    $('#deleteConfirmPanel .modal-content').width($('#classEditPanel').width() - 20);
+    $('#close_confirmPanel').on('click', function () {
+        $('#deleteConfirmPanel').stop().animate({
+            'opacity': 0
+        }, 100, function () {
+            $('#deleteConfirmPanel').hide();
+        });
+
+    });
+    $('.close span').on('click', function () {
+        $('#deleteConfirmPanel').stop().animate({
+            'opacity': 0
+        }, 100, function () {
+            $('#deleteConfirmPanel').hide();
+        });
+    });
+    function tips(data) {
+        $('.editable').attr('disabled', 'disabled');
+        selectedInstitutionId = '@Model.Id';
+        refreshInsList();
+        //locateIns(selectedInstitutionId);
+    }
+    function doEdit() {
+        $('.editable').removeAttr('disabled');
+    }
+    $(function () {
+        var asideHeight = $('#classEditPanel').height();
+        var asideWidth = $('#classEditPanel').width();
+        var editPanelWidth = $('#classEditPanel').width();
+        var editPanelHeight = $('#classEditPanel').height();
+        //var inputFormHeight = asideHeight / 26;
+
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2015:2030"
+
+        });
+        var shortime = $('.datepicker').val().split(' ')[0];
+        $('.datepicker').val(shortime);
+        //$('#classEditPanel .form-control').css({
+        //    'height': inputFormHeight,
+        //    'line-height': inputFormHeight + 'px'
+        //});
+        //$('#classEditPanel span').css({
+        //    'line-height': inputFormHeight + 'px'
+        //});
+        //$('#classEditPanel .region').css({
+        //    'paddingTop': 0,
+        //    'paddingBottom': 0,
+        //});
+        var inputFormHeight = asideHeight / 26;
+        $('#classEditPanel .form-control').css({
+            'height': inputFormHeight,
+            'line-height': inputFormHeight + 'px',
+            'paddingTop': 0,
+            'paddingBottom': 0
+        });
+        $('#classEditPanel span').css({
+            'line-height': inputFormHeight + 'px'
+        });
+        $('#classEditPanel label').css({
+            'marginTop': asideHeight / 90,
+            'fontSize': (asideHeight + asideWidth) / 80
+        });
+        $('#classEditPanel .edit_btn').css({
+            'marginTop': asideHeight / 40
+        });
+        $('#classEditPanel .close_btn').css({
+            'marginTop': asideHeight / 40
+        });
+        $('#close_editPanelBtn').on('click', function () {
+            $('#classEditPanel').stop().animate({
+                left: 0
+            }, 500, function () {
+                $('#classEditPanel').hide();
+            });
+            $('#classEditPanelAfter').css('opacity', 0).hide();
+            closeStuListPanel();
+        });
+       
+    });
+</script>

@@ -1,0 +1,41 @@
+﻿.leftBar {
+    margin: auto;
+    float: left;
+    width: 20%;
+    height: 100%;
+    vertical-align: middle;
+    background: #e1e1e1;
+}
+.content {
+   overflow:hidden;
+}
+.table {
+
+
+}
+ul {
+    overflow: hidden;
+    margin: auto;
+    list-style: none;
+    text-align: center;
+    vertical-align: middle;
+}
+
+    ul a {
+        margin: 5px auto;
+        color: #0094ff;
+        display: inline-block;
+        vertical-align: middle;
+        height: 40px;
+        line-height: 40px;
+        width: 80%;
+    }
+
+        ul a:hover {
+            color: white;
+            background: #24b7cb;
+        }
+
+        ul a:link {
+            font: #24b7cb;
+        }

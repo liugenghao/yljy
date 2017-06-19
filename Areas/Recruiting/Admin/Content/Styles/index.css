@@ -1,0 +1,129 @@
+/*-- 全局样式，开始 --*/
+html > body { font-size: .875em; }
+body > form {margin: 5px 10px; min-width: 285px;}
+h1, h2, h3, h4, h5, h6 {font-size: 100%; text-transform: none; font-weight: normal; margin-bottom: 0;}
+
+a {color: #666; text-decoration: none;}
+a:link, a:visited {color: #2A72C5; text-decoration: none;}
+a:active, a:hover {color: #0065D9; text-decoration: none;}
+a.link:link, a.link:visited {color: #2A72C5; text-decoration: none;}
+a.link:active, a.link:hover {color: #0065D9; text-decoration: underline;}
+
+.indexbody {width: 100%; height: 100%; overflow: hidden;}
+.mainbody {margin: 5px 10px; min-width: 285px;}
+.table-container {margin: 0; padding: 0; width: 100%; overflow-x: auto; overflow-y: hidden;}
+/*-- 全局样式，结束 --*/
+/*-- 管理首页布局，开始 --*/
+.main-top {position: absolute; top: 0; right: 0; left: 189px; height: 49px; line-height: 49px; z-index: 11;}
+.main-left {position: absolute; top: 0; bottom: 0; left: 0; width: 189px; z-index: 10;}
+
+.main-container {position: absolute; top: 50px; right: 0; bottom: 0; left: 190px; overflow: hidden;}
+.main-container iframe {position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;}
+/*-- 管理首页布局，结束 --*/
+
+/*顶部样式*/
+.main-top { background: #1a1a1a; }
+
+/*顶部主菜单*/
+.icon-menu {
+    display: block;
+    float: left;
+    width: 42px;
+    height: 100%;
+    background: url(../images/skin_icons.png) 11px -236px no-repeat;
+    border-left: 1px solid #343434;
+    border-right: 1px solid #343434;
+    cursor: pointer;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+.main-nav {display: block; float: left;}
+.main-nav a {display: block; float: left; padding: 0 20px; margin-right: 1px; margin-top: 2px; line-height: 47px; color: #f0f0f0; font-size: 18px; cursor: pointer;border-radius: 2px 2px 0 0;}
+.main-nav a.selected,
+.main-nav a:hover {color: #f5f5f5; text-decoration: none; background: #343434;}
+.main-nav a.selected {color: #333; background: #f5f5f5;}
+
+/*顶部右边导航*/
+.nav-right { float: right; }
+.nav-right .info {float: left; padding-right: 10px; font-size: 16px;}
+.nav-right .info a {display: block; float: left; padding: 0 1em; color: #fff; text-align: center;}
+.nav-right .info a:hover {text-decoration: none; background: #343434;}
+
+.nav-right .info i{ display: block; float: left; margin: 10px 10px 0 0; width: 30px; height: 30px; overflow: hidden; }
+.nav-right .info.user-wrap i{background: url(../images/skin_icons.png) no-repeat -36px -330px;}
+.nav-right .info i img{ width: 30px; height: 30px; }
+.nav-right .info span{ display: block; float: left; text-align: center;}
+
+/*左边样式*/
+.main-left { background: #e6e6e6; border-right: 1px solid #f3f3f3;}
+
+.logo {display: block; height: 49px; line-height: 50px; font-size: 18px; color: #fff; text-align: center; background: #1a1a1a; overflow: hidden;}
+.logo a { color: #fff; }
+.logo a:hover { color: #ff0;text-decoration: none; }
+.main-top .logo {float: left; width: 169px;}
+
+.sidebar-nav { margin: 0 auto; }
+.sidebar-nav .list-group { display: none; }
+.sidebar-nav .list-group h1 { display: none; }
+.sidebar-nav .list-group h2 {
+    position: relative;
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 40px;
+    padding-left: 1.25em;
+    border-bottom: 1px solid #d3d3d3;
+    box-shadow: 1px 0 1px #eee;
+    -moz-box-shadow: 1px 0 1px #eee;
+    -webkit-box-shadow: 1px 0 1px #eee;
+}
+.sidebar-nav .list-group h2 i{ position:absolute; display:block; top:10px; right:0; width:20px; height:20px; background:url(../images/skin_icons.png) 0 -194px no-repeat; }
+
+.sidebar-nav .list-group ul li a {padding: 0 5px 0 1.25em; position: relative; display: block; line-height: 32px; color: #666; cursor: pointer; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+
+.sidebar-nav .list-group ul li a:hover,
+.sidebar-nav .list-group ul li a.selected {text-decoration: none; background: #e3e3e3; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+.sidebar-nav .list-group ul li a.selected{color: steelblue; background: #f9f9f9;}
+
+.sidebar-nav .list-group ul li a .icon {
+    display: block;
+    float: left;
+    margin: 10px 5px 0 0;
+    width: 14px;
+    height: 14px;
+    overflow: hidden;
+    *display: inline-block;
+    *float: none;
+    *vertical-align: middle;
+}
+
+.sidebar-nav .list-group ul li a .icon.folder { background: url(../images/skin_icons.png) 0 -168px no-repeat; }
+.sidebar-nav .list-group ul li a .icon.file { background: url(../images/skin_icons.png) -28px -168px no-repeat; }
+.sidebar-nav .list-group ul li a .icon img {width: 14px; height: 14px;}
+.sidebar-nav .list-group ul li a .expandable {position: absolute; display: block; top: 10px; right: 8px; width: 12px; height: 12px; background: url(../images/skin_icons.png) no-repeat;}
+.sidebar-nav .list-group ul li a .expandable.open { background-position: -84px -168px; }
+.sidebar-nav .list-group ul li a .expandable.close { background-position: -56px -168px; }
+
+.sidebar-nav .list-group .list-wrap {position: absolute; top: 49px; right: 0; bottom: 0; left: 0; width: 90%; margin: 0 auto; overflow: auto;}
+.sidebar-nav .list-group .list-wrap > ul { border-bottom: 1px solid #e5e5e5; }
+.list-wrap li ul a.selected .icon.file { background-position: -112px -168px; }
+
+/*迷你界面样式*/
+.lay-mini .main-top { left: 0; }
+.lay-mini .main-nav { display: none; }
+.lay-mini .main-container { left: 43px; }
+.lay-mini .main-left {background: #0C4B77; width: 44px;}
+
+.lay-mini .sidebar-nav .list-group {display: block !important; margin: 0; padding: 6px; width: 30px; height: 30px;}
+.lay-mini .sidebar-nav .list-group h1 {display: block; margin: 0; padding: 8px; width: 14px; height: 14px; cursor: pointer; overflow: hidden;}
+
+.lay-mini .sidebar-nav .list-group.selected h1,
+.sidebar-nav .list-group:hover h1 {background: #16a0d3; border-radius: 3px;}
+
+.lay-mini .sidebar-nav .list-group h1 img {width: 14px; height: 14px; vertical-align: top;}
+.lay-mini .sidebar-nav .list-group .list-wrap {display: none; position: absolute; top: 49px; left: 42px; bottom: 0; padding: 0 10px; width: 160px; background: #f2f2f2;}
+.lay-mini .sidebar-nav .list-group:hover .list-wrap { display: block; }
+
+/*右边框架*/
+.main-container { background: #fff; }

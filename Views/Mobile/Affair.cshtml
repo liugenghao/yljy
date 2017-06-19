@@ -1,0 +1,68 @@
+﻿@model List<Ys.Model.Model.Home.Article>
+@{
+    ViewBag.Title = "";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mobile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="contatiner">
+        <header>
+            <h1>职能机构</h1>
+        </header>
+        <div class="main">
+            <ul class="item">
+                @foreach (var affair in Model)
+                { 
+                    <li>
+                    <div class="row">
+                        <div class="col-xs-12"><a class="smallTit" href="@Url.Action("AffairDetail", new { title = affair.Title }) ">@affair.Title</a></div>
+                    </div>
+                </li>
+                }
+                @*<li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">普工</a></div>
+                        <div class="col-xs-4 location">宜昌市</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">湖北蜂鸟科技股份有限公司</div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">行政主管</a></div>
+                        <div class="col-xs-4 location">宜昌市</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">湖北蜂鸟科技股份有限公司</div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-xs-8 job"><a href="#">农机销售经理</a></div>
+                        <div class="col-xs-4 location">宜昌市</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 company">宜昌元龙塑料模技开发有限责任公司</div>
+                        <div class="col-xs-4 time">2010-06-22</div>
+                    </div>
+                </li>*@
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

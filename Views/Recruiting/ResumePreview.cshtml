@@ -1,0 +1,375 @@
+﻿@model employment_bureau.Models.ResumePreviewModel
+
+@{
+    ViewBag.Title = "职位邀请函";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+<link href="~/Content/button-form-theme.css" rel="stylesheet" />
+<link href="~/Content/resume.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<!--主体区域-->
+<div class="main-wrap wrap-post" id="main">
+    <div class="section clearfix">
+        <div class="ht_20"></div>
+        <div class="main-wrap fixborder">
+            <div class="ht_10"></div>
+            <div class="result-wrap">
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" class="home"><i></i><span>管理首页</span></a>
+                    <a href="#"><span>申请职位</span></a>
+                    <i class="arrow"></i><span>发送简历</span>
+                </div>
+                <!--/导航栏-->
+                <!--内容-->
+                <div class="clear result-list">
+                    @using (Html.BeginForm("PostResume", "Recruiting", FormMethod.Post, new { id = "postForm" }))
+                    {
+                        @Html.HiddenFor(m => m.Job.Id);
+                        <div class="view-article">
+                            <div class="article-title">
+                                <div>
+                                    <h2>
+                                        <em>@Model.Corp.Name |</em>
+                                        <span>
+                                            <label id="lblJobName">@Model.Job.JobName</label>
+                                            职位</span>
+                                    </h2>
+                                    <p>
+                                        给我发送简历前，请再确认一下您的简历内容吧
+                                    </p>
+                                </div>
+                                <span class="title-triangle"></span>
+                            </div>
+                            <div class="ht_20"></div>
+                            <div class="article-manners">
+                                <div>
+                                    <dl>
+                                        <dt>
+                                            <label>@Model.Person.Login_Name</label>的简历：
+                                        </dt>
+                                        <dd>
+                                            <div>
+                                                <ul>
+                                                    @foreach (var resume in Model.Person.Resume)
+                                                    {
+                                                        // Model.Resume = resume;
+                                                        <li>
+                                                            <span class="radiobuttonlist">
+                                                                @Html.RadioButtonFor(m => m.Resume.Id, resume.Id, new { @name = "checkResume", id = "checkResume_" + resume.Id })
+                                                                @*<input type="radio" name="checkResume" id="checkResume_@resume.Id" value="@resume.Id" checked="checked" />*@
+                                                                <label for="checkResume_@resume.Id">@resume.Name</label>
+                                                            </span>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="ht_20"></div>
+                            <div class="view-article">
+                                <div class="tab-content invitation" style="border-radius: 5px; height: 432px; overflow: auto;">
+                                    <div class="ht_20"></div>
+                                    <div class="resume-main" id="resume-main">
+                                        <div class="main" id="preview-main">
+                                            <div class="basicInfo clearfix" id="basicInfo">
+                                                <!--个人基础信息-->
+                                                <div class="pic">
+                                                    <img src="~/img/123.png" />
+                                                    <a href="javascript:void(0);">修改照片</a>
+                                                </div>
+                                                <div class="con">
+                                                    <div class="info">
+                                                        <div class="clearfix"><span></span><span></span><span>生</span><span>户口：</span><span>现居地：</span><span class="end"> 工作经验</span></div>
+                                                        <div class="clearfix"><span class="end">身份证：</span></div>
+                                                        <div class="clearfix"><span class="end">电话：</span></div>
+                                                        <div class="clearfix"><span class="end">电子邮箱：</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="detail clearfix">
+                                                <h2 class="name">张亚迪</h2>
+                                                <div class="title clearfix" id="jobIntension">
+                                                    <span>求职意向</span>
+                                                </div>
+                                                <div class="detailPanel jobIntensionPanel" id="jobIntensionPanel">
+                                                    <div class="row"><span>应聘职位类型：<span id="job_type"></span></span><span>求职类型：<span id="apply_type"></span></span></div>
+                                                    <div class="row"><span>月薪要求：<span id="salary_req"></span></span><span>职位要求：<span id="job_req"></span></span></div>
+                                                    <div class="row"><span>希望工作地区：<span id="jobArea_req"></span></span></div>
+                                                </div>
+                                                <div class="title clearfix" id="lg_speciality">
+                                                    <span>语言能力</span>
+                                                </div>
+                                                <div class="detailPanel lg_specialityPanel" id="lg_specialityPanel">
+                                                    <div class="row">
+                                                        <span>外语语种：<span id="foreign_lg"></span>
+                                                        </span>
+                                                        <span>外语水平：<span id="foreign_lg_lv"></span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span>普通话水平：<span id="mandarin_lv"></span>
+                                                        </span>
+                                                        <span>计算机能力：<span id="computer_skill"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="title clearfix" id="edu_exp">
+                                                    <span>教育经历</span>
+                                                </div>
+                                                <div class="detailPanel2 edu_expPanel" id="edu_expPanel">
+                                                    @{
+                                                    for (int i = 0; i < Model.Resume.EduExpList.Count; i++)
+                                                    {                       
+                                                        <div class="detailPanel2_item clearfix">
+                                                            <span>@Model.Resume.EduExpList[i].Btime.ToString("yyyy.MM") 至 @Model.Resume.EduExpList[i].Etime.ToString("yyyy.MM")</span>
+                                                            <span class="bold">@Model.Resume.EduExpList[i].School</span>
+                                                            <span>@Model.Resume.EduExpList[i].Specialty</span><span class="bold">@Model.Resume.EduExpList[i].Degree</span>
+                                                        </div>
+                                                    }
+                                                    }
+                                                </div>
+
+                                                <div class="title clearfix" id="training_exp">
+                                                    <span>培训经历</span>
+                                                </div>
+                                                <div class="training_expPanel" id="training_expPanel">
+                                                    @foreach (var train in Model.Resume.TrainExp)
+                                                    {
+                                                        <div class="training_exp_item">
+                                                            <div class="clearfix"><span id="trainingDuration" class="trainingDuration tit">@train.BDate.ToShortDateString() -- @train.EDate.ToShortDateString()</span><span id="trainingCom" class="trainingCom tit">@train.TrainIns</span></div>
+                                                            <div class="clearfix">
+                                                                <span class="tit">培训课程：</span><span class="tit_next" id="trainingCourse">@train.TrainCourse</span>
+
+                                                            </div>
+                                                            <div class="clearfix">
+                                                                <span class="tit descTit">课程描述：</span><p class="desc" id="trainingJobDesc">@train.Des</p>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="title clearfix" id="work_exp">
+                                                    <span>工作经验</span>
+                                                </div>
+                                                <div class="detailPanel2 work_expPanel" id="work_expPanel">
+                                                    @foreach (var workExp in Model.Resume.WorkExp)
+                                                    { 
+                                                        <div class="detailPanel2_item">
+                                                            <div class="clearfix"><span id="work_expDuration" class="tit">@workExp.BDate.ToShortDateString() -- @workExp.EDate.ToShortDateString()</span><span class="work_expCom tit">@workExp.CorpName</span></div>
+                                                            <div class="clearfix">
+                                                                <span class="tit">职位：</span><span class="tit_next" id="work_expJobName">@workExp.CorpDuty</span>
+                                                                <span class="tit">行业类别：</span><span class="tit_next" id="work_expJobType">@workExp.IndustryType.Name</span>
+                                                                <span class="tit">企业性质：</span><span class="tit_next" id="work_expComType">@workExp.CorpType.Name</span>
+                                                                <span class="tit">规模：</span><span class="tit_next" id="work_expJobComSize">@workExp.CorpScale.Name</span>
+                                                            </div>
+                                                            <div class="clearfix">
+                                                                <span class="tit descTit">工作描述：</span><p class="desc" id="work_expJobDesc">@workExp.Des</p>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="title clearfix" id="work_skill">
+                                                    <span>专业技能</span>
+                                                </div>
+                                                <div class="detailPanel work_skillPanel" id="work_skillPanel">
+                                                    <div class="row">
+                                                        <span>
+                                                            <span id="work_skill_detail"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="title clearfix" id="career_goal">
+                                                    <span>职业目标</span>
+                                                </div>
+                                                <div class="detailPanel career_goalPanel" id="career_goalPanel">
+
+                                                    <div class="row">
+                                                        <span>
+                                                            <span id="career_goal_detail"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="title clearfix" id="self_introduction">
+                                                    <span>自我介绍</span>
+                                                </div>
+                                                <div class="detailPanel self_introductionPanel" id="self_introductionPanel">
+
+                                                    <div class="row"><span><span id="self_introduction_detail"></span></span></div>
+
+                                                </div>
+                                            </div>
+                                            <!--detail end-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="apply">
+                                <div class="apply-btn">
+                                    <a class="obj-apply-btn" href="javascript:submitPost()">发送简历</a>
+                                </div>
+                            </div>
+                            <div class="article-suggest">
+                                <div>
+                                    <h2>该公司其他在招职位</h2>
+                                </div>
+                                <div class="ls_rows result-jobs">
+                                    <ul>
+                                        @foreach (var job in Model.Corp.Jobs)
+                                        {
+                                            <li>
+                                                <p class="article-name"><a href="#">@job.JobName</a></p>
+                                                <p class="job-company"><a href="#">@Model.Corp.Name</a></p>
+                                                <p class="job-remark">
+                                                    <span>招聘人数：<label>@job.PersonNum 人</label></span>
+                                                    <span>工作地点：<label>@job.WorkAddress.Name</label></span>
+                                                    <span>薪资：<label>@job.PayLevel.Name</label></span>
+                                                </p>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    function initPersonalPanel(data) {
+        if (data) {
+            var str = ' <div class="clearfix"><span>' + data.Person_Sex + '</span><span>' + data.Person_Marriage + '</span><span>' + data.Person_Birthday + '生</span><span>户口：' + data.Person_Anmelden + '</span><span>现居地：' + data.Person_Address + '</span><span class="end">' + data.Person_WorkYear + ' 工作经验</span></div>';
+            str += '<div class="clearfix"><span class="end">身份证：' + data.Person_Cid + '</span></div>';
+            str += '<div class="clearfix"><span class="end">电话：' + data.Person_Tel + '</span></div>';
+            str += '<div class="clearfix"><span class="end">电子邮箱：' + data.Person_Email + '</span></div>';
+            $('.info').html(str);
+        }
+        else {
+                @if (Model.Resume.PersonalModel != null)
+                {
+                <text>
+            var str = ' <div class="clearfix"><span>@Model.Resume.PersonalModel.Person_Sex</span><span>@Model.Resume.PersonalModel.Person_Marriage</span><span>@Model.Resume.PersonalModel.Person_Birthday.ToShortDateString()生</span><span>户口：@Model.Resume.PersonalModel.Person_Anmelden</span><span>现居地：@Model.Resume.PersonalModel.Person_Address</span><span class="end">@Model.Resume.PersonalModel.Person_WorkYear 工作经验</span></div>';
+            str += '<div class="clearfix"><span class="end">身份证：@Model.Resume.PersonalModel.Person_Cid</span></div>';
+            str += '<div class="clearfix"><span class="end">电话：@Model.Resume.PersonalModel.Person_Tel</span></div>';
+            str += '<div class="clearfix"><span class="end">电子邮箱：@Model.Resume.PersonalModel.Person_Email</span></div>';
+            $('.info').html(str);
+                </text>
+                }
+        }
+    }
+
+    function initIntensionPanel(data) {
+        if (data) {
+            var str = '<div class="row"><span>应聘职位类型：<span id="job_type">' + data.JobType.Name + '</span></span><span>求职类型：<span id="apply_type">' + data.JobAttr.Name + '</span></span></div>';
+            str += '<div class="row"><span>月薪要求：<span id="salary_req">' + data.PayLevel.Name + '</span></span><span>职位要求：<span id="job_req"></span></span></div>';
+            str += '<div class="row"><span>希望工作地区：<span id="jobArea_req">' + data.JobPlace.Name + '</span></span></div>'
+            $('.jobIntensionPanel').html(str);
+        }
+        else {
+                @if (@Model.Resume.JobObjective != null)
+                {
+                <text>
+            var str = '<div class="row"><span>应聘职位类型：<span id="job_type">@Model.Resume.JobObjective.JobType.Name</span></span><span>求职类型：<span id="apply_type">@Model.Resume.JobObjective.JobAttr.Name</span></span></div>';
+            str += '<div class="row"><span>月薪要求：<span id="salary_req">@Model.Resume.JobObjective.PayLevel.Name</span></span><span>职位要求：<span id="job_req"></span></span></div>';
+            str += '<div class="row"><span>希望工作地区：<span id="jobArea_req">@Model.Resume.JobObjective.JobPlace.Name</span></span></div>'
+            $('.jobIntensionPanel').html(str);
+                </text>
+                }
+        }
+    }
+    function initLanguagePanel(data) {
+        if (data) {
+            var str = '<div class="row"><span>外语语种：<span id="foreign_lg">' + data.Language.Name + '</span></span><span>外语水平：<span id="foreign_lg_lv">' + data.LanguageLevel.Name + '</span></span></div>';
+            str += '<div class="row"><span>普通话水平：<span id="mandarin_lv">' + data.Mandarin.Name + '</span></span><span>计算机能力：<span id="computer_skill">' + data.Computer.Name + '</span></span></div>';
+            $('.lg_specialityPanel').html(str);
+        }
+        else {
+                @if (@Model.Resume.Language != null)
+                {
+                <text>
+            var str = '<div class="row"><span>外语语种：<span id="foreign_lg">@Model.Resume.Language.Language.Name</span></span><span>外语水平：<span id="foreign_lg_lv">@Model.Resume.Language.LanguageLevel.Name</span></span></div>';
+            str += '<div class="row"><span>普通话水平：<span id="mandarin_lv">@Model.Resume.Language.Mandarin.Name</span></span><span>计算机能力：<span id="computer_skill">@Model.Resume.Language.Computer.Name</span></span></div>';
+            $('.lg_specialityPanel').html(str);
+                </text>
+                }
+        }
+    }
+    //专业技能
+    function initSkillPanel(data) {
+        if (data) {
+            var str = '<div class="row"><span><span id="work_skill_detail">' + data + '</span></span></div>';
+            $('.work_skillPanel').html(str);
+        }
+        else {
+                @if (@Model != null)
+                {
+                <text>
+            var str = '<div class="row"><span><span id="work_skill_detail">@Model.Resume.Skill</span></span></div>';
+            $('.work_skillPanel').html(str);
+                </text>
+                }
+        }
+    }
+    //职业目标
+    function initPlantPanel(data) {
+        if (data) {
+            var str = '<div class="row"><span><span id="career_goal_detail">' + data + '</span></span></div>';
+            $('.career_goalPanel').html(str);
+        }
+        else {
+                @if (@Model != null)
+                {
+                <text>
+            var str = '<div class="row"><span><span id="career_goal_detail">@Model.Resume.Plant</span></span></div>';
+            $('.career_goalPanel').html(str);
+                </text>
+                }
+        }
+    }
+    //自我介绍
+    function initIntroductionPanel(data) {
+        if (data) {
+            var str = '<div class="row"><span><span id="self_introduction_detail">' + data + '</span></span></div>';
+            $('.self_introductionPanel').html(str);
+        }
+        else {
+                @if (@Model != null)
+                {
+                <text>
+            var str = '<div class="row"><span><span id="self_introduction_detail">@Model.Resume.Introduction</span></span></div>';
+            $('.self_introductionPanel').html(str);
+                </text>
+                }
+        }
+    }
+    function submitPost() {
+        // alert(1);
+        $("#postForm").submit();
+    }
+    $(function () {
+        f_onNavActive("zw");
+
+        initPersonalPanel();
+        initIntensionPanel();
+        initLanguagePanel();
+        initSkillPanel();
+        initPlantPanel();
+        initIntroductionPanel();
+
+        var radios = $("input[type='radio']");
+
+        $(radios).each(function () {
+            $(this).on("click", function () {
+                var url = '@Url.Action("ResumePreview")' + '?resumeId=' + $(this).val() + '&jobId=' + '@Model.Job.Id';
+                window.location.href = url;
+            });
+        });
+    });
+</script>

@@ -1,0 +1,194 @@
+﻿@{
+    ViewBag.Title = "Dialog_Industry";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>选择行业类别</title>
+    @Styles.Render("~/Content/RecruitmentCss")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/RecruitmentCommon")
+    @Styles.Render("~/artdialog/css")
+    @Scripts.Render("~/artdialog/js")
+</head>
+<body style="background: #fff;">
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--内容-->
+        <div class="content-tab-wrap">
+            <div class="content-tab">
+                <div class="content-tab-ul-wrap">
+                    <ul>
+                        <li><a class="selected" href="javascript:void(0);">行业类别</a></li>
+                        <li class="padded">
+                            <div class="condition-folder">
+                                <label>已选：</label>
+                                <span id="condition-items">
+                                    <span class="condition-item">
+                                        <label>全部行业</label>
+                                        <i class="remove-item" title="取消" onclick="f_onRemoveItem(this);">X</i>
+                                    </span>
+                                </span>
+                                <span>（最多选择1项）</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content ui-gridbox" style="height: 512px; overflow: scroll;">
+        @*    <div>
+                <div class="clearfix" style="margin-left: 156px;">
+                    <div class="rule-multi-porp" id="checkAllBox">
+                        <input type="checkbox" name="checkboxListIndustry" id="checkAll" value="" />
+                        <label for="checkAll">全部行业</label>
+                    </div>
+                </div>
+            </div>*@
+            <div class="multi-content">
+                <div class="aero-mask"></div>
+                @{
+                    List<Ys.Model.Model.Dict.IndustryTypeModel> industryTypeList = ViewData["Industry"] as List<Ys.Model.Model.Dict.IndustryTypeModel>;
+                    foreach (Ys.Model.Model.Dict.IndustryTypeModel inModel in industryTypeList)
+                    {
+                        if (inModel.Plant_Id!=null&&inModel.Plant_Id.EndsWith("00"))
+                        {
+                    <dl>
+                        <dt>@inModel.Name @Html.HiddenFor(model => inModel.Id) </dt>
+                        <dd>
+                            <div class="rule-multi-porp" id="itemContainer">
+                                <span id="checkboxList1" style="display: none;">
+                                    @{
+                            string superNum = inModel.Plant_Id.Remove(inModel.Plant_Id.Length - 2, 2);
+                            for (int i = 0; i < industryTypeList.Count; i++)
+                            {
+                                Ys.Model.Model.Dict.IndustryTypeModel tempModel = industryTypeList[i];
+                                
+                                if (tempModel.Plant_Id!=null&&!tempModel.Plant_Id.EndsWith("00") && tempModel.Plant_Id.StartsWith(superNum) && tempModel.Plant_Id.Length == superNum.Length + 2)
+                                {
+                                        <input type="checkbox" name="chkSingle" class="checkall" id="@tempModel.Plant_Id" value="@tempModel.Plant_Id" />
+                                        <label for="@tempModel.Plant_Id">@tempModel.Name</label>                                                
+                                }
+
+                            }
+                                    }
+                                </span>
+                            </div>
+                        </dd>
+                    </dl>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Scripts/RecruitmentCommon")
+    <script type="text/javascript">
+        var selectedIndustry;
+        var api = top.dialog.get(window); //获取父窗体对象
+        var currDocument = $(document); /*当前文档*/
+        /* document.ready */
+        $(function () {
+            //设置按钮及事件
+            api.button([
+                {
+                    value: '确定',
+                    callback: function () {
+                         f_onCheckItem();
+                    },
+                    autofocus: true
+                },
+            {
+                value: '取消',
+                callback: function () { }
+            }
+            ]);
+
+            var checkAllObj = $("#checkAllBox li>a");
+            var linkObjs = $(".multi-content .multi-porp>ul>li>a");
+            var mask = $(".multi-content .aero-mask");
+            var checkedCnt = 0;
+            var conditionItems = $("#condition-items");
+            $(checkAllObj).on("click", function () {
+                if ($(this).parent().hasClass("selected")) {
+                    conditionItems.empty();
+                    var temp = "<span class='condition-item' data-value='' title='全部行业'>";
+                    temp += "<label>全部行业</label>";
+                    temp += "<i class='remove-item' title='取消' onclick='f_onRemoveItem(this);'>X</i>";
+                    temp += "</span>"
+                    conditionItems.append(temp);
+                    $(linkObjs).each(function (i, item) {
+                        $(this).parent().addClass("selected");
+                        mask.show();
+                    });
+
+                } else {
+                    $(conditionItems).children(".condition-item").each(function (i, item) {
+                        if ($(this).attr("title") == "全部行业") {
+                            $(this).remove();
+                        }
+                    });
+                    $(linkObjs).each(function (i, item) {
+                        $(this).parent().removeClass("selected");
+                        mask.hide();
+                    });
+                }
+            });
+            $(linkObjs).each(function (i, item) {
+                var value = $.trim($(this).attr("data-value"));
+                var text = $.trim($(this).text());
+                var conditionItems = $("#condition-items");
+                conditionItems.empty();
+                $(this).on("click", function () {
+                    if ($(this).parent().hasClass("selected")) {
+                        if ($(conditionItems).children(".condition-item").length == 1) {
+                            top.dialog({
+                                title: " ",
+                                content: "最多选择1项"
+                            }).show();
+                            $(this).parent().removeClass("selected");
+                            return;
+                        }
+                        var temp = "<span class='condition-item' data-value='" + value + "' title='" + text + "'>";
+                        temp += "<label>" + text + "</label>";
+                        // temp += '<input type="hidden" name="industry" value="'+value+'" />';
+                        temp += "<i class='remove-item' title='取消' onclick='f_onRemoveItem(this);'>X</i>";
+                        temp += "</span>"
+                        conditionItems.append(temp);
+                        selectedIndustry = value;
+                    } else {
+                        //$(checkAllObj).parent().removeClass("selected");
+                        selectedIndustry = null;
+                        $(conditionItems).children(".condition-item").each(function (i, item) {
+                            if ($(this).attr("title") == text) {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
+        /* checkbox 单选设置 */
+        function f_onCheckItem() {
+            var currDocument = $(document); //当前文档
+            var parentDocument = parent.window.document;
+            if (parentDocument) {
+                var parentTxtIndustries = $("#txtIndustries", parentDocument);
+                var hidden = $("#Industry", parentDocument);
+                var container = $("#condition-items");
+                if (container.children(".condition-item").length > 0) {
+                    parentTxtIndustries.addClass("condition-folder").html($("#condition-items").html());
+                    top.setHiddenVal(selectedIndustry);
+                    hidden.val(selectedIndustry);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

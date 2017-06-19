@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "用户登录";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<link href="~/Content/button-form-theme.css" rel="stylesheet" />
+<div class="wrap2 clearfix">
+    <div class="current-position">
+        <div>
+            <span><a href="@Url.Action("Index", "Recruiting")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Login", "Recruiting")">用户登陆</a></span>
+        </div>
+    </div>
+    <div class="login_board edge_round ">
+        <img src="../img/login_log.png" class="login_log" />
+        @using (Html.BeginForm("Login", "Recruiting", FormMethod.Post, new { @class = "login_form" }))
+        {
+            <h2>用户登录</h2>
+            <div class="clearfix">
+                <label for="loginName">用户名:</label>
+                <input class="inp_b" type="text" maxlength="30" name="loginName" id="loginName" />
+            </div>
+            <div class="clearfix">
+                <label for="loginPwd">密码:</label>
+                <input class="inp_b" type="password" maxlength="15" name="loginPwd" id="loginPwd" />
+            </div>
+            <div class="clearfix">
+                <div class="get_pas_tag">
+                    <a href="#">忘记密码</a> | <a href="@Url.Action("Register_Jump", "Recruiting")">注册新用户</a>
+                </div>
+            </div>
+            <div class="clearfix">    
+                <i></i>            
+                <button class="login_sub_btn btn btn-primary">登录</button>
+            </div>
+            <div class="clearfix">    
+                <i></i>            
+                <span class="errorAlert">@ViewBag.ErrorMsg</span>
+            </div>
+            @Html.Hidden("ReturnUrl",ViewBag.ReturnUrl as string);
+        }
+    </div>
+</div>
+<script>
+    if (window.self != window.top) {
+        // 跳转到首页
+        window.top.location = window.self.location;
+    }
+</script>
+<!--wrap end-->

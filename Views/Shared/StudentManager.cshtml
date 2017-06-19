@@ -1,0 +1,1075 @@
+﻿@model Ys.Model.ClassDetails
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/frame.css" rel="stylesheet" />
+    <!--[if lt IE 9]><script type="text/javascript">window.location.href = '@Url.Action("IE8Update")'</script><![endif]-->
+</head>
+
+<body>
+    <div class="student_list_panel" id="student_list_panel">
+        <div class="table_wrap">
+            <div class="list_header clearfix">
+                <button class="export_excel btn btn-success" data-toggle="modal" data-target="#exportConfirmPanel" title="导出学员模板"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;导出学员信息</button>
+                @*<button class="export_roster_btn" data-toggle="modal" data-target="#exportConfirmPanel" title="导出花名册"></button>*@
+                @if (@Session["InsId"].ToString() == Model.ClassInfo.InstitutionId || @Session["roleId"].ToString() == "0")
+                {
+                    <button class="add_btn  btn btn-default" data-toggle="modal" title="添加学员" data-target="#addStudent"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;添加学员</button>
+                }
+                <div class="search_panel">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon search_confirm_btn" id="search_confirm_btn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+                            <input type="text" class="form-control" id="search" placeholder="按姓名查找">
+                            <div class="input-group-addon search_reset_btn" id="search_reset_btn"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-danger stuMngClose" id="stuMngClose">关闭学员名单</button>
+            </div>
+            <ul class="hide assistAside" id="assistAside">
+                <li class="clearfix">
+                    <button class="go_top_btn" id="go_top_btn" title="回到顶部"></button>
+                </li>
+                <li class="clearfix">
+                    <button class="export_excel_btn" data-toggle="modal" data-target="#exportConfirmPanel" title="导出Excel表"></button>
+                </li>
+                <li class="clearfix">
+                    <button class="add_button" data-toggle="modal" title="添加学员" data-target="#addStudent"></button>
+                </li>
+            </ul>
+            <ul class="hide assistThead clearfix">
+                <li>姓名</li>
+                <li>性别</li>
+                <li>身份证号</li>
+                <li>联系电话</li>
+                <li>家庭住址</li>
+                <li>就业失业登记号码</li>
+                <li class="info">管理员操作</li>
+            </ul>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>身份证号</th>
+                            <th>联系电话</th>
+                            <th>家庭住址</th>
+                            <th>就业失业登记号码</th>
+                            @if (@Session["InsId"].ToString() == Model.ClassInfo.InstitutionId || @Session["roleId"].ToString() == "0")
+                            {
+                                <th class="info">管理员操作</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody id="stuTable">
+                        @{
+                            foreach (Ys.Model.StudentInfo student in Model.StudentInfoList)
+                            {
+                            <tr data-id="@student.ID">
+                                <td>@student.Name</td>
+                                <td>@student.Sex</td>
+                                <td>@student.ID_Card</td>
+                                <td>@student.Phone</td>
+                                <td>@student.Address</td>
+                                <td>@student.Job_ID</td>
+
+
+                                @if (@Session["InsId"].ToString() == Model.ClassInfo.InstitutionId || @Session["roleId"].ToString() == "0")
+                                {
+                                    <td class="maintainPanel">
+                                        <a href="#" class="view-btn" data-toggle="modal" data-target="#stuDetail"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>查看</a>
+                                        <a href="#" class="edit-btn" data-toggle="modal" data-target="#editStudent"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑</a>
+                                        <a href="#" class="delete-btn" data-toggle="modal" data-target="#deleteStu"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</a>
+                                    </td>
+                                }
+
+                                <td class="hide">@student.Person_Type.Type_Name
+                                    <input type="hidden" value="@student.Person_Type.ID" />
+                                </td>
+                                <td class="hide">@student.Nation.Nation_Name
+                                    <input type="hidden" value="@student.Nation.ID" />
+                                </td>
+                                <td class="hide">@student.Birthday.ToString("yyyy-MM-dd")</td>
+                                <td class="hide">@student.Subsidy.Type_Name
+                                    <input type="hidden" value="@student.Subsidy.ID" />
+                                </td>
+                                <td class="hide">@student.House_Register.Type_Name
+                                    <input type="hidden" value="@student.House_Register.ID" />
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <!--table end-->
+            </div>
+            <!--table_wrap end-->
+            <h1 class="noResultTips hide">未搜索到结果</h1>
+            <!----------- 添加学员弹窗 ----------->
+            <div class="modal fade addStudent" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="addStudentLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="addStudentLabel">添加学员</h4>
+                        </div>
+                        <!--添加学员弹窗-modal-header end-->
+                        <div class="modal-body studenPanel clearfix" id="addStudenPanel">
+                            <form autocomplete="off">
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="username">姓名：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Name" name="Name" placeholder="姓名为2到4字汉字">
+                                        <span class="validNameTips">姓名应该为2到4字的汉字<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-1">
+                                        <label>性别：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Sex" name="Sex">
+                                            <option>男</option>
+                                            <option>女</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="idNum">身份证号：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control ID_Card" name="ID_Card" placeholder="请填写真实的身份证号码">
+                                        <span class="validIDTips">身份证号码不符合规范<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>人员类别：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Person_Type" name="Person_Type">
+                                            @{
+                                                foreach (Ys.Model.PersonTypeModel personType in Model.PersonTypeModelList)
+                                                {
+                                                <option value="@personType.ID">@personType.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="telNum">联系电话：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Phone" name="Phone" placeholder="(格式：区号+座机号)或手机号">
+                                        <span class="validPhoneTips">请输入正确的电话号码<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>民族：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Nation" name="Nation">
+                                            @{
+                                                foreach (Ys.Model.NationModel nation in Model.NationList)
+                                                {
+                                                <option value="@nation.ID">@nation.Nation_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>补贴支付对象：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Subsidy" name="Subsidy">
+                                            @{
+                                                foreach (Ys.Model.SubsidyModel sub in Model.SubsidyModelList)
+                                                {
+                                                <option value="@sub.ID">@sub.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="birthday">出生年月：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Birthday datepicker" name="Birthday" />
+                                        @*<input type="date" class="form-control Birthday" name="Birthday">*@
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>户口性质：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control House_Register" name="House_Register">
+                                            @{
+                                                
+                                                foreach (Ys.Model.HouseRegisterModel houseRes in Model.HouseRegisterModelList)
+                                                {
+                                                <option value="@houseRes.ID">@houseRes.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="certificateId">失业登记证号：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Job_ID" name="Job_ID">
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="homeAddress">家庭住址：</label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control Address" name="Address" placeholder="必填项">
+                                        <span class="validAddressTips">家庭住址不能为空<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                </div>
+                                <div class="btn-grp">
+                                    <button type="button" class="btn btn-primary submit_btn">提 交</button>
+                                    <button type="button" class="btn btn-warning reset_btn">重 置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!--添加学员弹窗-modal-body end-->
+                    </div>
+                    <!--添加学员弹窗-content end-->
+                </div>
+                <!--添加学员弹窗-modal-dialog end-->
+            </div>
+            <!--添加学员弹窗-end-->
+            <!----------- 编辑学员弹窗 ----------->
+            <div class="modal fade editStudent" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="editStudentLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="editStudentLabel">编辑学员信息</h4>
+                        </div>
+                        <!--编辑学员弹窗-modal-header-->
+                        <div class="modal-body studenPanel clearfix" id="editStudenPanel">
+                            <form autocomplete="off">
+                                <input type="hidden" id="dataId_holder" name="DataID" />
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="username">姓名：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Name" name="Name" placeholder="姓名为2到4字汉字">
+                                        <span class="validNameTips">姓名应该为2到4字的汉字<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-1">
+                                        <label>性别：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Sex" name="Sex">
+                                            <option>男</option>
+                                            <option>女</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="idNum">身份证号：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control ID_Card" name="ID_Card" placeholder="请填写真实的身份证号码">
+                                        <span class="validIDTips">身份证号码不符合规范<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>人员类别：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Person_Type" name="Person_Type">
+                                            @{
+                                                foreach (Ys.Model.PersonTypeModel personType in Model.PersonTypeModelList)
+                                                {
+                                                <option value="@personType.ID">@personType.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="telNum">联系电话：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Phone" name="Phone" placeholder="(格式：区号+座机号)或手机号">
+                                        <span class="validPhoneTips">请输入正确的电话号码<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>民族：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Nation" name="Nation">
+                                            @{
+                                                foreach (Ys.Model.NationModel nation in Model.NationList)
+                                                {
+                                                <option value="@nation.ID">@nation.Nation_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>补贴支付对象：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control Subsidy" name="Subsidy">
+                                            @{
+                                                foreach (Ys.Model.SubsidyModel sub in Model.SubsidyModelList)
+                                                {
+                                                <option value="@sub.ID">@sub.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="birthday">出生年月：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        @*<input type="date" class="form-control Birthday" name="Birthday">*@
+                                        <input type="text" class="form-control Birthday datepicker" name="Birthday" />
+                                        @*@Html.TextBox("StartDate", null, new { @class = "form-control classPeriodStart editable datepicker", disabled = "disabled" })*@
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label>户口性质：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <select class="form-control House_Register" name="House_Register">
+                                            @{
+                                                
+                                                foreach (Ys.Model.HouseRegisterModel houseRes in Model.HouseRegisterModelList)
+                                                {
+                                                <option value="@houseRes.ID">@houseRes.Type_Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="certificateId">失业登记证号：</label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <input type="text" class="form-control Job_ID" name="Job_ID">
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-xs-2">
+                                        <label for="homeAddress">家庭住址：</label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control Address" name="Address" placeholder="必填项">
+                                        <span class="validAddressTips">家庭住址不能为空<i class="triangle_icon"></i></span>
+                                    </div>
+                                    <div class="col-md-1 col-xs-1"><span class="required"></span></div>
+                                </div>
+                                <div class="btn-grp">
+                                    <button type="button" class="btn btn-primary submit_btn">提 交</button>
+                                    <button type="button" class="btn btn-warning reset_btn">重 置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!--编辑学员弹窗-modal-body end-->
+
+                    </div>
+                    <!--编辑学员弹窗-content end-->
+                </div>
+                <!--编辑学员弹窗-modal-dialog end-->
+            </div>
+            <!--编辑学员弹窗-end-->
+            <!----------- 查看学员详情弹窗 ----------->
+            <div class="modal fade stuDetail" id="stuDetail" tabindex="-1" role="dialog" aria-labelledby="stuDetailLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <!--查看学员详情弹窗-modal-header-->
+                        <div class="modal-body clearfix">
+                            <div class="stuDetail_con"></div>
+                        </div>
+                        <!--查看学员详情弹窗-modal-body-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#editStudent">编辑该学员</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                        </div>
+                        <!--查看学员详情弹窗-modal-footer-->
+                    </div>
+                    <!--查看学员详情弹窗-modal-content-->
+                </div>
+                <!--查看学员详情弹窗-modal-dialog end-->
+            </div>
+            <!--查看学员详情弹窗-modal end-->
+            <!----------- 删除学员弹窗 ----------->
+            <div class="modal fade deleteStu" id="deleteStu" tabindex="-1" role="dialog" aria-labelledby="deleteStuLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">提示</h4>
+                        </div>
+                        <!--删除学员弹窗-modal-header-->
+                        <div class="modal-body">
+                            是否删除学员：< <span id="deleteStuName"></span>&nbsp;&nbsp;身份证号：<span id="deleteStuIDCard"></span> > 的信息
+                        </div>
+                        <!--删除学员弹窗-modal-body-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="delete_confirm">确 认</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                        </div>
+                        <!--删除学员弹窗-modal-footer end-->
+                    </div>
+                    <!--删除学员弹窗-modal-content end-->
+                </div>
+                <!--删除学员弹窗-modal-dialog end-->
+            </div>
+            <!--删除学员弹窗-modal end-->
+            <!-----------执行成功弹窗 ----------->
+            <div class="modal fade" id="feedbackInfoPanel" tabindex="-1" role="dialog" aria-labelledby="deleteStuLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">提示</h4>
+                        </div>
+                        <!--执行成功弹窗-modal-header end-->
+                        <div class="modal-body">
+                            <h2></h2>
+                        </div>
+                        <!--执行成功弹窗-modal-body end-->
+                        <div class="modal-footer clearfix">
+                            <button type="button" class="btn btn-success confirm_btn">确 认</button>
+                        </div>
+                        <!--执行成功弹窗-modal-footer end-->
+                    </div>
+                    <!--执行成功弹窗-modal-content end-->
+                </div>
+                <!--执行成功弹窗-modal-dialog end-->
+            </div>
+            <!--执行成功弹窗-modal end-->
+            <!-----------确认导出弹窗 ----------->
+            <div class="modal fade exportConfirmPanel" id="exportConfirmPanel" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">提示</h4>
+                        </div>
+                        <!--确认导出弹窗-modal-header end-->
+                        <div class="modal-body">
+                            是否导出 <span></span>所有学员信息Excel表
+                        </div>
+                        <!--确认导出弹窗-modal-body end-->
+                        <div class="modal-footer clearfix">
+                            <button type="button" class="btn btn-success confirm_btn1">导出学员名单</button>
+                            <button type="button" class="btn btn-primary confirm_btn2">导出花名册</button>
+                        </div>
+                        <!--确认导出弹窗-modal-footer end-->
+                    </div>
+                    <!--确认导出弹窗-modal-content end-->
+                </div>
+                <!--确认导出弹窗-modal-dialog end-->
+            </div>
+            <!--确认导出弹窗-modal end-->
+        </div>
+        <!--table_wrap end-->
+    </div>
+    <!--student_list_panel end-->
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-i18n.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/frame.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var stuInfo = {};//选定的学生姓名
+            var stuNameList = new Array();//所有学生的姓名列表
+            getAllNames();
+            adjustAssistAside();
+            /*--------------获取所有学员信息------------*/
+
+            // @*var stuInfoUrl = '@Url.Action("GetStuInfoList")'
+            //     $.get(stuInfoUrl, null, function (data) {
+            //         stuInfoList = data;
+            //         initialStuList(data);
+            //         console.log(JSON.stringify(data));
+            //     });*@
+            //initialStuList();
+            //var searchInfoContainer = $("#hidNames").val().split(",");
+            /*--------------点击导出xls表按钮----------*/
+            //var exportType;
+
+
+            $(".export_excel_btn").on('click', function () {
+                var className = '@Model.ClassInfo.Name';
+                //exportType = 1;
+                $("#exportConfirmPanel .modal-body span").text('<' + className + '>');
+            });
+@*            $(".export_roster_btn").on('click', function () {
+                var className = '@Model.ClassInfo.Name';
+                exportType = 2;
+                $("#exportConfirmPanel .modal-body span").text('<' + className + '>');
+            });*@
+            /*--------------导出确认----------*/
+            $('#exportConfirmPanel .confirm_btn1').on('click', function () {
+                //if (exportType == 1) {
+                window.location.href = '@Url.Action("GetXls", "StudentManager", new { classId = Model.ClassInfo.ID })'
+                //}
+                //else if (exportType == 2) {
+                    @*window.location.href = '@Url.Action("GetRoster", "StudentManager", new { classId = Model.ClassInfo.ID })'*@
+
+                //}
+                $('#exportConfirmPanel').modal('hide');
+            });
+            $('#exportConfirmPanel .confirm_btn2').on('click', function () {
+                window.location.href = '@Url.Action("GetRoster", "StudentManager", new { classId = Model.ClassInfo.ID })';
+                $('#exportConfirmPanel').modal('hide');
+            });
+            /*--------------搜索框输入后回车----------*/
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    if (!($('#search').val().trim() == '')) {
+                        if ($('#search').focus()) {
+                            searchStuInfo();
+                        }
+                    }
+                }
+            });
+            /*--------------手动清空搜索框输入后还原学员名单----------*/
+            $('#search').on('keyup', function () {
+                if ($('#search').val().trim() == '') {
+                    $('tbody tr').removeClass('hide');
+                    $('.noResultTips').addClass('hide');
+                }
+            });
+            /*--------------点击搜索按钮----------*/
+            $("#search_confirm_btn").on("click", function () {
+                if ($('#search').val().trim() != '') {
+                    searchStuInfo();
+                }
+            });
+            /*---------------按姓名筛选学生信息------------*/
+            function searchStuInfo() {
+                var input = $('#search').val().trim();
+                $('tbody tr').addClass('hide');
+                filterFlag = false;
+                if (input.length > 0) {
+                    for (var i = 0; i < stuNameList.length; i++) {
+                        if (stuNameList[i].name.indexOf(input) != -1) {
+                            filterFlag = true;
+                            var id = stuNameList[i].id;
+                            $("tbody tr[data-id='" + id + "']").removeClass('hide');
+                        }
+                    }
+                    if (filterFlag) {
+                        $('.noResultTips').addClass('hide');
+                    } else {
+                        $('.noResultTips').removeClass('hide');
+                    }
+
+                }
+                if (input == '') {
+                    $('tbody tr').removeClass('hide');
+                    $('.noResultTips').addClass('hide');
+                }
+            }
+            /*-----------清空查找条件-----------------------*/
+            $("#search_reset_btn").on("click", function () {
+                $('#search').val('');
+                $('tbody tr').removeClass('hide');
+                $('.noResultTips').addClass('hide');
+            });
+            ///*--------------生成初始学生信息表------------*/
+            //function initialStuList(data) {
+            //    $('#student_list_panel tbody').empty();
+            //    $(data).each(function (i, item) {
+            //        var html = '<tr>' 
+            //            +'<td>' + item.Name + '</td><td>' + item.Sex + '</td><td>' + item.ID_Card + '</td>'
+            //            +'<td>' + item.Phone + '</td><td>' + item.Address + '</td><td>' + item.Job_ID + '</td>'
+            //            + '<td><a href="#" data-id="' + item.ID + '" class="view-btn" data-toggle="modal" data-target="#stuDetail"><span class="glyphicon glyphicon glyphicon-eye-open" aria-hidden="true"></span>查看</a>'
+            //            + '<a href="#" data-id="' + item.ID + '" class="edit-btn" data-toggle="modal" data-target="#editStudent"><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑</a>'
+            //            +'<a href="#" data-id="' + item.ID + '" class="delete-btn" data-toggle="modal" data-target="#deleteStu"><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span>删除</a></td>'
+            //            +'</tr>'
+            //        $('#student_list_panel tbody').append(html);
+
+            //    });
+            //}
+            /*--------------关闭学生名单面板----------*/
+            $('#stuMngClose').on('click', function () {
+                window.parent.closeStuListPanel();
+            })
+
+            /*--------------查看学员信息------------*/
+            $('.view-btn').on('click', function () {
+                getStuInfoInRow($(this));
+                var person_type = stuInfo.person_type.substring(stuInfo.person_type.indexOf("-") + 1);
+                var job_ID = (stuInfo.job_ID == '') ? '-未填写-' : stuInfo.job_ID;
+                var nation = stuInfo.nation.substring(stuInfo.nation.indexOf("-") + 1);
+                var subsiday = stuInfo.subsiday.substring(stuInfo.subsiday.indexOf("-") + 1);
+                var birthday = (stuInfo.birthday == '0001-01-01') ? '-未填写-' : stuInfo.birthday;
+                var register_residence = stuInfo.register_residence.substring(stuInfo.register_residence.indexOf("-") + 1);
+                $('#stuDetail .modal-title').text(stuInfo.name);
+                $('#stuDetail .stuDetail_con').append('<div class="stuDetailTag">性别：</div><div class="stuDetailContent">' + stuInfo.sex + '</div>'
+                    + '<div class="stuDetailTag">身份证：</div><div class="stuDetailContent">' + stuInfo.ID_Card + '</div> '
+                    + '<div class="stuDetailTag">电话：</div><div class="stuDetailContent">' + stuInfo.tel + '</div> '
+                    + '<div class="stuDetailTag">家庭住址：</div><div class="stuDetailContent">' + stuInfo.address + '</div> '
+                    + '<div class="stuDetailTag">失业登记号：</div><div class="stuDetailContent">' + job_ID + '</div> '
+                    + '<div class="stuDetailTag">人员类别：</div><div class="stuDetailContent">' + person_type + '</div> '
+                    + '<div class="stuDetailTag">民族：</div><div class="stuDetailContent">' + nation + '</div> '
+                    + '<div class="stuDetailTag">生日：</div><div class="stuDetailContent">' + birthday + '</div> '
+                    + '<div class="stuDetailTag">补贴支付对象：</div><div class="stuDetailContent">' + subsiday + '</div> '
+                    + '<div class="stuDetailTag">户口性质：</div><div class="stuDetailContent">' + register_residence + '</div>');
+            });
+            /*--------------学员详情页编辑----------*/
+            $('#stuDetail .modal-footer button').eq(0).on('click', function () {
+                resetEditForm();
+            });
+            $('#stuDetail').on('hide.bs.modal', function () {//关闭详情后清空内容
+                $('#stuDetail .stuDetail_con').empty();
+            });
+            /*------------------------添加学员提交按钮----------------------------*/
+            $('#addStudenPanel .submit_btn').on('click', function () {
+                var name = $('#addStudenPanel .Name').val().trim();
+                $('#addStudenPanel .Name').val(name);
+                var id = $('#addStudenPanel .ID_Card').val().trim();
+                $('#addStudenPanel .ID_Card').val(id);
+                var phone = $('#addStudenPanel .Phone').val().trim();
+                $('#addStudenPanel .Phone').val(phone);
+                var address = $('#addStudenPanel .Address').val().trim();
+                $('#addStudenPanel .Address').val(address);
+                if (validForm(name, id, phone, address)) {
+                $('#addStudenPanel .submit_btn').attr('disabled', 'disabled');
+                submitStu_info();
+                }
+            });
+            /*------------------------添加学员提重置按钮--------------------------*/
+            $('#addStudenPanel .reset_btn').on('click', function () {
+                clearEditForm();
+                hideTips();
+            });
+            /*------------------------关闭添加学员表单后清空内容--------------------------*/
+            $('#addStudent').on('hide.bs.modal', function () {
+                clearEditForm();
+                hideTips();
+            });
+            /*--------------编辑学员信息按钮----------*/
+            $('.edit-btn').on('click', function () {
+                getStuInfoInRow($(this));
+                resetEditForm();;
+            });
+            /*------------------------编辑学员提交按钮----------------------------*/
+            $('#editStudenPanel .submit_btn').on('click', function () {
+                var name = $('#editStudenPanel .Name').val().trim();
+                $('#editStudenPanel .Name').val(name);
+                var id = $('#editStudenPanel .ID_Card').val().trim();
+                $('#editStudenPanel .ID_Card').val(id);
+                var phone = $('#editStudenPanel .Phone').val().trim();
+                $('#editStudenPanel .Phone').val(phone);
+                var address = $('#editStudenPanel .Address').val().trim();
+                $('#editStudenPanel .Address').val(address);
+                if (validForm(name, id, phone, address)) {
+                    $('#editStudenPanel .submit_btn').attr('disabled', 'disabled');
+                    editStu_info();
+                }
+            });
+            /*------------------------打开编辑页面时执行函数（给primary-id赋值）-------------------------*/
+            $('#editStudent').on('show.bs.modal', function () {
+
+                $('#dataId_holder').val(stuInfo.dataId);
+            });
+            /*------------------------编辑页面重置按钮----------------------------*/
+            $('#editStudenPanel .reset_btn').on('click', function () {
+                resetEditForm();
+                hideTips();
+            });
+            /*------------------------关闭编辑页面时执行函数（ tips设置透明，z-index设为-1）-------------------------*/
+            $('#editStudent').on('hide.bs.modal', function () {
+                hideTips();
+            });
+            /*------------------------删除学员信息----------------------------*/
+            $('.delete-btn').on('click', function () {
+                stuInfo.dataId = $(this).parent().parent().attr('data-id');
+                var name = $(this).parent().parent().find('td').eq(0).text();
+                var id = $(this).parent().parent().find('td').eq(2).text();
+                $('#deleteStuName').text(name);
+                $('#deleteStuIDCard').text(id);
+            });
+
+            /*--------------------添加/修改/删除成功后点击确认按钮刷新--------------------*/
+            $('#feedbackInfoPanel .confirm_btn').on('click', function () {
+                parent.right.location.reload();
+                window.parent.getStudentCount();
+            });
+            /*--------------------添加/修改/删除成功提示后刷新页面--------------------*/
+            $('#feedbackInfoPanel').on('hide.bs.modal', function () {
+                parent.right.location.reload();
+                //window.parent.getStuNum();
+            });
+            /*----------------获取所有学员生的姓名-----------------*/
+            function getAllNames() {
+                var name = $('tbody tr td:nth-child(1)');
+                for (var i = 0; i < name.length; i++) {
+                    var stuCase = {};
+                    stuCase.name = name.eq(i).text();
+                    stuCase.id = name.eq(i).parent().attr('data-id');
+                    stuNameList.push(stuCase);
+                }
+            }
+            /*--------------获取点击焦点的学生信息----------*/
+            function getStuInfoInRow(com) {
+                var $row = com.parent().parent().find('td');
+                stuInfo.dataId = com.parent().parent().attr('data-id');
+                stuInfo.name = $row.eq(0).text().trim();
+                stuInfo.sex = $row.eq(1).text().trim();
+                stuInfo.ID_Card = $row.eq(2).text().trim();
+                stuInfo.tel = $row.eq(3).text().trim();
+                stuInfo.address = $row.eq(4).text().trim();
+                stuInfo.job_ID = $row.eq(5).text().trim();
+                stuInfo.register_residence = $row.eq(11).text().trim();
+                stuInfo.register_residenceID = $row.eq(11).find('input').val();
+                stuInfo.person_typeID = $row.eq(7).find('input').val();
+                stuInfo.person_type = $row.eq(7).text().trim();
+                stuInfo.nationID = $row.eq(8).find('input').val();
+                stuInfo.nation = $row.eq(8).text().trim();
+                stuInfo.birthday = $row.eq(9).text().trim();
+                stuInfo.subsidayID = $row.eq(10).find('input').val();
+                stuInfo.subsiday = $row.eq(10).text().trim();
+            }
+            /*-----------------清空表单信息-----------------*/
+            function clearEditForm() {
+                $('.studenPanel .Name').val("");
+                $('.studenPanel .Sex').val("男");
+                $('.studenPanel .ID_Card').val("");
+                $('.studenPanel .Phone').val("");
+                $('.studenPanel .Person_Type').val("1");
+                $('.studenPanel .Address').val("");
+                $('.studenPanel .Job_ID').val("");
+                $('.studenPanel .House_Register').val("1");
+                $('.studenPanel .Birthday').val("");
+                $('.studenPanel .Subsidy').val("1");
+                $('.studenPanel .Nation').val("1");
+            }
+            /*-----------------还原编辑信息-----------------*/
+            function resetEditForm() {
+                $('#editStudent .Name').val(stuInfo.name);
+                $('#editStudent .Sex').val(stuInfo.sex);
+                $('#editStudent .ID_Card').val(stuInfo.ID_Card);
+                $('#editStudent .Phone').val(stuInfo.tel);
+                $('#editStudent .Person_Type').val(stuInfo.person_typeID);
+                $('#editStudent .Address').val(stuInfo.address);
+                $('#editStudent .Job_ID').val(stuInfo.job_ID);
+                $('#editStudent .House_Register').val(stuInfo.register_residenceID);
+                if (stuInfo.birthday != '0001-01-01') {
+                    $('#editStudent .Birthday').val(stuInfo.birthday);
+                } else {
+                    $('#editStudent .Birthday').val("");
+                }
+                $('#editStudent .Subsidy').val(stuInfo.subsidayID);
+                $('#editStudent .Nation').val(stuInfo.nationID);
+            }
+            /*-----------------添加学员post请求---------------*/
+            function submitStu_info() {
+                var urlAdd = '@Url.Action("PostAdd", "StudentManager")';
+                var data = { "stuObj": JSON.stringify($('#addStudenPanel form').serializeObject()), "classId": '@Model.ClassInfo.ID' };
+                $.post(urlAdd, data, function (data) {
+                    $('#addStudent').modal('hide');
+                    $('#feedbackInfoPanel').modal('show');
+                    $('#feedbackInfoPanel .modal-body h2').text(data.info);
+                    $('#addStudenPanel .submit_btn').removeAttr('disabled');
+                    window.parent.getStuNum();
+                    //parent.right.location.reload();
+                }, "json");
+            }
+            /*-----------------编辑学员post请求---------------*/
+            function editStu_info() {
+                var urlAdd = '@Url.Action("PostEdit", "StudentManager")';
+                var data = { "stuObj": JSON.stringify($('#editStudenPanel form').serializeObject()), "classId": '@Model.ClassInfo.ID' };
+                $.post(urlAdd, data, function (data) {
+                    $('#editStudent').modal('hide');
+                    $('#feedbackInfoPanel .modal-body h2').text(data.info);
+                    $('#feedbackInfoPanel').modal('show');
+                    $('#editStudent .submit_btn').removeAttr('disabled');
+                }, "json");
+            }
+            /*-----------------删除学员post请求-----------------*/
+            function deleteStu_info() {
+                var urlDelete = '@Url.Action("PostDelete", "StudentManager")';
+                var data = { "stuObj": stuInfo.dataId };
+                $.post(urlDelete, data, function (data) {
+                    $('#deleteStu').modal('hide');
+                    $('#feedbackInfoPanel .modal-body h2').text(data.info);
+                    $('#feedbackInfoPanel').modal('show');
+                    window.parent.getStuNum();
+                }, "json");
+            }
+            /*--------------表单验证--------------*/
+            function validForm(name, id, tel, address) {
+                return checkName(name) && checkIdcard(id) && checkPhone(tel) && checkAddress(address);
+            }
+            /*--------------隐藏验证提示--------------*/
+            function hideTips() {
+                $('.validAddressTips').css({ 'opacity': 0, 'z-index': -1 });
+                $('.validNameTips').css({ 'opacity': 0, 'z-index': -1 });
+                $('.validPhoneTips').css({ 'opacity': 0, 'z-index': -1 });
+                $('.validIDTips').css({ 'opacity': 0, 'z-index': -1 });
+            }
+            /*--------------弹出验证提示--------------*/
+            function popTips(type) {
+                if (type == 'id') {
+                    $('.validIDTips').css('z-index', 2);
+                    $('.validIDTips').animate({ opacity: '1' }, 500);
+                    $('.studenPanel .ID_Card').on('keydown', function () {
+                        hideTips();
+                    });
+                } else if (type == 'tel') {
+                    $('.validPhoneTips').css('z-index', 2);
+                    $('.validPhoneTips').animate({ opacity: '1' }, 500);
+                    $('.studenPanel .Phone').on('keydown', function () {
+                        hideTips();
+                    });
+                } else if (type == 'name') {
+                    $('.validNameTips').css('z-index', 2);
+                    $('.validNameTips').animate({ opacity: '1' }, 500);
+                    $('.studenPanel .Name').on('keydown', function () {
+                        hideTips();
+                    });
+                } else if (type == 'address') {
+                    $('.validAddressTips').css('z-index', 2);
+                    $('.validAddressTips').animate({ opacity: '1' }, 500);
+                    $('.studenPanel .Addresss').on('keydown', function () {
+                        hideTips();
+                    });
+                }
+            }
+            /*-------------------验证家庭地址是否为空--------------------*/
+            function checkAddress(address) {
+                address = address.trim();
+                if (address == "") {
+                    popTips('address');
+                    $('.studenPanel .Address').focus();
+                    return false;
+                } else {
+                    return true;
+                }
+                return false;
+            }
+            /*-------------------验证姓名合法性--------------------*/
+            function checkName(name) {
+                name = name.trim();
+                var regName = /^[\u4e00-\u9fa5]{2,4}$/;
+                if (!name.match(regName)) {
+                    popTips('name');
+                    $('.studenPanel .Name').focus();
+                    return false;
+                } else {
+                    return true;
+                }
+                return false;
+            }
+            /*-------------------验证电话号码--------------------*/
+            function checkPhone(num) {
+                num = num.trim();
+                var regTel = /^(\d{3,4})-(\d{7,8})/;
+                var regMobile = /[1][3-9][0-9]{9,9}/;
+                var varTel = num.match(regTel);
+                var varMobile = num.match(regMobile);
+                if (varTel || varMobile) {
+                    return true;
+                } else {
+                    popTips('tel');
+                    $('.studenPanel .Phone').focus();
+                    return false;
+                }
+                return false;
+            }
+            /*-------------------验证身份证号码合法性--------------------*/
+            function checkIdcard(num) {
+                num = num.trim();
+                num = num.toUpperCase();
+                //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X。
+                if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(num))) {
+                    popTips('id');
+                    $('.studenPanel .ID_Card').focus();
+                    //alert('输入的身份证号长度不对，或者号码不符合规定！\n15位号码应全为数字，18位号码末位可以为数字或X。');
+                    return false;
+                }
+                //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
+                //下面分别分析出生日期和校验位
+                var len, re;
+                len = num.length;
+                if (len == 15) {
+                    re = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/);
+                    var arrSplit = num.match(re);
+
+                    //检查生日日期是否正确
+                    var dtmBirth = new Date('19' + arrSplit[2] + '/' + arrSplit[3] + '/' + arrSplit[4]);
+                    var bGoodDay;
+                    bGoodDay = (dtmBirth.getYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
+                    if (!bGoodDay) {
+                        //alert('输入的身份证号里出生日期不对！');
+                        popTips('id');
+                        $('.studenPanel .ID_Card').focus();
+                        return false;
+                    }
+                    else {
+                        //将15位身份证转成18位
+                        //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
+                        var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+                        var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+                        var nTemp = 0, i;
+                        num = num.substr(0, 6) + '19' + num.substr(6, num.length - 6);
+                        for (i = 0; i < 17; i++) {
+                            nTemp += num.substr(i, 1) * arrInt[i];
+                        }
+                        num += arrCh[nTemp % 11];
+                        return true;
+                    }
+                }
+                if (len == 18) {
+                    re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/);
+                    var arrSplit = num.match(re);
+
+                    //检查生日日期是否正确
+                    var dtmBirth = new Date(arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]);
+                    var bGoodDay;
+                    bGoodDay = (dtmBirth.getFullYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
+                    if (!bGoodDay) {
+                        popTips('id');
+                        $('.studenPanel .ID_Card').focus();
+                        //alert('输入的身份证号里出生日期不对！');
+                        return false;
+                    }
+                    else {
+                        //检验18位身份证的校验码是否正确。
+                        //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
+                        var valnum;
+                        var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+                        var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+                        var nTemp = 0, i;
+                        for (i = 0; i < 17; i++) {
+                            nTemp += num.substr(i, 1) * arrInt[i];
+                        }
+                        valnum = arrCh[nTemp % 11];
+                        if (valnum != num.substr(17, 1)) {
+                            popTips('id');
+                            $('.studenPanel .ID_Card').focus();
+                            //alert('18位身份证的校验码不正确！应该为：' + valnum);
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+            String.prototype.trim = function () {//删除前后空格
+                return this.replace(/(^\s*)|(\s*$)/g, '');
+            };
+
+            function adjustAssistThead() {
+                //$('.assistThead ul').width($('thead').outerWidth());
+                $('.assistThead li').eq(0).width($('table th').eq(0).outerWidth());
+                $('.assistThead li').eq(1).width($('table th').eq(1).outerWidth());
+                $('.assistThead li').eq(2).width($('table th').eq(2).outerWidth());
+                $('.assistThead li').eq(3).width($('table th').eq(3).outerWidth());
+                $('.assistThead li').eq(4).width($('table th').eq(4).outerWidth());
+                $('.assistThead li').eq(5).width($('table th').eq(5).outerWidth());
+                $('.assistThead li').eq(6).width($('table th').eq(6).outerWidth());
+                $('.assistThead li').eq(6).css('backgroundColor', '#D9EDF7');
+            }
+
+            $('#go_top_btn').on('click', function () {
+                $('body,html').animate({ scrollTop: 0 }, 500);
+                $('.assistThead').css('opacity', 0);
+            });
+
+
+
+            function adjustAssistAside() {
+                var winWidth = $(window).width();
+                var listWidth = $('table').width();
+                var gap = (winWidth - listWidth) / 2;
+                var leftOffset = 0;
+                if ((gap - 32) > 0)
+                    leftOffset = (gap - 32) / 2;
+                $('#assistAside').css('left', leftOffset);
+            }
+            $(window).on('resize', function () {
+                adjustAssistThead();
+                adjustAssistAside();
+            });
+
+            $(document).scroll(function () {
+                adjustAssistThead();
+                if ($(document).scrollTop() > 130) {
+                    $(".assistThead").removeClass('hide');
+                    $('.assistThead').animate({ opacity: 1 }, 1000).css({ flter: "Alpha(Opacity=100)" });
+                    $(".assistAside").removeClass('hide');
+                } else {
+                    $(".assistThead").addClass('hide');
+                    $('.assistThead').css('opacity', '0');
+                    $(".assistAside").addClass('hide');
+                }
+            });
+            $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd', changeMonth: true,
+                changeYear: true,
+                yearRange: "1949:2015",
+                showAnim: "blind",
+                defaultDate: '-22y'
+            });//set dateFormat
+
+        });
+
+    </script>
+</body>
+
+</html>

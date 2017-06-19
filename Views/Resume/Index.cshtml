@@ -1,0 +1,456 @@
+﻿@model employment_bureau.Models.ResumeViewModel
+
+@{
+    ViewBag.Title = "resume";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <link href="~/Content/button-form-theme.css" rel="stylesheet" />
+    <link href="~/Content/resume.css" rel="stylesheet" />
+</head>
+<body>
+    <aside>
+        <header>简历信息</header>
+        <ul class="aside_content">
+            <li><a href="#basicInfo">个人信息</a></li>
+            <li><a href="#jobIntension">求职意向</a></li>
+            <li><a href="#lg_speciality">语言能力</a></li>
+            <li><a href="#edu_exp">教育经历</a></li>
+            <li><a href="#training_exp">培训经历</a></li>
+            <li><a href="#work_exp">工作经验</a></li>
+            <li><a href="#work_skill">工作技能</a></li>
+            <li><a href="#career_goal">职业目标</a></li>
+            <li><a href="#self_introduction">自我介绍</a></li>
+        </ul>
+    </aside>
+    <div class="main">
+        <div class="basicInfo clearfix" id="basicInfo">
+            <!--个人基础信息-->
+            <div class="pic">
+                <img src="~/img/123.png" />
+
+                <a href="#">修改照片</a>
+            </div>
+            <div class="con">
+                <div class="info">
+                    <div class="clearfix"><span>@Model.PersonalModel.Person_Sex</span><span>@Model.PersonalModel.Person_Marriage</span><span>@Model.PersonalModel.Person_Birthday.ToShortDateString()生</span><span>户口：@Model.PersonalModel.Person_Anmelden</span><span>现居地：@Model.PersonalModel.Person_Address</span><span class="end">@Model.PersonalModel.Person_WorkYear 工作经验</span></div>
+                    <div class="clearfix"><span class="end">身份证：@Model.PersonalModel.Person_Cid</span></div>
+                    <div class="clearfix"><span class="end">电话：@Model.PersonalModel.Person_Tel</span></div>
+                    <div class="clearfix"><span class="end">电子邮箱：@Model.PersonalModel.Person_Email</span></div>
+                </div>
+                <a href="#">修改个人信息</a>
+
+            </div>
+            @using (Ajax.BeginForm("PersonalPartPost", "Resume", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "tips", OnFailure = "tips" }))
+            {
+                @Html.Hidden("PersonalModel.Id");
+                @Html.Hidden("PersonalModel.Resume_Id", Model.ResumeId);
+                <div class="personInfoMaintain hide" id="personInfoMaintain">
+                    <div class="clearfix">
+                        <label for="personName" style="color: #337ab7;">姓名：</label>@Html.TextBox("PersonalModel.Person_Name", null, new { id = "personName", @class = "personName" })
+                        <span class="item sex_choose" id="sex_choose">
+                            <label>性别：</label><label>@Html.RadioButton("PersonalModel.Person_Sex", "男") 男 </label>
+                            <label>
+                                @Html.RadioButton("PersonalModel.Person_Sex", "女")女
+                            </label>
+                        </span>
+                        <span class="item marriage" id="marriage">
+                            <label>婚姻状况：</label>
+                            @*<select name="PersonalModel.Person_Marriage">
+                                <option value="">请选择</option>
+                                <option value="未婚">未婚</option>
+                                <option value="已婚">已婚</option>
+                                <option value="离异">离异</option>
+                            </select>*@
+                            @Html.DropDownList("PersonalModel.Person_Marriage", new List<SelectListItem>() { new SelectListItem { Text = "未婚", Value = "未婚" }, new SelectListItem { Text = "已婚", Value = "已婚" }, new SelectListItem { Text = "离异", Value = "离异" } }, "请选择", null)
+
+                        </span>
+                    </div>
+                    <div class="clearfix">
+                        <label for="regis_res" style="color: #337ab7;">户口所在地：</label>@Html.TextBox("PersonalModel.Person_Anmelden", null, new { id = "regis_res", @class = "regis_res" })
+                        <span class="item workExp" id="workExp">
+                            <label>工作经验：</label>
+                            @*<select name="PersonalModel.Person_WorkYear"><option value="">请选择</option>
+                                <option value="1">无</option>
+                                <option value="2">1-3年</option>
+                                <option value="3">3-5年</option>
+                                <option value="4">5年以上</option>
+                            </select>*@
+                            @Html.DropDownList("PersonalModel.Person_WorkYear", new List<SelectListItem>() { new SelectListItem { Text = "无", Value = "1" }, new SelectListItem { Text = "1-3年", Value = "2" }, new SelectListItem { Text = "3-5年", Value = "3" }, new SelectListItem { Text = "5年以上", Value = "4" } }, "请选择", null)
+
+                        </span>
+                    </div>
+                    <div class="clearfix">
+                        <label for="id_num" style="color: #337ab7;">身份证：</label>@Html.TextBox("PersonalModel.Person_Cid", null, new { id = "id_num", @class = "id_num" })
+                        <span class="item marriage">
+                            <label for="personTel" style="color: #337ab7;">联系电话：</label>
+                            @Html.TextBox("PersonalModel.Person_Tel", null, new { id = "personTel", @class = "personTel" })</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for="personEmail" style="color: #337ab7;">电子邮箱：</label>
+                        @Html.TextBox("PersonalModel.Person_Email", null, new { id = "personEmail", @class = "personEmail" })
+                    </div>
+                    <div class="personInfoMaintainBtnGrp" id="personInfoMaintainBtnGrp">
+                        <button class="btn btn-primary save" type="submit">保存</button>
+                        <button class="btn btn-default cancel" type="button">取消</button>
+                    </div>
+                </div>
+                <!--editForm end-->
+            }
+
+
+        </div>
+        <!--basicInfo end-->
+
+        <div class="detail clearfix">
+            <h2 class="name">张亚迪</h2>
+            <div class="title clearfix" id="jobIntension">
+                <span>求职意向</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel jobIntensionPanel">
+                <div class="row"><span>应聘职位类型：<span id="job_type">市场类</span></span><span>求职类型：<span id="apply_type">全职</span></span></div>
+                <div class="row"><span>月薪要求：<span id="salary_req">3000元</span></span><span>职位要求：<span id="job_req">客服经理、业务专员</span></span></div>
+                <div class="row"><span>希望工作地区：<span id="jobArea_req">夷陵区</span></span></div>
+            </div>
+            <div class="title clearfix" id="lg_speciality">
+                <span>语言能力</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel lg_specialityPanel">
+                <div class="row"><span>外语语种：<span id="foreign_lg">无</span></span><span>外语水平：<span id="foreign_lg_lv">无</span></span></div>
+                <div class="row"><span>普通话水平：<span id="mandarin_lv">标准</span></span><span>计算机能力：<span id="computer_skill">优秀</span></span></div>
+            </div>
+            <div class="title clearfix" id="edu_exp">
+                <span>教育经历</span>
+                <a href="#edu_exp">修改</a>
+            </div>
+            @using (Ajax.BeginForm("EduPartPost", "Resume", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "tips", OnFailure = "tips" }))
+            {
+                @Html.Hidden("ResumeId")
+                <div class="maintainPanel eduMaintain hide" id="eduMaintain">
+                    <button class="btn btn-primary save" type="submit">保存</button>
+                    <button class="btn btn-primary add" type="button">添加新的教育经历</button>
+                    <button class="btn btn-default cancel" type="button">取消</button>
+                    <table>
+                    </table>
+                    <div class="addEduInfo hide" id="addEduInfo">
+                        <div class="clearfix">
+                            <label>时间：</label><div class="con">
+                                <input type="text" class="datepicker"><span>至</span><input type="text" class="datepicker">
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="schName">学校名称：</label><div class="con">
+                                <input type="text" id="schName" class="input">
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="marjorName">专业名称：</label><div class="con">
+                                <input type="text" id="marjorName" class="input">
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="degree">学历：</label>
+                            <div class="con">
+                                <select id="degree">
+                                    <option>请选择</option>
+                                    <option>初中</option>
+                                    <option>中技</option>
+                                    <option>高中</option>
+                                    <option>中专</option>
+                                    <option>大专</option>
+                                    <option>本科</option>
+                                    <option>硕士</option>
+                                    <option>博士</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="addEduInfoBtnGrp" id="addEduInfoBtnGrp">
+                            <button class="btn btn-primary add" type="button">确认添加</button>
+                            <button class="btn btn-default cancel" type="button">取消</button>
+                        </div>
+                    </div>
+                    <!-- end addEduInfo-->
+
+                </div>
+                <div class="detailPanel2 edu_expPanel" id="edu_expPanel">
+                    @{
+                for (int i = 0; i < Model.EduExpList.Count; i++)
+                {
+               
+                        <div class="detailPanel2_item clearfix">
+                            <span>@Model.EduExpList[i].Btime.ToString("yyyy.MM") 至 @Model.EduExpList[i].Etime.ToString("yyyy.MM")</span><span class="bold">@Model.EduExpList[i].School</span><span>@Model.EduExpList[i].Specialty</span><span class="bold">@Model.EduExpList[i].Degree</span>
+                        </div>
+                }
+                    }
+                    @* <div class="detailPanel2_item clearfix">
+                        <span>2007.9 至 2011.6</span><span class="bold">成都大学</span><span>电器自动化</span><span class="bold">本科</span>
+                    </div>
+                    <div class="detailPanel2_item clearfix">
+                        <span>2003.9 至 2008.6</span><span class="bold">湖南大学</span><span>机械制造</span><span class="bold">硕士</span>
+                    </div>
+                    <div class="detailPanel2_item clearfix">
+                        <span>2010.9 至 2015.6</span><span class="bold">北京大学</span><span>软件工程</span><span class="bold">本科</span>
+                    </div>*@
+                </div>
+
+            }
+            <div class="title clearfix" id="training_exp">
+                <span>培训经历</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel training_expPanel">
+                <div class="row"><span><span id="training_exp_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="work_exp">
+                <span>工作经验</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel2 work_expPanel">
+                <div class="detailPanel2_item">
+                    <div class="clearfix"><span id="work_expDuration" class="tit">2014.2 -- 2015.6</span></div>
+                    <div class="clearfix"><span id="work_expCom" class="work_expCom tit">武汉吉肽生物科技有限公司</span></div>
+                    <div class="clearfix">
+                        <span class="tit">职位：</span><span class="tit_next" id="work_expJobName">产品助理</span>
+                        <span class="tit">行业类别：</span><span class="tit_next" id="work_expJobType">生物医疗</span>
+                        <span class="tit">企业性质：</span><span class="tit_next" id="work_expComType">民营</span>
+                        <span class="tit">规模：</span><span class="tit_next" id="work_expJobComSize">500-999人</span>
+                    </div>
+                    <div class="clearfix">
+                        <span class="tit descTit">工作描述：</span><p class="desc" id="work_expJobDesc">主要负责《武侠世界》等游戏程序客户端的开发，此外还负责部分游戏界面、游戏音乐设计及项目的统筹与安排，参与部分线上运营比较深入地了解了IT公司的内部运行方式，了解了开发、产品、运营、客服等角色的定位，为理清自己的职业方向打好了基础</p>
+                    </div>
+                </div>
+                <!--detailPanel2_item end-->
+            </div>
+            <!--detailPanel2 end-->
+            <div class="title clearfix" id="work_skill">
+                <span>工作技能</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel work_skillPanel">
+                <div class="row"><span><span id="work_skill_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="career_goal">
+                <span>职业目标</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel career_goalPanel">
+                <div class="row"><span><span id="career_goal_detail">无</span></span></div>
+            </div>
+            <div class="title clearfix" id="self_introduction">
+                <span>自我介绍</span>
+                <a href="#">修改</a>
+            </div>
+            <div class="detailPanel self_introductionPanel">
+                <div class="row"><span><span id="self_introduction_detail">无</span></span></div>
+            </div>
+        </div>
+        <!--detail end-->
+    </div>
+    <!--main end-->
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-i18n.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/resume.js"></script>
+    <script>
+
+        //console.log($('#edu_expPanel .detailPanel2_item').text());
+        var expCount = 0;
+        var eidtEduExpIdTemp = -1;
+        $('#basicInfo .con a').on('click', function () {//点击修改个人信息
+            openPersonInfoMaintain();
+        });
+        $('#personInfoMaintain .cancel').on('click', function () {//取消修改个人信息
+            closePersonInfoMaintain();
+        });
+        function openPersonInfoMaintain() {//打开个人信息修改界面
+            $('#basicInfo .con').hide();
+            $('#personInfoMaintain').show();
+        }
+        function tips(data) {
+            alert("1");
+        }
+        function addEduInfo() {//确认添加
+            var time = $('#addEduInfo input.datepicker').eq(0).val() + ' 至 ' + $('#addEduInfo input.datepicker').eq(1).val();
+            var univName = $('#schName').val();
+            var marjor = $('#marjorName').val();
+            var degreeName = $('#degree').val();
+            if ($('#eduMaintain table tr').length <= 1) {
+                var tbHead = '<tr><th>时间</th><th>学校名称</th><th>专业名称</th><th>学历学位</th><th></th></tr>';
+                $('#eduMaintain table').show().empty().append(tbHead);
+            }
+            var trCon = '<tr><td>' + time + '</td><input type="hidden" name="EduExpList[' + expCount + '].Btime" value="' + $('#addEduInfo input.datepicker').eq(0).val() + '"/><td>' + univName + '</td><input type="hidden" name="EduExpList[' + expCount + '].School" value="' + univName + '"/><td>' + marjor + '</td><input type="hidden" name="EduExpList[' + expCount + '].Specialty" value="' + marjor + '"/><td>' + degreeName + '</td><input type="hidden" name="EduExpList[' + expCount + '].Degree" value="' + degreeName + '"/><td><a class="btn btn-success edit">编辑</a><a class="btn btn-danger delete">删除</a></td></tr>';
+            $('#eduMaintain table').append(trCon);
+            expCount++;
+            bindEduExpEvent();
+            closeAddEduInfoP();
+        }
+        function closePersonInfoMaintain() {//关闭个人信息修改界面
+            $('#personName').val('');
+            $('#sex_choose input').removeAttr("checked");
+            $('#marriage select').val('');
+            $('#regis_res').val('');
+            $('#workExp select').val('');
+            $('#id_num').val('');
+            $('#personTel').val('');
+            $('#personEmail').val('');
+            $('#basicInfo .con').show();
+            $('#personInfoMaintain').hide();
+        }
+
+        $('#edu_exp a').on('click', function () {//修改教育背景
+            if ($('#eduMaintain').is(':hidden')) {
+                var time = [];
+                var univ = [];
+                var major = [];
+                var degree = [];
+                $('#edu_expPanel .detailPanel2_item').each(function (i) {
+                    //var time = $(this).find('span').eq(0).text().split('-');
+                    //startT.push(time[0]);
+                    //endT.push(time[1]);
+                    time.push($(this).find('span').eq(0).text());
+                    univ.push($(this).find('span').eq(1).text());
+                    major.push($(this).find('span').eq(2).text())
+                    degree.push($(this).find('span').eq(3).text());
+                });
+                if (time.length > 0) {
+                    $('#eduMaintain table').show();
+                    var con = '';
+                    for (var i = 0; i < time.length; i++) {
+                        con += '<tr data-id="' + i + '"><td>' + time[i] + '</td><td>' + univ[i] + '</td><td>' + major[i] + '</td><td>' + degree[i] + '</td><td><a class="btn btn-success edit">编辑</a><a class="btn btn-danger delete">删除</a></td></tr>';
+                    }
+                    var tbHead = '<tr><th>时间</th><th>学校名称</th><th>专业名称</th><th>学历学位</th><th></th></tr>';
+                    $('#eduMaintain table').empty().append(tbHead);
+                    $('#eduMaintain table').append(con);
+                    bindEduExpEvent();
+                } else {
+                    $('#eduMaintain table').hide();
+                }
+                $('#eduMaintain').show();
+                $('#edu_expPanel').hide();
+            }
+        });
+        function bindEduExpEvent() {//绑定教育经历编辑事件
+            $('#eduMaintain table .edit').on('click', function () {//编辑教育经历
+                $('#eduMaintain table tr').css('background-color', '#fff');
+                $(this).parent().parent().css('background-color', '#FCF8E3');
+                var dataId = $(this).parent().parent().attr('data-id');
+                var item = $(this).parent().parent().find('td');
+                var time = item.eq(0).text().split('至');
+                var startT = time[0];
+                var endT = time[1];
+                var univ = item.eq(1).text();
+                var major = item.eq(2).text();
+                var degree = item.eq(3).text();
+                $('#addEduInfoBtnGrp .add').text('确认修改');
+                openAddEduInfoP();
+                $('#addEduInfo input.datepicker').eq(0).val(startT);
+                $('#addEduInfo input.datepicker').eq(1).val(endT);
+                $('#schName').val(univ);
+                $('#marjorName').val(major);
+                $('#degree').val(degree);
+                eidtEduExpIdTemp = dataId;
+            })
+            $('#eduMaintain table .delete').on('click', function () {//编辑教育经历
+                $(this).parent().parent().remove();
+                if ($('#eduMaintain table tr').length == 1) {
+                    $('#eduMaintain table').hide();
+                }
+            })
+        }
+        $('#eduMaintain > .save').on('click', function () {//保存所有教育经历
+            var time = [];
+            var univ = [];
+            var major = [];
+            var degree = [];
+            $('#eduMaintain table tr').each(function (i) {
+                if (i > 0) {
+                    time.push($(this).find('td').eq(0).text());
+                    univ.push($(this).find('td').eq(1).text());
+                    major.push($(this).find('td').eq(2).text());
+                    degree.push($(this).find('td').eq(3).text());
+                }
+            });
+            var con = '';
+            for (var i = 0; i < time.length; i++) {
+                con += '<div class="detailPanel2_item clearfix"><span>' + time[i] + '</span><span class="bold">' + univ[i] + '</span><span>' + major[i] + '</span><span class="bold">' + degree[i] + '</span></div>';
+            }
+            $('#edu_expPanel').empty().append(con);
+            closeAddEduInfoP();
+            $('#eduMaintain').hide();
+            $('#edu_expPanel').show();
+        });
+        $('#eduMaintain > .cancel').on('click', function () {//取消保存所有教育经历
+            closeAddEduInfoP();
+            $('#eduMaintain').hide();
+            $('#edu_expPanel').show();
+
+        });
+        $('#eduMaintain > .add').on('click', function () {//添加教育背景按钮
+            $('#addEduInfoBtnGrp .add').text('确认添加');
+            eidtEduExpIdTemp = -1;
+            openAddEduInfoP();
+        });
+
+        function modifyEduInfo(id) {
+            $('#eduMaintain table tr').each(function () {
+                if ($(this).attr('data-id') == id) {
+                    var time = $('#addEduInfo input.datepicker').eq(0).val() + ' 至 ' + $('#addEduInfo input.datepicker').eq(1).val();
+                    var univName = $('#schName').val();
+                    var marjor = $('#marjorName').val();
+                    var degreeName = $('#degree').val();
+                    var tdCon = $(this).find('td');
+                    tdCon.eq(0).text(time);
+                    tdCon.eq(1).text(univName);
+                    tdCon.eq(2).text(marjor);
+                    tdCon.eq(3).text(degreeName);
+                }
+            });
+        }
+        $('#addEduInfoBtnGrp .add').on('click', function () {//确认添加或修改
+            if (eidtEduExpIdTemp == -1) {
+                addEduInfo();
+            } else {
+                modifyEduInfo(eidtEduExpIdTemp);
+            }
+            closeAddEduInfoP();
+        });
+        $('#addEduInfoBtnGrp .cancel').on('click', function () {//取消添加教育背景按钮
+            closeAddEduInfoP();
+        });
+
+        function closeAddEduInfoP() {//关闭添加教育经历面板
+            $('#addEduInfo').hide();
+            $('#eduMaintain table tr').css('background-color', '#fff');
+            $('#eduMaintain > .cancel').show();
+            $('#eduMaintain .add').show();
+            $('#addEduInfo input').val('');
+            $('#addEduInfo select').val('');
+        }
+        function openAddEduInfoP() {//打开添加教育经历面板
+            $('#addEduInfo').show();
+            $('#eduMaintain > .cancel').hide();
+            $('#eduMaintain > .add').hide();
+        }
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+        $(".datepicker").datepicker({
+            dateFormat: 'yy.mm',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1979:2015"
+
+        });
+
+    </script>
+</body>
+</html>

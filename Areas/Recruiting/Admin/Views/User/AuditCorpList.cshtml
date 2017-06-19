@@ -1,0 +1,200 @@
+﻿@model List<Ys.Model.Model.Recruit.EmployerModel>
+
+@{
+    ViewBag.Title = "审核企业用户";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>审核企业用户</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("注册用户管理", "Index")
+                <span class="crumb-step">&gt;</span><span>审核企业用户</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("AuditCorpList", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th>用户组别：</th>
+                                    <td>
+                                        <div id="wrapUserTypes" class="rule-multi-radio">
+                                            <span id="RadioButtonList1">
+                                                <input type="radio" name="listUserType" id="listUserType_2" value="2" checked="checked">
+                                                <label for="listUserType_2">企业用户</label>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <th>关键字：</th>
+                                    <td>
+                                        <input type="text" name="keywords" id="keywords" value="" class="input" placeholder="关键字">
+                                    </td>
+                                    <td>
+                                        <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
+                                        @Html.ActionLink("清 空", "AduitCorpList", null, new { @id = "btnClear", @class = "btn yellow" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnAudit" class="save" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkAudit")')">
+                                        <i></i><span>批量审核通过</span>
+                                    </a>
+                                    <input type="hidden" name="hidBulkIds" id="hidBulkIds" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead id="itemColumns">
+                        <tr>
+                            <th style="width: 5%;">选择
+                            </th>
+                            <th style="width: 5%;">序号
+                            </th>
+                            <th style="width: 10%;">用户组别
+                            </th>
+                            <th style="width: 10%;">用户名 
+                            </th>
+                            <th style="width: 10%;">企事业单位名称
+                            </th>
+                            <th style="width: 10%;">状态
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @foreach (var corp in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='1' title="选择" />
+                                </td>
+                                <td>1      
+                                </td>
+                                <td>企业用户
+                                </td>
+                                <td>
+                                    @Html.ActionLink(corp.Login_Id, "CorpDetails", new { id = @corp.Id }, new { @title = "zhangsan" })
+                                </td>
+                                <td data-role="corporation">@corp.Name
+                                </td>
+                                <td class="corpState">@corp.State.Name
+                                </td>
+                                <td class="nowrap">
+                                    <a href="@Url.Action("AuditCorp", new { id = corp.Id })" title="审核通过" class="btn green">审核通过</a>
+                                    <a href="@Url.Action("UnAuditCorp", new { id = corp.Id })" title="审核不通过" class="btn violet">审核不通过</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="ht_10">
+            </div>
+            <div class="pagelist">
+                <div class="l-btns">
+                    <span>显示 </span>
+                    <label id="lblPageSize"></label>
+                    <span>条/页</span>
+                </div>
+                <div id="PageContent" runat="server" class="default">
+                </div>
+            </div>
+            <!--/内容底部-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        $(function () {
+            $(".corpState").each(function () {
+                if ($.trim($(this).text()) == "未通过") {
+                    $(this).css("color", "#f21a1a");
+                    $(this).next().find("a").eq(1).addClass("disabled").attr("disabled", "disabled");
+                }               
+            });
+
+            var bulkIds = '@ViewData["bulkIds"]';
+            if (bulkIds)
+                alert("批量执行的bulkIds: " + bulkIds);
+
+            /*用户组别点击事件绑定*/
+            var wrapUserTypes = $("#wrapUserTypes>.boxwrap>a");
+            $(wrapUserTypes).each(function (i, item) {
+                var url = f_onActionLink($(this).text());
+                if (url) {
+                    $(this).attr("href", url);
+                }
+            });
+        });
+
+        /* 根据用户组别加载用户列表视图 */
+        function f_onActionLink(typeCode) {
+            var url = "";
+            switch (typeCode) {
+                case "1":
+                case "个人用户":
+                    url = '@Url.Action("AuditList")';
+                    break;
+                case "2":
+                case "企业用户":
+                    url = '@Url.Action("AuditCorpList")';
+                    break;
+                default:
+                    break;
+            }
+            return url;
+        }
+    </script>
+</body>
+</html>

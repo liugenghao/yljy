@@ -1,0 +1,166 @@
+﻿body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans',"Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    color: #62686f;
+    outline: none;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+header, section, footer, aside, nav, article, figure {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
+form, fieldset, input, textarea, p, blockquote, th, td {
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-weight: normal;
+    font-style: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+}
+li {
+    list-style: none;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+header {
+    padding:10px 1.5em;
+    background:#222222;
+}
+    header h1 {
+        font-size:1.5em;
+        color:#ffffff;
+    }
+.item li {
+    padding:1.2em 1.5em;
+    border-bottom: 1px solid #eaeaee;
+}
+.item a {
+    font-weight:500;
+    font-size:1.5em;
+}
+.item a.smallTit{
+        font-size:1em;
+    }
+.location, .company, .time {
+    font-size:1em;
+}
+.time {
+    color:#bab6b6;
+}
+h2.orange {
+color:#ff6a00;
+}
+h2.blue {
+color:#279bac;
+}
+.main h2 {
+    font-size:1.5em;
+    margin-bottom:0.2em;
+}
+.title ,.content,.end{
+    padding:1.2em;
+}
+.line {
+    height:1px;
+    background:#eaeaee;  
+}
+.detail .row{
+    margin-top:1em;
+}
+.desc .col-xs-2 {
+    width:85px;
+    padding-right:0;
+}
+.desc .col-xs-10 {
+    width:70%;
+    padding-left:0;
+    color:#aeadad;
+}
+.date {
+    color:#b7b2b2;
+
+}
+    .search {
+        margin:0 auto;
+        margin-top:100px;
+        width:55%;
+    }
+.condition {
+    margin:30px auto;
+    text-align:center;
+    width:40%;
+    font-size:1.2em;
+}
+    .condition .row {
+        margin-top:20px;
+    }
+        .condition .row a {
+            margin-left:10px;
+        }
+        .condition .row span {
+            position:relative;
+            float:left;
+            top:3px;
+            left:5px;
+        }
+        .condition .row select {
+            margin-left:1%;
+            width:50%;
+            float:left;
+            top:3px;
+            left:5px;
+        }
+.btnGrp {
+    margin:0 auto;
+    width:90%;
+    text-align:center;
+}
+
+    .btnGrp input {
+        width:21%;
+        margin:0 2%;
+    }
+
+.singleDec {
+      padding:5%;   
+}

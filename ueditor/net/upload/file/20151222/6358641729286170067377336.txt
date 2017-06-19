@@ -1,0 +1,27 @@
+一:本软件用.NET4.0编写,若你的电脑上没有安装.net framework 4.0 ,请从微软官方下载安装后再使用此软件,也可以从别的地方下载.net framework 4.0
+
+提示:.net framework 4.0微软官方下载地址:http://www.microsoft.com/zh-cn/download/details.aspx?id=17718
+
+
+
+二:在使用优优云或云打码登入时,360可能会提示警告,选允许即可,因为人工识码要与远程通讯
+
+
+三:在使用过程中有问题请联系QQ:26092554 或加群425075517 
+
+
+四:微信端的限制:
+
+若有投票只限微信网页打开,只要将UserAgent和 Accept设置为:
+
+Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) MicroMessenger Chrome/26.0.1410.64 Safari/537.31
+
+
+五:可以使用截包工具:Fiddler 分析数据包  下载地址:http://pan.baidu.com/s/1o6iHSM2
+
+
+六:
+
+演示视频下载地址:http://pan.baidu.com/s/1eQiYnCI
+
+用IE截包演示:http://v.youku.com/v_show/id_XODU1NjcxMzE2.html

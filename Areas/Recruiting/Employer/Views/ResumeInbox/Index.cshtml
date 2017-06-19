@@ -1,0 +1,346 @@
+﻿@model List<Ys.Model.Model.Recruit.ResumePost>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>已收到的简历</title>
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+    @Styles.Render("~/artdialog/css")
+    @Scripts.Render("~/artdialog/js")
+    <script src="@Url.Content("~/My97DatePicker/WdatePicker.js")"></script>
+</head>
+<body>
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>已收到的简历</span>
+            <i class="arrow"></i><span>简历列表</span>
+        </div>
+        <!--/导航栏-->
+        <div class="reslut-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("Outbox", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                @*<tr>
+                                    <th style="vertical-align: text-top;">投递时间：</th>
+                                    <td>
+                                        <input type="text" name="txtTimeStart" id="txtTimeStart" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',position:{left:20, top:10}})" placeholder="请输入起始时间" />
+                                        至
+                                        <input type="text" name="txtTimeEnd" id="txtTimeEnd" class="input Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',position:{left:20, top:10}})" placeholder="请输入截止时间" />
+                                    </td>
+                                </tr>*@
+                                <tr>
+                                    <th>关键字：</th>
+                                    <td>
+                                        <input type="text" name="txtKeywords" id="txtKeywords" class="input normal" style="width: 426px;" placeholder="请输入关键字" />
+                                    </td>
+                                    <td rowspan="2">
+                                        <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
+                                        <a class="btn yellow" href="@Url.Action("Outbox")" id="btnClear">清 空</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--工具栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                @*<div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript:void(0);" onclick="return ExePostBack('btnDelete');">
+                                        <i></i><span>删除</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">序号
+                            </th>
+                            <th style="width: 20%;">投递的职位
+                            </th>
+                            <th style="width: 15%;">简历名称
+                            </th>
+                            <th style="width: 10%;">求职者
+                            </th>
+                            <th style="width: 5%;">性别
+                            </th>
+                            <th style="width: 5%;">年龄
+                            </th>
+                            <th style="width: 15%;">专业
+                            </th>
+                            <th style="width: 10%;">投递时间
+                            </th>
+                            <th>状态
+                            </th>
+                            <th>操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemContainer">
+                        @if (Model != null)
+                        {
+                            int i = 1;
+                            foreach (var post in Model.OrderBy(m => m.State))
+                            {
+                            <tr>
+
+                                <td>@i @Html.Hidden("postId", post.Id, new { id = "postId" })</td>
+                                <td>
+                                    <a href="@Url.Action("Job_Detail", "Recruiting", new { id = post.Job.Id, area = "" })" target="_blank" class="link" title="@post.Job.JobName">
+                                        @post.Job.JobName
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Resume", new { id = post.Resume.Id, jobId = post.JobId, area = "Recruiting/User" })" target="_blank" class="link" title="@post.Resume.Name"><span class="icon icon-pages"></span>@post.Resume.Name</a>
+                                </td>
+                                <td>
+                                    @if (post.Resume.PersonalModel != null)
+                                    {
+                                        @post.Resume.PersonalModel.Person_Name
+                                    }
+                                </td>
+                                <td>
+                                    @if (post.Resume.PersonalModel != null)
+                                    {@post.Resume.PersonalModel.Person_Sex}
+                                </td>
+                                <td>
+                                    @if (post.Resume.PersonalModel != null)
+                                    {@(DateTime.Now.Year - post.Resume.PersonalModel.Person_Birthday.Year)}
+                                </td>
+                                <td>计算机科学
+                                </td>
+                                <td>@post.PostTime.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    @if (post.State == 0)
+                                    {
+                                        <text>未查看</text>
+                                    }
+                                    else if (post.State == 1)
+                                    {
+                                        <text>已查看</text>
+                                    }
+
+                                </td>
+                                <td class="nowrap sendInterviewBtn">
+                                    @if (!post.InterviewExist)
+                                    {
+                                        <a href="javascript: f_onAddInterviewLetter('@post.Job.JobName',@if(post.Resume.PersonalModel != null){<text>'</text>@post.Resume.PersonalModel.Person_Name<text>'</text>}else{<text>'</text><text>'</text>},@post.Id);" class="act btnSend" title="发送面试邀约" data-index="@i">发送面试邀约</a>
+                                    }
+                                    else
+                                    {
+                                        <text>已发送面试邀请</text>
+                                    }
+                                    @*<a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = resume.Id })');"><span class="icon icon-trash"></span>删除</a>*@
+                                </td>
+                            </tr>
+                                    i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="ht_10"></div>
+            <div class="pagelist">
+                <div class="l-btns">
+                    <span>显示 </span>
+                    <label id="lblPageSize">10</label><span> 条/页</span>
+                </div>
+                <div id="PageContent" class="default">
+                </div>
+            </div>
+            <!--/内容底部-->
+        </div>
+        <div class="result-wrap sendInterviewReq" id="sendInterviewReq">
+                @Html.Hidden("PostId")
+                <!--内容-->
+                <div id="floatHeadEdit" class="content-tab-wrap">
+                    <div class="content-tab">
+                        <div class="content-tab-ul-wrap">
+                            <ul>
+                                <li><a class="selected" href="javascript:void(0);">面试邀约</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <dl>
+                        <dt>职位名称</dt>
+                        <dd id="job-t">
+                                @Html.Hidden("JobId")
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>求职者</dt>
+                        <dd id="job-n">
+                                @Html.Hidden("UserId")
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>面试时间</dt>
+                        <dd>
+                            <input type="text" name="InterviewTime" id="txtInterviewTime" onfocus="WdatePicker({dateFmt:&quot;yyyy-MM-dd HH:mm:ss&quot;})" class="Wdate input" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>备 注</dt>
+                        <dd>
+
+                            @Html.TextArea("Remark", "", new { @class = "input", rows = "4" })
+
+                        </dd>
+                    </dl>
+                    <div class="sendIntBtnGrp">
+                            <a class="btn"  href="javascript:createInterview()">提 交</a>
+                            <a class="btn cancel" href="javascript:closeSendInP()" >取消</a>
+                       
+                </div>
+                </div>
+                
+                <!--/内容-->
+            
+        </div>
+    </div>
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    <script type="text/javascript">
+        /*创建面试时间窗口*/
+        function f_onAddInterviewLetter(job,name,postId) {
+            $("#job-t").text(job);
+            $("#job-n").text(name);
+            $("#PostId").val(postId);
+            //var personName = tr.children("td:eq(3)").text();
+            var confirm = top.dialog({
+                title: '新建一个面试邀约，将发送给求职者',
+                content: '请认真阅读该求职者的个人简历后再发送面试邀请，是否继续？',
+                cancelValue: '取消',
+                cancel: function () { },
+                okValue: '确定',
+                ok: function () {
+                    $("#sendInterviewReq").css('display', 'block');
+                    @* 
+                    
+                    var d = top.dialog({
+                        id: "interviewAddDialog",
+                        title: '新建一个面试邀约，将发送给求职者',
+                        content: "<div id='ia'>" + $("#result-edit").html() +"</div>",
+                        width: "600px",
+                        okValue: '确定',
+                        ok: function () {
+                            this.title('提交中…');
+                            var postId = $(".btnSend").parent().parent().find("#postId").val();
+                            // alert($("#txtInterviewTime").text());
+                            var contentData = {
+                                "PostId": postId,
+                                "InterviewTime": $("#ia input[name='InterviewTime']").val(),
+                                "Remark": $("#ia textarea[name='Remark']").val()
+                            };
+                            /*ajax 提交到确认订单*/
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("Create", "Interview")',
+                                dataType: 'json',
+                                data: contentData,
+                                success: function (data, textStatus) {
+                                    var sucDialog = dialog({
+                                        title: "对话框将在3秒内关闭...",
+                                        content: "面试邀约创建成功，将发送给求职者！"
+                                    });
+                                    sucDialog.show();
+                                    setTimeout(function () {
+                                        sucDialog.close().remove();
+                                    }, 3000);
+                                },
+                                error: function (msg, testStatus) {
+                                    alert(JSON.stringify(msg));
+                                }
+                            });
+                        },
+                        cancelValue: '取消',
+                        cancel: function () { },
+                        onshow: function () {
+                            $(".tab-content").find("dd").eq(0).text($(".btnSend").parent().parent().find("td").eq(1).text());
+                            $(".tab-content").find("dd").eq(1).text($(".btnSend").parent().parent().find("td").eq(3).text());
+                        }
+                    });
+                    d.showModal();*@
+                }
+            }).showModal();
+        }
+        function createInterview() {
+            var interviewTime = new Date($("#txtInterviewTime").val());
+            var now = new Date().getTime();
+            if (interviewTime < now) {
+                alert('不能设置为过去的时间，请将面试时间设置在' + (new Date()).toLocaleDateString() + " " + (new Date()).toLocaleTimeString() + '之后');
+            } else {
+                var contentData = {
+                    "PostId": $("#PostId").val(),
+                    "InterviewTime": $("#txtInterviewTime").val(),
+                    "Remark": $("#Remark").val()
+                };
+                /*ajax 提交到确认订单*/
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Create", "Interview")',
+                dataType: 'json',
+                data: contentData,
+                success: function (data, textStatus) {
+                    $("#sendInterviewReq").css('display', 'none');
+                    $(".sendInterviewBtn").html("已发送面试邀请");
+                    var sucDialog = dialog({
+                        title: "对话框将在3秒内关闭...",
+                        content: "面试邀约创建成功，将发送给求职者！"
+                    });
+                    sucDialog.show();
+                    setTimeout(function () {
+                        sucDialog.close().remove();
+                    }, 3000);
+                },
+                error: function (msg, testStatus) {
+                    alert(JSON.stringify(msg));
+                }
+            });
+            }
+
+        }
+        function closeSendInP() {
+            $("#sendInterviewReq").css('display', 'none');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model Ys.Model.Model.Home.Article
+@{
+    ViewBag.Title = "招聘会详情";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+<div class="main-wrap" id="main">
+    <div class="section white clearfix">
+        <div class="ht_20"></div>
+        <div class="result-wrap">
+            <!--导航栏-->
+            <div class="location breadcrumb">
+                <a href="/recruiting" class="home"><i></i><span>返回首页</span></a>
+                <a href="@Url.Action("JobFair2", "Recruiting")"><span>委托招聘列表</span></a>
+
+            </div>
+            <!--/导航栏-->
+            <!--当前栏目-->
+            <div class="result-records">
+                <div class="ls_rows">
+                    <ul class="clearfix">
+                        <li class="current-title text-overflow" style="float: none;"><i></i>
+                            <label>@Model.Title</label></li>
+                    </ul>
+                    <div class=" ht_5 defcaption"></div>
+                </div>
+            </div>
+            <!--/当前栏目-->
+            <!--内容-->
+            <div class="clear result-list">
+                <div class="ht_10"></div>
+                <div class="view-article">
+
+                    <span class="news-date">发布时间：@Model.Time.ToShortDateString()</span>
+
+
+                    <div class="news-container">
+                        <div class="news-text">
+                            @Html.Raw(Model.Content)
+                            @if(Session["Employer"] != null || Session["User"] != null){
+                                <pre>@Model.Tel</pre>
+                            }else{
+                                 <span><a href="@Url.Action("Login", "Recruiting", new { area = "" })" target="_self" style="color:#0094ff;">登录 </a> 查看联系方式</span>
+                                 }
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="text-end">
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/主体区域-->
+<script type="text/javascript">
+    $(function () {
+        f_onNavActive("wtzp");
+        var employerApply = $("#employerApply");
+    });
+
+</script>
+

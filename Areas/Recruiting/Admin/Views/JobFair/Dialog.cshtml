@@ -1,0 +1,53 @@
+﻿  <div class="result-wrap" id="result-edit">
+        @using (Html.BeginForm("InterviewLetterForm", null, FormMethod.Post, new { @id = "form1" }))
+        {
+            @Html.AntiForgeryToken()
+             
+            <!--内容-->
+            <div id="floatHeadEdit" class="content-tab-wrap">
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">新建招聘会</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <dl>
+                    <dd id="actiedResultCopy"></dd>
+                </dl>
+                <dl>
+                    <dt>招聘会名称</dt>
+                    <dd>
+                        <input type="text" name="MeetingName" id="txtMeetingName" class="input normal" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>招聘会时间</dt>
+                    <dd>
+                        <input type="text" name="MeetingTime" id="txtMeetingTime" onfocus="WdatePicker({dateFmt:&quot;yyyy-MM-dd HH:mm:ss&quot;})" class="Wdate input normal" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>主办单位</dt>
+                    <dd>
+                        <input type="text" id="txtMeetingHost" class=" input normal" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>联系电话</dt>
+                    <dd>
+                        <input type="text" id="txtMeetingPhone" class=" input normal" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>招聘会地址</dt>
+                    <dd>
+                        <input type="text" id="txtMeetingAddress" class=" input normal" />
+                    </dd>
+                </dl>
+            </div>
+            <!--/内容-->
+        }
+    </div>

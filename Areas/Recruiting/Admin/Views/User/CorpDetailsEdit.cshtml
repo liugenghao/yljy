@@ -1,0 +1,326 @@
+﻿@model Ys.Model.Model.Recruit.EmployerModel
+@{
+    ViewBag.Title = "企业信息编辑";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>用户信息编辑</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    @Styles.Render("~/artdialog/css")
+@Scripts.Render("~/artdialog/js")
+@Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+         <div class="tab-content reg regbg-e" style="border: none; border-top: 1px solid #eaeaea;">
+             <h2>编辑企业信息</h2>
+                <dl>
+                    <dt>
+                        <label for="ComUserName">用户名：</label></dt>
+                    <dd>
+                        <label>@Model.Login_Id</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComUserPwd">登录密码：</label></dt>
+                    <dd>
+                        <label>@Model.Login_Pwd</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComName">单位名称：</label></dt>
+                    <dd>
+                       <label>@Model.Name</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComCode">组织机构代码:</label></dt>
+                    <dd>
+                        <label>@Model.Code</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComNumber">营业执照号码：</label></dt>
+                    <dd><label>@Model.Number</label></dd>
+                </dl> 
+             <dl>
+                 <dl>
+                    <dt>
+                        <label for="ComLegalPerson">企业法人：</label></dt>
+                    <dd>
+                        <label>@Model.Legalperson</label>
+                    </dd>
+                </dl>
+                    <dt>
+                        <label for="ComIndustry">所属行业：</label>
+                    </dt>
+                    <dd>
+                        <label>@Model.Industry.Name</label>
+                    </dd>
+                </dl> 
+             <dl>
+                    <dt>
+                        <label for="ComType">单位类型：</label></dt>
+                    <dd>
+                        <label>@Model.Etype.Name</label>
+                    </dd>
+                </dl>
+                             <dl>
+                    <dt>
+                        <label for="ComEcoType">经济类型：</label></dt>
+                    <dd>
+                        <label>@Model.Eco_Type.Name</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComFund">注册资金：</label></dt>
+                    <dd>
+                        <label>@Model.Fund 万元</label>
+                    </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComScale">人员规模：</label></dt>
+                    <dd>
+                        <label>@Model.Scale.Name</label>
+                        </dd>
+                </dl>
+             <dl>
+                    <dt>
+                        <label for="ComAreaName">所属地区名称：</label></dt>
+                    <dd>
+                        <label>@Model.Area_Code.Name</label>
+                    </dd>
+                </dl>
+            @using (Html.BeginForm("UpdateEmp", "User", FormMethod.Post, new { id = "form1", @class = "register_p_form" }))
+            {
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.Hidden("State.Id", 1)
+                        
+                <dl>
+                    <dt>
+                        <label for="ComAddress">单位地址：</label></dt>
+                    <dd>
+                        @Html.Hidden("Id",null, new { id = @Model.Id })
+                        @Html.TextBox("Address", null, new { id = "ComAddress", datatype = "*", sucmsg = " ", errormsg = "请输入单位地址" })
+                    </dd>
+                </dl>
+                
+                <dl>
+                    <dt>
+                        <label for="ComContact">联系人：</label></dt>
+                    <dd>
+                        @Html.TextBox("Contact", null, new { id = "ComContact", datatype = "s", sucmsg = " ", errormsg = "请输入联系人" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="ComContactPhone">联系电话：</label></dt>
+                    <dd>
+                        @Html.TextBox("ContactPhone", null, new { id = "ComContactPhone", datatype = "m", sucmsg = " ", errormsg = "请输入正确的手机号码"})
+                    </dd>
+                </dl>              
+                @*<dl class="clearfix">
+                    <dt>
+                        <label for="val">验证码：</label>
+                    </dt>
+                    <dd>
+                        <input type="text" maxlength="6" name="msg" id="val" class="input normal" style="width: 128px;" datatype = "n6-6" nullmsg="请输入6位验证码" sucmsg=" " errormsg="请输入6位验证码" />
+                        <input type="button" class="btn green code" id="btnSendCode" value="获取验证码" />
+                    </dd>
+                </dl>*@
+                <dl>
+                    <dd>
+                        <input type="submit" value="提交" class="btn" />
+                        @*<a class="btn yellow" href="@Url.Action("UpdateEmp", new { id = @Model.Id })">提交</a>*@
+                    <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);"/>
+
+                    </dd>
+                </dl>
+            }
+        </div>
+    </div>
+
+    <script src="~/Scripts/register_e.js"></script>
+    @Scripts.Render("~/ueditor/js")
+    <script type="text/javascript">
+        /* 声明几个上传变量 */
+        var thumbnailUrl = $("#thumbnailUrl"); /* 缩略图地址文本对象 */
+        var hidThumbnailUrl = $("#hidThumbnailUrl"); /* 缩略图地址隐藏域对象 */
+        var thumbnailPreview = $("#thumbnailPreview"); /* 缩略图地址文本对象 */
+        var thumbnailImage = $("#thumbnailImage"); /* 缩略图预览对象 */
+        var thumbX = $(".thumb_x"); /* 缩略图被移除控件 */
+
+        function setHiddenVal(data) {
+            $("#Industry").val(data);
+        }
+
+        /* 实例化编辑器 */
+        var uploadUE = UE.getEditor('upload_ue');
+        uploadUE.ready(function () {
+            uploadUE.setHide(); /* 隐藏编辑器 */
+            /* 监听图片上 传*/
+            uploadUE.addListener('beforeInsertImage', function (t, arg) {
+                var src0 = arg[0].src; /* 只取第一张图片的路 */
+                thumbnailUrl.val(src0); /* 将地址赋值给相应的 input, 只取第一张图片的路径 */
+                hidThumbnailUrl.val(src0);
+                thumbnailPreview.show();
+                $("#picUrl").val(src0);
+                thumbnailImage.prop("src", src0); /* 图片预览 */
+                thumbX.show();
+            });
+        });
+
+        /* 弹出图片上传的对话框 */
+        function upImage() {
+            var myImage = uploadUE.getDialog("insertimage");
+            myImage.open();
+        }
+
+        /* 移除上传文件 */
+        $('.thumb_x').on('click', function () {
+            thumbnailImage.prop('src', '');
+            thumbnailUrl.val('');
+            hidThumbnailUrl.val('');
+            $(this).hide();
+            thumbnailPreview.hide();
+        });
+
+        $(function () {
+            var demo = $("#form1").initValidform();
+
+            $("#ComCity").change(function () {
+                var id = $('#ComCity').val();
+                $.ajax({
+                    url: '@Url.Action("GetCounty")' + "?id=" + id,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        $("#ComAreaName option").remove();
+                        for (i in data) {
+                            var text = data[i].Name;
+                            var value = data[i].Id;
+                            $('#ComAreaName').append("<option value='" + value + "'>" + text + "</option>");
+                        }
+                    }
+                });
+
+            });
+
+            var dropPageInputs = $(".input.drop_page");
+            $(dropPageInputs).each(function () {
+                $(this).on("click", function (e) {
+                    if ($(this).hasClass("condition-folder")) {
+
+                        if ($(this).children(".condition-item").length == 0) {
+                            $(this).removeClass("condition-folder").removeClass("disabled");
+                            return;
+                        }
+                    }
+                    if (!$(this).hasClass("disabled")) {
+                        var name = $(this).attr("name");
+                        var url = "";
+                        var title = "";
+                        var obj = {};
+                        switch (name) {
+                            case "txtIndustries":
+                            case "industries":
+                                url = '@Url.Action("Dialog_Industry", "Recruiting")';
+                            title = "选择行业类别";
+                            break;
+                        default:
+                            break;
+                    }
+                    showDialog(url, title);
+                } else {
+                    e.stopPropagation();
+                    $(this).removeClass("disabled");
+                }
+            });
+        });
+
+
+            $("#btnSendCode").click(function () {
+                sendCode($(this));
+            });
+
+
+        });
+
+    /*发送验证码*/
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+
+    function sendCode(obj) {
+        curCount = count;
+        /*设置button效果，开始计时*/
+        $(obj).val(curCount + "秒再获取");
+        $(obj).attr("disabled", "disabled").addClass("disabled");
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        /*向后台发送处理数据*/
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendCode")',
+            dataType: 'json',
+            data: { "phone": $("#ComContactPhone").val() },
+            success: function (data, textStatus) {
+
+
+            },
+            error: function (msg, testStatus) {
+
+            }
+        });
+    }
+    /*timer处理函数*/
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $("#btnSendCode").removeAttr("disabled").removeClass("disabled");//启用按钮
+            $("#btnSendCode").val("重新发送验证码");
+            $("#validCode").val(""); //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+        }
+        else {
+            curCount--;
+            $("#btnSendCode").val(+curCount + "秒再获取");
+        }
+    }
+
+    /*创建添加窗口*/
+    function showDialog(urlAction, title, obj) {
+        var objNum = arguments.length;
+        if (urlAction) {
+            var d = dialog({
+                id: 'dialog' + new Date().getMilliseconds(),
+                title: title,
+                url: urlAction,
+                width: '800px',
+                height: '512px'
+            }).showModal();
+        }
+        /*检查是否修改状态*/
+        if (objNum == 3) {
+            d.data = obj;  /*给窗体传入对象*/
+        }
+    }
+
+    </script>
+</body>
+</html>

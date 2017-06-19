@@ -1,0 +1,27 @@
+﻿@model Ys.Model.Model.Recruit.PersonModel
+<link href="~/Content/button-form-theme.css" rel="stylesheet" />
+<div class="wrap clearfix">
+    <div class="current-position">
+        <div>
+            <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Register_jump")">用户注册</a></span>&nbsp;>&nbsp;<span class="third_t"><a href="#">求职者注册</a></span>
+        </div>
+    </div>
+
+    <div class="register_p_board edge_round ">
+        <img src="../img/register_p_log.png" class="register_p_log" />
+        <form action="" method="post" class="register_p_form">
+            <h2>求职者注册</h2>
+            <div class="clearfix">
+                <label for="Login_Name">用户名：</label>@Html.TextBoxFor(m => m.Login_Name, new { @class = "inp_b" })</div>
+            <div class="clearfix">
+                <label for="Login_Pwd">密码：</label>@Html.PasswordFor(m => m.Login_Pwd, new { @class = "inp_b" })</div>
+            <div class="clearfix">
+                <label for="Phone">手机：</label>@Html.TextBoxFor(m => m.Phone, new { @class = "inp_b" })</div>
+            <div class="clearfix">
+                <label for="val">验证码：</label><input type="text" maxlength="4" name="msg" id="val" class="val"/><button class="  btn btn-warning">获取验证码</button></div>
+            <div class="clearfix"><i></i><button class="register_sub_btn btn btn-primary">注册</button></div>
+            
+        </form>
+    </div>
+</div>
+<!--wrap end-->

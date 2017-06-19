@@ -1,0 +1,324 @@
+﻿@model Ys.Model.Model.Recruit.InterviewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>在线面试</title>
+    @Styles.Render("~/artdialog/css")
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/artdialog/js")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+    <script src="~/Scripts/anychatsdk.js"></script>
+    <script src="~/Scripts/anychatobject.js"></script>
+    <script src="~/Scripts/anychatevent.js"></script>
+    <script src="~/Scripts/logicfunc.js"></script>
+    <style type="text/css">
+        #LOADING_GREY_DIV{ display:none; background:rgba(0, 0, 0, 0.4) none repeat scroll 0 0 !important;filter:Alpha(opacity=40); width:100%; height:100%; background-color: #999999; position:absolute; z-index:44;}
+#LOADING_DIV{ position:absolute; display:none; z-index:45;}
+        #prompt_div {
+            background-color: White;
+            border: 1px solid black;
+            width: 500px;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 35%;
+            display: none;
+        }
+
+        .close_div {
+            height: 45px;
+            width: 480px;
+            margin: 0px 10px 0px 10px;
+            border-bottom: 1px solid #CCCCCC;
+        }
+
+        #prompt_div_BR {
+            border-top: 1px solid #CCCCCC;
+            height: 45px;
+            margin: 40px 10px 10px 10px;
+            width: 480px;
+            text-align: right;
+        }
+
+            #prompt_div_BR a {
+                font-size: 12px;
+                color: Blue;
+            }
+
+        #prompt_div_btn_load {
+            width: 110px;
+            height: 35px;
+            line-height: 35px;
+            color: White;
+            border: 1px solid #915700;
+            background-color: #ff8100;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: pointer;
+        }
+
+        #prompt_div_line1 {
+            height: 70px;
+            line-height: 70px;
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+        }
+
+        #prompt_div_line2 {
+            height: 60px;
+            line-height: 50px;
+            color: #FF9900;
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        #prompt_div_headline1 {
+            font-size: 15px;
+            width: 100px;
+            height: 50px;
+            line-height: 60px;
+            text-align: center;
+            float: left;
+        }
+
+        #prompt_div_headline2 {
+            font-size: 12px;
+            width: 38px;
+            height: 50px;
+            line-height: 60px;
+            text-align: center;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>在线面试</span>
+            <i class="arrow"></i><span>正在进行在线面试</span>
+        </div>
+        <!--操作等待层 -->
+        <div id="LOADING_DIV"><img src="~/img/LoadImg.gif" alt="请等待..." style=" height:50px;" /></div>
+        <!--灰色背景透明层 -->
+<div id="LOADING_GREY_DIV"></div>
+        <!--安装插件提示层 -->
+        <div id="prompt_div">
+            <div class="close_div">
+                <div id="prompt_div_headline1">插件安装提示</div>
+                <div id="prompt_div_headline2">刷新</div>
+            </div>
+            <div>
+                <div id="prompt_div_line1"></div>
+                <div id="prompt_div_line2">控件安装完成后，请重启浏览器</div>
+                <div id="prompt_div_btn_load" onclick="window.open('http://anychat.oss-cn-hangzhou.aliyuncs.com/AnyChatWebSetup.exe')">下载安装</div>
+            </div>
+            <div style="height: 85px;">
+                <div id="prompt_div_BR">
+                    <a href="http://www.anychat.cn/">AnyChat</a>&nbsp|&nbsp<a href="http://www.bairuitech.com/">佰锐科技</a>
+                </div>
+            </div>
+        </div>
+
+        <!--/导航栏-->
+        <div class="result-wrap">
+            <!--工具栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <table class="ltable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h3 class="ui-ok"><i class="icon icon-check"></i>正在进行在线面试...</h3>
+                                </td>
+                                @*<td>面试时长：<label>01:30:00</label>
+                                </td>
+                                <td>已进行：<label>00:25:00</label>
+                                </td>*@
+                                <td>
+                                在线视频需安装Anychat视频插件，无法显示视频，请<a href="http://anychat.oss-cn-hangzhou.aliyuncs.com/AnyChatWebSetup.exe" style="color:#2fc7cc">点击下载安装</a>
+                                    并重新加载</td>
+                                <td style="text-align: right;">
+                                    @*<a id="addTime" class="btn yellow" href="javascript: f_onShowDialog(this);"><span>申请延时</span></a>*@
+                                    <a class="btn violet" href="javascript:leaveRoom()"><span>离开房间</span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--内容-->
+            <div class="div-content">
+                <table class="ltable">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%;">
+                                <div class="ember-wrap" id="AnyChatRemoteVideoDiv" style="width: 600px; height: 400px;">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ember-wrap" id="AnyChatLocalVideoDiv" style="width: 300px; height: 200px;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>企业：@Model.ResumePost.Job.Employer.Name</h4>
+                            </td>
+                            <td>应聘者：
+                                @if(@Model.ResumePost.Resume.PersonalModel!=null){
+                                    @Model.ResumePost.Resume.PersonalModel.Person_Name
+                                }
+                                else{
+                                    
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--公司信息、职位信息 tab-->
+            <div class="content-tab-wrap">
+                <div class="content-tab">
+                    <div class="content-tab-ul-wrap">
+                        <ul>
+                            <li><a class="selected" href="javascript:void(0);">公司信息</a></li>
+                            <li><a href="javascript:void(0);">职位信息</a></li>
+                            <li><a href="javascript:void(0);">求职者简历</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="content-padded">
+                    @Model.ResumePost.Job.Employer.Inroduce
+                </div>
+            </div>
+            <div class="tab-content" style="display: none;">
+                <dl class="clearfix">
+                    <dt>招聘亮点：</dt>
+                    <dd>
+                        <div class="article-features">
+                            <span class="item-salary">@Model.ResumePost.Job.PayLevel.Name</span>
+                            @foreach (var sign in Model.ResumePost.Job.JobSign)
+                            {
+                                <span>@sign.Content</span>
+                            }
+                        </div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>职位详情：</dt>
+                    <dd>
+                        <div>
+                            <p>
+                                @Model.ResumePost.Job.Others
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <div class="tab-content" style="display: none;">
+                <div class="content-padded">
+                    <dl>
+                        <dt>简历名称：</dt>
+                        <dd>
+                            <a target="_blank" href="@Url.Action("Details", "Resume", new { id = Model.ResumePost.ResumeId, area = "Recruiting/User" })">@Model.ResumePost.Resume.Name</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <!--/内容-->
+        </div>
+    </div>
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+
+    <script>
+        $(function () {
+            LogicInit();
+            window.onbeforeunload = function () {
+                BRAC_LeaveRoom(-1);
+                BRAC_Logout();
+            };
+        });
+        function leaveRoom() {
+            BRAC_LeaveRoom(-1);
+            window.location.href = '@Url.Action("RoomList")'
+        }
+        function sendMeetingId() {
+            BRAC_SendSDKFilterData(@Model.Id);
+        }
+        function Login() {
+            BRAC_Login('@ViewBag.Name', "123", 0);
+
+        }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            $(".ui-dialog-body").delegate(".rule-single-select", ".rule-single-select");
+        });
+
+        /*申请延时窗口*/
+        function f_onShowDialog(obj) {
+            if ($(obj).hasClass("disabled"))
+                return;
+
+            var contentHtml = "<div class='rule-single-select'><select name='listAddedTime' id='listAddedTime' style='width: 100%;'>";
+            contentHtml += "<option value='30' slected='selected'>30分钟</option>";
+            contentHtml += "<option value='60'>60分钟</option>";
+            contentHtml += "<option value='90'>90分钟</option></select></div>";
+            var d = dialog({
+                title: '选择延时时长',
+                content: contentHtml,
+                width: "256px",
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    var contentData = { "interviewId": 1, "AddedTime": top.$("#listAddedTime").val() };
+                    /*ajax 提交到确认订单*/
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AddTime", "Interview")',
+                        dataType: 'json',
+                        data: contentData,
+                        success: function (data, textStatus) {
+                            var sucDialog = top.dialog({
+                                title: "对话框将在3秒内关闭...",
+                                content: "申请延时成功！"
+                            });
+                            sucDialog.show();
+                            setTimeout(function () {
+                                sucDialog.close().remove();
+                            }, 3000);
+                        },
+                        error: function (msg, testStatus) {
+                            alert(JSON.stringify(msg));
+                        }
+                    });
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.show(document.getElementById("addTime"));
+        }
+    </script>
+</body>
+
+
+</html>

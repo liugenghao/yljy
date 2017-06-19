@@ -1,0 +1,233 @@
+﻿@model PagedList<Ys.Model.Model.Recruit.JobModel>
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "已发布的职位列表";    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>已发布的职位列表</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" target="right" class="home"><i></i><span>管理首页</span></a>
+            <i class="arrow"></i><span>职位管理</span>
+            <i class="arrow"></i><span>已发布的职位列表</span>
+        </div>
+        <!--/导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <!--搜索栏-->
+            <div class="search-wrap">
+                <div class="search-content">
+                    @using (Html.BeginForm("Index", null, FormMethod.Post, new { @id = "searchForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table class="search-tab">
+                            <tbody>
+                                <tr>
+                                    <th style="vertical-align: text-top;">职位类型：</th>
+                                    <td colspan="2">
+                                        <div id="wrapTypes" class="rule-multi-radio wrap-types">
+                                            <span id="RadioButtonList1">
+                                                <input type="radio" class="filterRadio" name="listType" id="allType" checked="checked"><label for="allType">所有</label>
+                                                @foreach (var type in ViewBag.JobTypes as SelectList)
+                                                {
+                                                    if (type.Selected)
+                                                    {
+                                                    <input type="radio" class="filterRadio" name="listType" id="listType_@type.Value" value="@type.Value" checked="checked">
+                                                    }
+                                                    else
+                                                    {
+                                                    <input type="radio" class="filterRadio" name="listType" id="listType_@type.Value" value="@type.Value">
+                                                    }
+                                                    <label for="listType_@type.Value">@type.Text</label>
+                                                }
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>关键字：</th>
+                                    <td style="width: 320px;">
+                                        <input type="text" name="txtKeywords" id="txtKeywords" class="input normal" value="@ViewData["Keywords"]" placeholder="请输入关键字" />
+                                    </td>
+                                    <td>
+                                        <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
+                                        <a class="btn yellow" href="@Url.Action("Index")" id="btnClear">清 空</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <!--搜索栏-->
+            <!--工具栏-->
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="add" href="@Url.Action("Edit")">
+                                        <i></i><span>新增</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelete" class="del" href="javascript: void(0);" onclick="return ExePostBack('@Url.Action("BulkDelete")')">
+                                        <i></i><span>批量删除</span>
+                                    </a>
+                                    <input type="hidden" name="hidBulkIds" id="hidBulkIds" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="outline">
+                    <tbody>
+                        <tr>
+                            @*<td style="width: 128px; border-right: 1px solid #eaeaea;">
+                                <div>@Html.ActionLink("已发布的职位", "Index", new { State = 2 }, new { @class = "act link" })</div>
+                                <div class="ht_10"></div>
+                                <div>@Html.ActionLink("待审核的职位", "Index", new { State = 1 }, new { @class = "act link orange" })</div>
+                            </td>*@
+                            <td style="vertical-align: top;">
+                                <table class="ltable noborder">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%">选择
+                                            </th>
+                                            <th style="width: 10%">序号
+                                            </th>
+                                            <th style="width: 20%">职位类型
+                                            </th>
+                                            <th style="width: 30%">标题
+                                            </th>
+                                            <th style="width: 10%">发布时间
+                                            </th>
+                                           @* <th style="width: 10%">状态
+                                            </th>*@
+                                            <th>操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemContainer">
+                                        @if (Model != null)
+                                        {
+                                            foreach (var job in Model)
+                                            {
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='1' title="选择" />
+                                                </td>
+                                                <td>@(Model.IndexOf(job) + 1)</td>
+                                                <td>@job.JobType.Name</td>
+                                                <td class="job-title">
+                                                    @Html.ActionLink(job.JobName, "Edit", "Jobs", new { id = job.Id }, new { @title = job.JobName })
+                                                </td>
+                                                <td>@job.PublishTime.ToShortDateString()
+                                                </td>
+                                               @* <td>
+                                                    @if (job.StateId == 1)
+                                                    {
+                                                        <span>未审核</span>
+                                                    }
+                                                    else if (job.StateId == 2)
+                                                    {
+                                                        <span class="ui-ok">审核通过</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="ui-warn">未通过</span>
+                                                    }
+                                                </td>*@
+                                                <td class="nowrap flex-box">
+                                                    <a href="@Url.Action("Edit", "Jobs", new { id = job.Id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
+                                                    <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("Delete", new { id = job.Id })');"><span class="icon icon-trash"></span>删除</a>
+                                                </td>
+                                            </tr> 
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="pagelist">
+                @if (Model != null)
+                {
+                    @Html.Pager(Model, new PagerOptions
+               {
+                   PageIndexParameterName = "id",
+                   ShowPrevNext = true,
+                   FirstPageText = "首页  ",
+                   PrevPageText = "  上一页  ",
+                   NextPageText = "  下一页  ",
+                   LastPageText = "  末页  ",
+                   PageIndexBoxId = "",
+                   ShowNumericPagerItems = true,
+                   PageNumberFormatString = "  {0}  ",
+                   DisabledPagerItemTemplate = "<span>{0}</span>",
+                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+               })
+                }
+            </div>
+            <!--/内容底部-->
+        </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    @Scripts.Render("~/Recruiting/User/js/layoutMain")
+    <script type="text/javascript">
+        $(function () {
+
+            //$('.filterRadio').click(function () {
+            //    $("#searchForm").submit();
+            // });
+
+
+            var bulkIds = '@ViewData["bulkIds"]';
+            if (bulkIds)
+                alert("批量执行的bulkIds: " + bulkIds);
+
+            /*栏目筛选事件*/
+            var linkObjs = $("#wrapTypes>.boxwrap>a");
+            $(linkObjs).each(function (i, item) {
+                $(this).on("click", function () {
+                    $("#searchForm").submit();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+﻿@model Ys.Model.Model.Recruit.JobModel
+
+@{
+    ViewBag.Title = "Job_Detail";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BCe01f2a03336e188a8199d159b81f65"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<!--主体区域-->
+<div class="main-wrap wrap-post" id="main">
+    <div class="section clearfix">
+        <div class="ht_20"></div>
+        <div class="block-right">
+            <div class="ht_10"></div>
+            <div class="result-wrap">
+                <!--导航栏-->
+                <div class="location breadcrumb">
+                    <a href="/or/index.html" class="home"><i></i><span>返回首页</span></a>
+                    <a href="@Url.Action("Jobs")"><span>职位搜索</span></a>
+                    <i class="arrow"></i>
+                    <span>职位详情</span>
+                </div>
+                <!--/导航栏-->
+                <!--内容-->
+                <div class="clear result-list">
+                    <div class="view-article">
+                        <div class="article-title">
+                            <h2>@Model.JobName</h2>
+                            <p>
+                                <a class="subtitle" href="@Url.Action("Company_Detail", new { id = @Model.EmployerId })" target="_blank">@Model.Employer.Name</a><span class="right">发布于
+                                <label id="lblcreateTime">@Model.PublishTime.ToShortDateString()</label></span>
+                            </p>
+                            <span class="title-triangle"></span>
+                        </div>
+                        <div class="ht_20"></div>
+                        <div class="article-features">
+                            <dl class="clearfix">
+                                <dt>招聘亮点</dt>
+                                <dd>                                    
+                                    @foreach (var sign in Model.JobSign)
+                                    {
+                                        <span class="item-salary">@sign.Content</span>
+                                    }
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>职位要求</dt>
+                                <dd>
+                                    <span>@Model.WorkAttr.Name</span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>职位类型</dt>
+                                <dd>
+                                    <span>@Model.JobType.Name</span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>薪酬</dt>
+                                <dd>
+                                    <span>@Model.PayLevel.Name</span>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>工作经验</dt>
+                                <dd>
+                                    <span>@Model.WorkYear.WorkedYear</span>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>学历要求</dt>
+                                <dd>
+                                    <span>@Model.Degree.DegreeName</span>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>工作地点</dt>
+                                <dd>
+                                    <span>@Model.JobDes</span>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix">
+                                <dt>招聘人数</dt>
+                                <dd>
+                                    <span>@Model.PersonNum 人</span>
+                                </dd>
+                            </dl>
+                            
+                        </div>
+                        <div>
+                            <div class="ht_20"></div>
+                            <div class="headtitle">
+                                <h2>职位详情</h2>
+                            </div>
+                            <div class="article-text" id="article-text">
+                                @Html.Raw(Model.Others)
+                            </div>
+                        </div>
+                        <div class="apply">
+                            <div class="apply-btn">
+                                @if (ViewBag.Apply)
+                                {
+                                    if (ViewBag.PostJob != null)
+                                    {
+                                        List<int> favoriteId = ViewBag.FavoriteJob as List<int>;
+                                        var flag = favoriteId.Contains(Model.Id);
+
+                                        if (flag)
+                                        {
+                                            Ajax.ActionLink("已申请", "", null, new AjaxOptions { HttpMethod = "Post" }, new { @aria_disabled = "true" });
+                                            // <a class="obj-apply-btn" href="@Url.Action("ResumePreview", new { jobId = Model.Id })" aria-disabled="true">已申请</a>
+                                        }
+                                        else
+                                        {
+                                    <a class="obj-apply-btn" href="@Url.Action("ResumePreview", new { jobId = Model.Id })">申请职位</a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                    <a class="obj-apply-btn" href="@Url.Action("ResumePreview", new { jobId = Model.Id })">申请职位</a>
+                                    }
+
+                                    if (ViewBag.FavoriteJob != null)
+                                    {
+                                        List<int> favoriteId = ViewBag.FavoriteJob as List<int>;
+                                        var flag = favoriteId.Contains(Model.Id);
+                                    @Html.CheckBox("favorite", flag, new { id = "favoriteCheck_" + Model.Id, @data_id = Model.Id, @class = "favoriteCheck", style = "display: none;" });
+                                                                                                                                                                                       if (flag)
+                                                                                                                                                                                       {
+                                    <label id="linkFavoriteCheck_@Model.Id" for='favoriteCheck_@Model.Id' class="obj-fav-btn actived"><i></i>已收藏</label>
+                                                                                                                                                                                       }
+                                                                                                                                                                                       else
+                                                                                                                                                                                       {
+                                    <label id="linkFavoriteCheck_@Model.Id" for='favoriteCheck_@Model.Id' class="obj-fav-btn"><i></i>收藏</label>
+                                                                                                                                                                                       }
+                                    }
+                                    else
+                                    {
+                                      
+@*<a class="obj-fav-btn" href="@Url.Action("Favorite", new { jobId = Model.Id ,sign=""})"><i></i>收藏</a>*@
+                                    
+                                    <a class="obj-fav-btn" href="javascript: favorite(@Model.Id);"><i></i>收藏</a>
+                                    
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="article-suggest">
+                            @*<div><h2>该公司其他在招职位</h2></div>
+                            <div class="ls_rows result-jobs">
+                                <ul>
+                                    <li>
+                                        <p class="article-name"><a href="#">销售专员</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="article-name"><a href="#">客户代表</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>*@
+                            @* <div><h2>您可能感兴趣的职位</h2></div>
+                            <div class="ls_rows result-jobs">
+                                <ul>
+                                    <li>
+                                        <p class="article-name"><a href="#">销售专员</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="article-name"><a href="#">客户代表</a></p>
+                                        <p class="job-company"><a href="#">XX某某有限责任公司</a></p>
+                                        <p class="job-remark">
+                                            <span>招聘人数：<label>1人</label></span>
+                                            <span>工作地点：<label>夷陵区小溪塔</label></span>
+                                            <span>薪资：<label>面议</label></span>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-aside">
+            <div class="sidebar">
+                <div class="ht_10"></div>
+                <div class="headtitle">
+                    <h2>企业信息</h2>
+                </div>
+                <div class="side-nav side-company">
+                    <dl>
+                        <dd class="company-icon"><a href="/or/companies/detail.html?id=i">
+                            <img src="" width="100" height="80"></a></dd>
+                        <dd>
+                            <h3><a href="@Url.Action("Company_Detail", new { id = @Model.EmployerId })" target="_blank">@Model.Employer.Name</a></h3>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblIndustry">行业：</label><span id="txtIndustry">@Model.Employer.Industry.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblScale">规模：</label><span id="txtScale">@Model.Employer.Scale.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblNature">性质：</label><span id="txtNature">@Model.Employer.Etype.Name</span>
+                        </dd>
+                        <dd class="company-attr">
+                            <label id="lblAddress">地址：</label><span id="txtAddress">@Model.Employer.Address</span>
+                        </dd>
+                        @*<dd class="company-map">
+                            <!--地图-->
+                            <div id="map-contanier" class="map-contanier"></div>
+                            <script type="text/javascript">
+                                // 百度地图API功能
+                                var map = new BMap.Map("map-contanier");            	 // 创建Map实例
+                                var point = new BMap.Point(111.333196, 30.775889);     	 // 创建点坐标(经度，维度)
+                                map.centerAndZoom(point, 14);                      // 初始化地图,设置中心点坐标和地图级别。
+                                map.enableScrollWheelZoom();                     //启用滚轮放大缩小
+                                map.addControl(new BMap.NavigationControl());
+                                map.addControl(new BMap.ScaleControl());
+                                map.addControl(new BMap.OverviewMapControl());
+                                map.addControl(new BMap.MapTypeControl());
+                            </script>
+                            <!--/地图-->
+                        </dd>*@
+                    </dl>
+                </div>
+            </div>
+            @*<div class="sidebar">
+                <div class="ht_10"></div>
+                <div class="headtitle">
+                    <h2>面试经验</h2>
+                </div>
+                <div class="side-nav side-company">
+                    <dl class="interview-comment">
+                        <dd>
+                            <p class="comment-part">”在一个小楼里 面试很轻松 环境有点嘈杂 大家都在忙碌着 实习期2500转正2800到3000 加不加班看你个人 离家有段距离 薪资有些不满意 但感觉氛围不错...“</p>
+                            <p class="comment-attr text-right">匿名用户</p>
+                            <p class="text-right">2015-09-03</p>
+                        </dd>
+                    </dl>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+<!--主体区域-->
+<!-- Recommended script positioning -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        f_onNavActive("zw");
+        $(".favoriteCheck").change(function () {
+            var sign = $(this).is(":checked");
+            var jobId = $(this).attr("data-id");
+            favorite(jobId, sign);
+        });
+    });
+    /*收藏*/
+    function favorite(data, sign) {
+        var jobId = data;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Favorite")',
+
+            data: { "jobId": jobId, "sign": sign },
+            success: function (data, textStatus) {
+                // $("#favoriteCheck").val(false);
+
+                if (data.Sign != null) {
+                    var d = top.dialog({
+                        id: 'dialog' + new Date().getMilliseconds(),
+                        quickClose: true// 点击空白处快速关闭
+                    });
+                    var sign = data.Sign;
+                    var objId = "linkFavoriteCheck_" + jobId;
+                    var linkFavoriteCheck = $("#" + objId);
+                    if (sign) {
+                        linkFavoriteCheck.addClass("actived").html("<i></i>已收藏");
+                        d.content("添加收藏成功");
+                    } else {
+                        linkFavoriteCheck.removeClass("actived").html("<i></i>收藏");
+                        d.content("取消收藏成功");
+                    }
+                    d.show(document.getElementById(objId));
+                    setTimeout(function () {
+                        d.close().remove();
+                    }, 2000);
+                }
+                else {
+                    alert("请先登录");
+                    $(document.body).html(data);
+                }
+            },
+            error: function (msg, testStatus) {
+                window.location.href = '@Url.Action("Login", "Recruiting")';
+            }
+        });
+        }
+
+
+        function applyJob(data, sign) {
+            var jobId = data;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ResumePreview")',
+                data: { "jobId": jobId },
+                success: function (data, textStatus) {
+                    if (data.Sign != null) {
+                        var d = top.dialog({
+                            id: 'dialog' + new Date().getMilliseconds(),
+                            quickClose: true// 点击空白处快速关闭
+                        });
+                        var sign = data.Sign;
+                        var objId = "linkFavoriteCheck_" + jobId;
+                        var linkFavoriteCheck = $("#" + objId);
+                        if (sign) {
+                            linkFavoriteCheck.addClass("actived").html("<i></i>已收藏");
+                            d.content("添加收藏成功");
+                        } else {
+                            linkFavoriteCheck.removeClass("actived").html("<i></i>收藏");
+                            d.content("取消收藏成功");
+                        }
+                        d.show(document.getElementById(objId));
+                        setTimeout(function () {
+                            d.close().remove();
+                        }, 2000);
+                    }
+                    else {
+                        alert("请先登录");
+                        $(document.body).html(data);
+                    }
+                },
+                error: function (msg, testStatus) {
+                    window.location.href = '@Url.Action("Login", "Recruiting")';
+            }
+            });
+        }
+
+</script>

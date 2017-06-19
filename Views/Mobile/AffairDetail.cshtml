@@ -1,0 +1,30 @@
+﻿@model Ys.Model.Model.Home.Article
+@{
+    ViewBag.Title = "";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/mobile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="contatiner">
+        <header>
+            <h1>@Model.Title</h1>
+        </header>
+        <div class="main">
+            <div class="singleDec">
+             @Html.Raw(@Model.Content)</div>
+        </div>
+    </div>
+
+</body>
+</html>

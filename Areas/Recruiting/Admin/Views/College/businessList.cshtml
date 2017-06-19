@@ -1,0 +1,162 @@
+﻿@model List<Ys.Model.Model.College.enterprises>
+@{
+    ViewBag.Title = "企业注册审核列表";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>企业注册审核列表</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <a href="javascript:window.parent.linkMenuTree(true, 'sysDefaultHome');"><i class="icon icon-home"></i>首页</a>
+                <span class="crumb-step">&gt;</span>@Html.ActionLink("大学实习报名系统", "businessList")
+                <span class="crumb-step">&gt;</span><span>企业注册审核列表</span>
+            </div>
+        </div>
+        <!--导航栏-->
+        <!--内容-->
+        <div class="result-wrap">
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <ul class="act-list">
+                                <li>
+                                    <a class="all" href="javascript:void(0);" onclick="checkAll(this);">
+                                        <i></i><span>全选</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="add" class="del" href="javascript:;" onclick="GetbtnAudit()">
+                                        <i></i><span>批量审核通过</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="r-list">
+                            <form method="post" id="formId">
+                                <input type="text" name="Keywords" id="Keywords" class="keyword" value="" />
+                                <input type="submit" class="btn-search" value="查询" />
+                            </form>
+</div>
+                    </div>
+                </div>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th>选择</th>
+                            <th>单位名称</th>
+                            <th>负责人</th>
+                            <th>联系电话</th>
+                            <th>单位类别</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                        @if (Model != null)
+                        {
+                            <tbody id="itemContainer">
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="@item.id">
+                                        <td>
+                                            <input type="checkbox" name="chkSingle" id="chkSingle" class="checkall" value='1' title="选择" />
+                                        </td>
+                                        <td>@item.unitName</td>
+                                        <td>@item.contactName</td>
+                                        <td>@item.contactPhone</td>
+                                        <td>@item.companyType.companyName</td>
+                                        <td>@(item.auditStatus == "1" ? "未审核" : item.auditStatus == "2" ? "已审核" : "")</td>
+                                        <td class="nowrap flex-box">
+                                            <a href="@Url.Action("businessEdit", new { id = item.id })" title="查看详情/审核"><span class="icon icon-edit"></span>查看详情/审核</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                        else
+                        {
+                          <tfoot>
+                            <tr>
+                                <td colspan = '9'> 暂无记录 </td>
+                             </tr>
+                         </tfoot>
+                       }
+                </table>
+                <nav>
+                    <ul class="pager pager-theme">
+                        @Html.Pager("businessList", "College", null, new PagerConfig { TotalRecord = (ViewBag.Num == null ? 0 : ViewBag.Num), PageSize = (ViewBag.PageSize == null ? 10 : ViewBag.PageSize), ShowGoTo = false })
+                    </ul>
+                </nav>
+            </div >
+            <!--/ 列表-->
+            <!--内容底部-->
+            <div class="toolbar">
+                <div class="box-wrap">
+                    @*<div class="l-list">
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="导出数据" class="btn" />
+                    </div>*@
+                    <div class="r-list">
+                        @ViewBag.num 条结果
+                    </div>
+                </div>
+            </div>
+                <!--/内容底部-->
+            </div>
+    </div>
+    <!--/main-->
+    <!-- Recommended script positioning -->
+    <script type="text/javascript">
+        var odivY = document.getElementById('itemContainer');
+        var ochkY = odivY.getElementsByTagName('input');
+        var otrY = odivY.getElementsByTagName('tr');
+        function GetbtnAudit() {
+            var strdata = "";
+            for (var i = 0; i < ochkY.length; i++) {
+                if (ochkY[i].checked == true) {
+                    strdata += otrY[i].id + ",";
+                }
+            }
+            if (strdata != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Recruiting/Admin/College/businessPLAudit',
+                    data: strdata,
+                    contentType: "application/json; charset=utf-8",
+                    xhrFields: { withCredentials: true }
+                })
+               location.reload(true)   
+                return true;
+            }
+            else {
+                alert("请选中要审核的项！");
+                return false;
+            }
+        };
+        $(function () {
+            var bulkIds = '@ViewData["bulkIds"]';
+            if (bulkIds)
+                alert("批量执行的bulkIds: " + bulkIds);
+        });
+    </script>
+</body>
+</html>

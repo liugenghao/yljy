@@ -1,0 +1,232 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<Ys.Model.Model.Recruit.EmployerModel>
+
+@using Webdiyer.WebControls.Mvc;
+@{
+    ViewBag.Title = "公司";
+    Layout = "~/Views/Shared/_LayoutRecruitment.cshtml";
+}
+<!--主体区域-->
+@using (Html.BeginForm("Companies", null, FormMethod.Post, new { @id = "searchForm" }))
+{
+    <div class="main-wrap" id="main">
+        <div class="section search-wrap">
+            <div class="ht_20"></div>
+            <div class="tab-content">
+                @Html.AntiForgeryToken()
+                @Html.Hidden("hidMoreSearch", 1)
+                <dl class="search-box">
+                    <dt>关键字：</dt>
+                    <dd>
+                        <input type="text" name="txtKeyword" id="txtKeyword" class="input normal" value="@ViewBag.keyword" />
+
+                        <input type="submit" name="btnSubmit" id="btnSubmit" value="搜索公司" class="btn" />
+                        <a id="more-search" class="more-search" href="javascript: void(0);"><span class="search-hide-box">收起</span>高级搜索<span class="icon"></span></a>
+                    </dd>
+                </dl>
+                <div class="search-hide-box clearfix">
+                    @*<div class="search-group">
+                        <dl>
+                            <dt class="label">行 业：</dt>
+                            <dd class="filed">
+                                <div name="txtIndustries" id="txtIndustries" class="input normal drop_page">
+                                </div>
+                                <input type="text" class="input normal drop_page" name="industries" id="industries" size="20" value="" style="display: none;">
+                            </dd>
+                        </dl>
+                    </div>*@
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">企业规模：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("scale", ViewBag.EnterpriseSizeSL as SelectList, "不限", null)
+                                    @*   <select id="listJobType" name="listJobType">
+                                        <option value="" selected="selected">不限</option>
+                                    </select>*@
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    @*<div class="clear search-group">
+                        <dl>
+                            <dt class="label">地 域：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("addressId", ViewBag.JobPlaceSL as SelectList, "不限", null)
+                                </div>
+                                <input type="text" class="input normal" name="region" id="region" size="20" value="">
+                            </dd>
+                        </dl>
+                    </div*@>
+                    <div class="search-group">
+                        <dl>
+                            <dt class="label">企业性质：</dt>
+                            <dd class="filed">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("corpType", ViewBag.EmployerTypeSL as SelectList, "不限", null)
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="search-group large">
+                        <input type="submit" name="btnSubmit" id="btnSubmit2" value="搜索职位" class="btn" />
+                        <input type="button" name="btnClear" id="btnClear" value="清 空" class="btn clear" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ht_20"></div>
+        <div class="section white clearfix">
+            <div>
+                <div class="result-wrap">
+                    <div class="result-filter">
+                        <ul class="clearfix">
+                            <li class="list-nav">
+                                <div class="rule-single-select">
+                                    @Html.DropDownList("corpType", ViewBag.EmployerTypeSL as SelectList, "企业类型", new { @class = "filter" })
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear result-list">
+                        <div class="ls_rows">
+                            <ul id="result-jobs" class="result-jobs">
+                                @if (Model != null)
+                                {
+                                    foreach (var corp in Model)
+                                    {
+                                    
+                                    <li>
+                                        <dl class="clearfix">
+                                            <!--<dd class="company-icon"><img src="" alt="" width="50" height="50"></dd>-->
+                                            <dd class="left">
+                                                <h4 class="article-name"><a href="@Url.Action("Company_Detail", new { id = corp.Id })">@corp.Name</a></h4>
+                                                <p class="job-remark">
+                                                    <span>企业规模：<label>@corp.Scale.Name</label></span>
+                                                    <span>企业性质：<label>@corp.Etype.Name</label></span>
+                                                    <span>地点：<label>@corp.Address</label></span>
+                                                </p>
+                                            </dd>
+                                            <dd class="right">
+                                                <p class="suggest-salary"><a href="@Url.Action("Jobs", new { corpId = corp.Id })">职位（@corp.Jobs.Where(m=>m.StateId==1).Count()）</a></p>
+                                            </dd>
+                                        </dl>
+                                    </li>   
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="pagebar clearfix">
+                        <div class="left holder">
+                            @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new {@class="listCount" })
+                            <label>条记录</label>
+                        </div>
+                        <div class="pagelist">
+
+                            @if (Model != null)
+                                {
+                                @Html.Pager(Model, new PagerOptions
+                                    {
+                                        PageIndexParameterName = "id",
+                                        
+                                        ShowPrevNext = true,
+                                        FirstPageText = "首页  ",
+                                        PrevPageText = "  上一页  ",
+                                        NextPageText = "  下一页  ",
+                                        LastPageText = "  末页  ",
+                                        PageIndexBoxId = "",
+                                        ShowNumericPagerItems = true,
+                                        PageNumberFormatString = "  {0}  ",
+                                        DisabledPagerItemTemplate = "<span>{0}</span>",
+                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
+                                    })
+                                }
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!--/主体区域-->
+<!-- Recommended script positioning -->
+<script src="~/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".filter").change(function () {
+            $("#searchForm").submit();
+        });
+
+        $(".listCount").change(function () {
+            $("#searchForm").submit();
+        });
+
+        f_onNavActive("gs");
+
+        var searchHideBox = $(".search-hide-box");
+        var moreSearchFlag = $("#hidMoreSearch").val();
+        if (moreSearchFlag == "1") {
+            f_onToggleSearchBox();
+        }
+        $("#more-search").on("click", function () {
+            f_onToggleSearchBox();
+        });
+
+        var dropPageInputs = $(".input.drop_page");
+        $(dropPageInputs).each(function () {
+            $(this).on("click", function (e) {
+                if ($(this).hasClass("condition-folder")) {
+                    if ($(this).children(".condition-item").length == 0) {
+                        $(this).removeClass("condition-folder");
+                        return;
+                    }
+                }
+                if (!$(this).hasClass("condition-folder")) {
+                    var name = $(this).attr("name");
+                    var url = "";
+                    var title = "";
+                    var obj = {};
+                    switch (name) {
+                        case "txtIndustries":
+                        case "industries":
+                            url = '@Url.Action("Dialog_Industry", "Recruiting")';
+                                title = "选择行业类别";
+                                break;
+                            default:
+                                break;
+                        }
+                        showDialog(url, title);
+                    } else {
+                        e.stopPropagation();
+                    }
+                });
+            });
+        });
+
+        /*高级搜索切换*/
+        function f_onToggleSearchBox() {
+            $(".search-hide-box").toggle();
+            $("#btnSubmit").toggle();
+            $("#txtKeyword").toggleClass("large");
+            $("#more-search>.icon").toggleClass("icon-up");
+        }
+
+        /*创建添加窗口*/
+        function showDialog(urlAction, title, obj) {
+            var objNum = arguments.length;
+            var d = top.dialog({
+                id: 'dialog' + new Date().getMilliseconds(),
+                title: title,
+                url: urlAction,
+                width: '800px',
+                height: '512px'
+            }).showModal();
+            /*检查是否修改状态*/
+            if (objNum == 3) {
+                d.data = obj;  /*给窗体传入对象*/
+            }
+        }
+</script>

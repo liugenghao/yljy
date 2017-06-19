@@ -1,0 +1,126 @@
+﻿@model Ys.Model.Model.Recruit.PersonModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>会员管理首页</title>
+    @Styles.Render("~/Areas/Recruiting/User/Content/css/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Areas/Recruiting/User/Content/js/common")
+</head>
+<body>
+    <!--main-->
+    <div class="main-wrap clearfix">
+        <!--导航栏-->
+        <div class="location">
+            <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
+            <a href="@Url.Action("Desk", "Home")" target="right" class="home"><i></i><span>管理首页</span></a>
+        </div>
+        <!--/导航栏-->
+        <div class="ht_20"></div>
+        <!--内容-->
+        <div class="table-container">
+            <div class="main_head clearfix">
+                <div class="avatarbox">        
+                    @*<img src="~/img/RecruitmentImages/u104.png" alt="求真像">*@        
+                    @*<span>@Html.ActionLink("设置头像", "EditAvatar", "Account", null, new {@class="act", target="right" })</span>*@
+                </div>
+                <div class="tips_box clearfix">
+                    <h4>尊敬的<label>@Model.Login_Name</label>，欢迎您！</h4>
+                    <dl class="clearfix">
+                        <dt>会员组别：</dt>
+                        <dd>个人用户</dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>本次登录IP：</dt>
+                        <dd>@ViewBag.IpAddress</dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>上次登录IP：</dt>
+                        <dd>@Model.Info.LastLoginIP</dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>注册时间：</dt>
+                        <dd>@Model.Info.RegisterTime.ToString()</dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>上次登录时间：</dt>
+                        <dd>@Model.Info.LastLoginTime.ToString()</dd>
+                    </dl>
+                </div>
+                <div class="ht_10"></div>
+                <div class="tips_box clearfix">
+                    <h4>账户统计</h4>
+                    <dl>
+                        <dt>简历数：</dt>
+                        <dd>
+                            <label>@Model.Resume.Count</label>
+                            <span>&nbsp;&nbsp;</span>
+                            <a href="@Url.Action("Index", "Resume")" target="right">详细 &gt;&gt;</a>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>收藏的职位：</dt>
+                        <dd>
+                            <label>@Model.FavoriteJob.Count</label>
+                           <span>&nbsp;&nbsp;</span>
+                            <a href="@Url.Action("Index", "Favorite")" target="right">详细 &gt;&gt;</a>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>新面试邀约：</dt>
+                        <dd>
+                            <label>@ViewBag.InterviewCount</label>
+                            <span>&nbsp;&nbsp;</span>
+                            <a href="@Url.Action("Index", "Interview")" target="right">详细 &gt;&gt;</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="ht_20"></div>
+            <div class="tips_box clearfix">
+                <h4>
+                    <span class="icon icon-sound4"></span><span>站内消息</span>
+                    @Html.ActionLink("更多+", "Inbox", "Message", null, new { @class = "pull-right", target = "right", title = "更多" })
+                </h4>
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">消息时间</th>
+                            <th>标题</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sysNotice in Model.Info.Notice)
+                        {
+                            <tr>
+                                <td>@sysNotice.NoticeTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>
+                                    @if (sysNotice.NoticeTypeId == 4)
+                                    {
+                                        @Html.ActionLink("收到新的面试邀请", "Index", "Interview", null, new { target = "right", @class="link" })
+                                      
+                                    }
+                                    else if (sysNotice.NoticeTypeId == 5)
+                                    {
+                                        @Html.ActionLink("您有新的在线面试", "RoomList", "Interview", null, new { target = "right", @class="link" })
+                                      
+                                    }
+                               
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--/内容-->
+    </div>
+</body>
+</html>

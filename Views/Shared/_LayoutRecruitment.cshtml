@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>夷陵就业信息网</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shoucut icon" href="~/favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/artdialog/css")
+    @Styles.Render("~/Content/RecruitmentCss")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/artdialog/js")
+    @Scripts.Render("~/Scripts/RecruitmentCommon")
+    <!--[if lt IE 9]>@Scripts.Render("~/bundles/html5shiv")<![endif]-->
+</head>
+<body>
+    <!--头部 start-->
+    <div class="header" id="header">
+        <div class="topview">
+            <div class="section">
+                <div class="title">
+                    <i></i>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })">夷陵就业信息网</a>
+                    <b>&middot;</b>
+                    <a href="@Url.Action("Index", "Recruiting", new { area = "" })">在线招聘系统</a>
+                </div>
+                <div class="toplink">
+                    <span></span>
+                    @if (Session["User"] != null)
+                    {    
+                        <a href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" class="f_link actived"><span class="f_icons icn_user"></span><span class="hovertext">个人中心</span></a>
+                        <span class="split"></span><a href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" class="f_link"><span class="f_icons icn_msg"></span><span class="hovertext">系统消息 <i>@ViewBag.NoticeCount</i></span></a>                           
+                        <span class="split"></span><a href="@Url.Action("Logout", "Recruiting", new { area = "" })" class="f_link" ><span class="f_icons icn_logout"></span><span class="hovertext">注销</span></a>  
+                    }
+                    else if (Session["Employer"] != null)
+                    {
+                        <a href="@Url.Action("Index", "Home", new { area = "Recruiting/Employer" })" class="f_link actived"><span class="f_icons icn_user"></span><span class="hovertext">个人中心</span></a>  
+                        <span class="split"></span><a href="@Url.Action("Index", "Home", new { area = "Recruiting/Employer" })" class="f_link"><span class="f_icons icn_msg"></span><span class="hovertext">系统消息 <i>@ViewBag.NoticeCount</i></span></a> 
+                        <span class="split"></span><a href="@Url.Action("Logout", "Recruiting", new { area = "" })" class="f_link" ><span class="f_icons icn_logout"></span><span class="hovertext">注销</span></a>  
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Recruiting", new { area = "" })" class="f_link" id="linkuser" target="_self"><span class="f_icons icn_user"></span><span class="hovertext">登录</span></a> 
+                        <a href="@Url.Action("Register_jump", "Recruiting", new { area = "" })" class="f_link linkreg" title="注册"><span class="f_icons icn_register"></span><span class="hovertext">注册</span></a>  
+                    }
+                    <span class="split"></span>
+                    <a href="javascript:SetHome(this, window.location);" class="f_link" title="设为首页"><span class="f_icons icn_sethome"></span><span class="hovertext">设为首页</span></a>
+                    <a href="javascript:AddFavorite(window.location, document.title);" class="f_link" title="加入收藏"><span class="f_icons icn_setfav"></span><span class="hovertext">加入收藏</span></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="header-wrap">
+            <div class="section">
+                <div class="logo"></div>
+            </div>
+        </div>
+    </div>
+    <!--/头部-->
+    <!--导航资源-->
+    <div class="menu">
+        <div class="section nav" id="nav">
+            <ul>
+                <li class="actived">
+                    <a class="topnav" data-code="sy" href="@Url.Action("Index", "Recruiting", new { area = "" })" target="_self">首 页</a>
+                </li>
+                <li>
+                    <a class="topnav" data-code="zph" href="@Url.Action("JobFair", "Recruiting", new { area = "" })" target="_self">招聘会</a>
+                </li>
+                <li>
+                    <a class="topnav" data-code="wtzp" href="@Url.Action("JobFair2", "Recruiting", new { area = "" })" target="_self">委托招聘</a>
+                </li>
+                <li>
+                    <a class="topnav" data-code="zw" href="@Url.Action("Jobs", "Recruiting", new { area = "" })" target="_self">职 位</a>
+                </li>
+                <li>
+                    <a class="topnav" data-code="gs" href="@Url.Action("Companies", "Recruiting", new { area = "" })" target="_self">公 司</a>
+                </li>
+                <!--用户登录后显示的导航-->
+                <li>
+                    <a class="topnav" data-code="rc" href="@Url.Action("Humans", "Recruiting", new { area = "" })" target="_self">最新人才</a>
+                </li>
+
+
+                @if (Session["User"] != null)
+                {
+                    <li>
+                        <a class="topnav" data-code="grzx" href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" target="_self">个人中心</a>
+                    </li>
+                }
+                else if (Session["Employer"] != null)
+                {
+                    <li>
+                        <a class="topnav" data-code="grzx" href="@Url.Action("Index", "Home", new { area = "Recruiting/Employer" })" target="_self">个人中心</a>
+                    </li>
+                }
+
+                <!--/用户登录后显示的导航-->
+            </ul>
+        </div>
+    </div>
+    @RenderBody()
+    <!--咨询电话-->
+    <div class="section">
+        <div class="row-phones" id="phones">
+            <div class="clearfix">
+                <div class="ls_rows">
+                    <ul class="clearfix">
+                        <li title="求职招聘咨询电话">
+                            <h4>求职招聘咨询电话</h4>
+                            <p>
+                                <label>0717-7816006</label>
+                            </p>
+                        </li>
+                        <li title="技能培训咨询电话">
+                            <h4>技能培训咨询电话</h4>
+                            <p>
+                                <label>0717-7816016</label>
+                            </p>
+                        </li>
+                        <li title="创业指导咨询电话">
+                            <h4>创业指导咨询电话</h4>
+                            <p>
+                                <label>0717-7816020</label>
+                            </p>
+                        </li>
+                        <li title="就业失业登记咨询电话">
+                            <h4>就业失业登记咨询电话</h4>
+                            <p>
+                                <label>0717-7816010</label>
+                            </p>
+                        </li>
+                        <li title="失业保险咨询电话">
+                            <h4>失业保险咨询电话</h4>
+                            <p>
+                                <label>0717-7201522</label>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/咨询电话-->
+    <!--/主区域-->
+    <!--底部-->
+    <div class="footer" id="footer">
+        <!--版权声明-->
+        <div class="footer-wrap">
+            <div class="section">
+                <p class="foot-links">
+                    <a href="@Url.Action("Contact", "Recruiting", new { area = "" })">联系我们</a>
+                    <a href="@Url.Action("Statement", "Recruiting", new { area = "" })">法律声明</a>
+                    <a href="@Url.Action("About", "Recruiting", new { area = "" })">关于我们</a>
+                    <a href="@Url.Action("FAQ", "Recruiting", new { area = "" })">常见问题</a>
+                </p>
+                <p>版权所有：&copy宜昌市夷陵区劳动就业管理局&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>鄂ICP备XXXXXXXXXX.</span></p>
+                <p class="copyrights">
+                    <span>招聘QQ群1：36080585</span>
+                    <span>招聘QQ群2：222648357</span>
+                    <span>招聘QQ群2：222648360</span>
+
+                </p>
+                <p>建议最低使用IE8.0以上浏览器   1024×768以上分辨率浏览本网站&nbsp;&nbsp;<span style="color: #aaa;">技术支持:湖北元速科技有限公司</span> </p>
+            </div>
+        </div>
+        <!--版权声明-->
+    </div>
+    <!--/底部-->
+    <!--全局部件-->
+    @*<div class="asid_share" id="asid_scroll">
+        <ul class="ls_rows">
+            <li id="go-jobs" class="asid_share_box red_bag" style="display: none;">
+                <a href="#jobs">最新职位</a>
+            </li>
+            <li id="go-companies" class="asid_share_box" style="display: none;">
+                <a href="#companies">人才推介</a>
+            </li>
+            <!--<li id="go-feedback" class="asid_share_box">
+                <a href="" class="feedback"><i></i><span class="hide">意见反馈</span></a>
+            </li>-->
+            <li class="asid_share_box">
+                <a href="javascript:void(0);" class="go-top"><i></i><b></b><span class="hide">回到顶部</span></a>
+            </li>
+        </ul>
+    </div>*@
+    <!--/全局部件-->
+</body>
+</html>
