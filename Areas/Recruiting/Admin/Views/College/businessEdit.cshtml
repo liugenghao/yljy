@@ -29,7 +29,7 @@
         </div>
         <!--导航栏-->
         <div class="result-wrap">
-            @using (Html.BeginForm("businessEdit", "College", FormMethod.Post, new { @id = "form1" }))
+            @using (Html.BeginForm("businessEdit", "College", FormMethod.Post, new { @id = "formId", name = "formId" }))
             {
                 @Html.AntiForgeryToken()
                 <!--内容-->
@@ -71,25 +71,28 @@
                         <dt>营业执照</dt>
                         <dd>
                             <a href="@Model.license" target="_blank">
-                            <img alt="" id="thumbnailImage" src="@Model.license" class="min-img" /></a>
+                            <img alt="" id="thumbnailImage" src="upload+@Model.license" class="min-img" /></a>
                         </dd>
                     </dl>
                 </div>
+                @Html.HiddenFor(m => m.id)
+            }
                 <!--/内容-->
                 <!--工具栏-->
-                <div class="page-footer">
-                    <div class="btn-wrap">
-                        <input type="submit" name="btnSubmit" id="btnSubmit" value="审核通过" class="btn" />
-                        <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);" />
-                        @Html.HiddenFor(m => m.id)
-                    </div>
+            <div class="page-footer">
+                <div class="btn-wrap">
+                    <input type="submit"  value="审核通过" class="btn" id="shenhe" onclick="formId.action='businessEdit';formId.submit();"/>
+                    <input type="submit"  value="审核不通过" class="btn"  id="btnshenheno" onclick="formId.action='/Recruiting/Admin/College/businessNoEdit/@ViewBag.ID';formId.submit();"/>
+                    <input type="button" name="btnReturn" id="btnReturn" value="返回上一页" class="btn yellow" onclick="javascript: history.back(-1);" />
                 </div>
+            </div>
                 <!--/工具栏-->
-            }
+          
         </div>
     </div>
     <!--/main-->
     <!-- Recommended script positioning -->
+
     @Scripts.Render("~/Recruiting/Admin/js/layoutMain")
     @Scripts.Render("~/ueditor/js")
     <script type="text/javascript">
@@ -97,7 +100,7 @@
         /* document.ready */
         $(function () {
             /*初始化表单验证*/
-            $("#form1").initValidform();
+            $("#formId").initValidform();
 
             /*编辑成功提示*/
             var userName = '@ViewData["userName"]';

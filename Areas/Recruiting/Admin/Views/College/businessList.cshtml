@@ -46,6 +46,11 @@
                                         <i></i><span>批量审核通过</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a id="add" class="del" href="javascript:;" onclick="GetbtnAuditNo()">
+                                        <i></i><span>批量审核不通过</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div class="r-list">
@@ -53,7 +58,7 @@
                                 <input type="text" name="Keywords" id="Keywords" class="keyword" value="" />
                                 <input type="submit" class="btn-search" value="查询" />
                             </form>
-</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,9 +90,22 @@
                                         <td>@item.contactName</td>
                                         <td>@item.contactPhone</td>
                                         <td>@item.companyType.companyName</td>
-                                        <td>@(item.auditStatus == "1" ? "未审核" : item.auditStatus == "2" ? "已审核" : "")</td>
-                                        <td class="nowrap flex-box">
-                                            <a href="@Url.Action("businessEdit", new { id = item.id })" title="查看详情/审核"><span class="icon icon-edit"></span>查看详情/审核</a>
+                                        <td>
+                                            @if(item.auditStatus == "1")
+                                            {
+                                                <span style="color:#F9CC9D">未审核</span>
+                                            }
+                                            @if (item.auditStatus == "2")
+                                            {
+                                                <span style="color:green">已通过审核</span>
+                                            }
+                                            @if (item.auditStatus == "3")
+                                            {
+                                                <span style="color:red">未通过审核</span>
+                                            }
+                                        </td >
+                                         <td class="nowrap flex-box">
+                                            <a href = "@Url.Action("businessEdit", new { id = item.id })" title="查看详情/审核"><span class="icon icon-edit"></span>查看详情/审核</a>
                                         </td>
                                     </tr>
                                 }
@@ -97,8 +115,8 @@
                         {
                           <tfoot>
                             <tr>
-                                <td colspan = '9'> 暂无记录 </td>
-                             </tr>
+                                <td colspan = '9' > 暂无记录 </td>
+                             <tr>
                          </tfoot>
                        }
                 </table>
@@ -145,6 +163,29 @@
                     xhrFields: { withCredentials: true }
                 })
                location.reload(true)   
+                return true;
+            }
+            else {
+                alert("请选中要审核的项！");
+                return false;
+            }
+        };
+        function GetbtnAuditNo() {
+            var strdata = "";
+            for (var i = 0; i < ochkY.length; i++) {
+                if (ochkY[i].checked == true) {
+                    strdata += otrY[i].id + ",";
+                }
+            }
+            if (strdata != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Recruiting/Admin/College/businessPLAuditNo',
+                    data: strdata,
+                    contentType: "application/json; charset=utf-8",
+                    xhrFields: { withCredentials: true }
+                })
+                location.reload(true)
                 return true;
             }
             else {
