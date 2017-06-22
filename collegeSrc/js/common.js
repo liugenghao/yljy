@@ -48,7 +48,6 @@ function sendMessEnterprise() {
         $(".txyzm").text("图形验证码错误！").css("color", "red");
     } else {
         var data = sjhValue + "," + 1;
-        alert(data)
         $.ajax({
             type: 'POST',
             url: '/college/sendMess',
@@ -97,13 +96,11 @@ function login() {
     } else if (yzmValue == '') {
         $(".pwd").text("").css("color", "#20bd00"); //加正确信息提示
         $(".yzm").text("验证码不能为空！").css("color", "red"); //加错误信息提示
+    } else if (yzmValue != verValue.toLowerCase()) {
+        $(".yzm").text("验证码错误！").css("color", "red"); //加错误信息提示
     } else {
-        if (yzmValue != verValue.toLowerCase()) {
-            $(".yzm").text("验证码错误！").css("color", "red"); //加错误信息提示
-        } else {
-            $("#formId").submit();
-            return false;
-        }
+        $("#formId").submit();
+        return false;
     }
 };
 //实习意向填报
@@ -219,7 +216,7 @@ function regStudent() {
     var qrpwdValue = $("#qrpwd").val();
     var sjhValue = $("#sjh").val();
     var txyzmValue = $("#txyzm").val();
-    //var yzmValue = $("#yzm").val();
+    var yzmValue = $("#yzm").val();
     var verValue = $(".verification-img").text();
     var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
     if (username == "") {
@@ -229,32 +226,45 @@ function regStudent() {
         $(".username").text("").css("color", "#20bd00");
         $(".name").text("姓名不能为空！").css("color", "red");
     } else if (pwdhmValue == "") {
+        $(".username").text("").css("color", "#20bd00");
         $(".name").text("").css("color", "#20bd00");
         $(".pwd").text("密码不能为空！").css("color", "red");
-
         if (qrpwdValue == "") {
             $(".qrpwd").text("确认密码不能为空！").css("color", "red");
         }
     } else if (pwdhmValue.length < 6 || pwdhmValue.length > 18) {
         $(".pwd").text("密码长度为6-18位字符！").css("color", "red");
     } else if (qrpwdValue != pwdhmValue) {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
         $(".pwd").text("").css("color", "#20bd00");
         $(".qrpwd").text("两次密码不一致！").css("color", "red");
     } else if (sjhValue == "") {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
         $(".pwd").text("").css("color", "#20bd00");
         $(".qrpwd").text("").css("color", "#20bd00");
         $(".sjh").text("手机号不能为空！").css("color", "red");
     } else if (phReg == false) {
         $(".sjh").text("手机号格式不正确！").css("color", "red");
-    } else if (txyzmValue == '') {
-        $(".sjh").text("").css("color", "red");
+    } else if (txyzmValue == "") {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".pwd").text("").css("color", "#20bd00");
+        $(".qrpwd").text("").css("color", "#20bd00");
+        $(".sjh").text("").css("color", "#20bd00");
         $(".txyzm").text("图形验证码不能为空！").css("color", "red");
     } else if (txyzmValue != verValue.toLowerCase()) {
         $(".txyzm").text("图形验证码错误！").css("color", "red");
-        //} else if (yzmValue == "") {
-        //    $(".txyzm").text("").css("color", "red");
-        //    $(".yzm").text("短信验证码不能为空！").css("color", "red"); 
+    } else if (yzmValue == "") {
+        $(".txyzm").text("").css("color", "#20bd00");
+        $(".yzm").text("短信验证码不能为空！").css("color", "red");
     } else {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".pwd").text("").css("color", "#20bd00");
+        $(".sjh").text("").css("color", "#20bd00");
+        $(".txyzm").text("").css("color", "#20bd00");
         $("#formId").submit();
         return false;
     }
@@ -268,6 +278,9 @@ function regEnterprise() {
     var licenseValue = $("#license").val();
     var contactName = $("#contactName").val();
     var contactPhone = $("#contactPhone").val();
+    var txyzmValue = $("#txyzm").val();
+    var yzmValue = $("#yzm").val();
+    var verValue = $(".verification-img").text();
     var phReg = !!contactPhone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
     if (username == "") {
         $(".username").text("用户名不能为空！").css("color", "red"); //加错误信息提示
@@ -277,10 +290,13 @@ function regEnterprise() {
         $(".name").text("单位名称不能为空！").css("color", "red"); //加错误信息提示
     }
     else if (licenseValue == "") {
+        $(".username").text("").css("color", "#20bd00");
         $(".name").text("").css("color", "#20bd00");
         $(".license").text("营业执照不能为空！").css("color", "red"); //加错误信息提示
     }
     else if (pwdhmValue == "") {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
         $(".license").text("").css("color", "#20bd00");
         $(".pwd").text("密码不能为空！").css("color", "red"); //加错误信息提示
         if (qrpwdValue == "") {
@@ -291,22 +307,53 @@ function regEnterprise() {
         $(".pwd").text("密码长度为6-18位字符！").css("color", "red"); //加错误信息提示
     }
     else if (qrpwdValue != pwdhmValue) {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".license").text("").css("color", "#20bd00");
         $(".pwd").text("").css("color", "#20bd00");
         $(".qrpwd").text("两次密码不一致！").css("color", "red"); //加错误信息提示
     }
     else if (contactName == "") {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".license").text("").css("color", "#20bd00");
         $(".pwd").text("").css("color", "#20bd00");
         $(".qrpwd").text("").css("color", "#20bd00");
         $(".contactName").text("负责人不能为空！").css("color", "red"); //加错误信息提示
     }
     else if (contactPhone == "") {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".license").text("").css("color", "#20bd00");
+        $(".pwd").text("").css("color", "#20bd00");
+        $(".qrpwd").text("").css("color", "#20bd00");
         $(".contactName").text("").css("color", "#20bd00");
         $(".contactPhone").text("负责人电话不能为空！").css("color", "red"); //加错误信息提示
     }
     else if (phReg == false) {
         $(".contactPhone").text("负责人电话格式不正确！").css("color", "red"); //加错误信息提示
-    }
-    else {
+    } else if (txyzmValue == '') {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".license").text("").css("color", "#20bd00");
+        $(".pwd").text("").css("color", "#20bd00");
+        $(".qrpwd").text("").css("color", "#20bd00");
+        $(".contactName").text("").css("color", "#20bd00");
+        $(".contactPhone").text("").css("color", "red");
+        $(".txyzm").text("图形验证码不能为空！").css("color", "red");
+    } else if (txyzmValue != verValue.toLowerCase()) {
+        $(".txyzm").text("图形验证码错误！").css("color", "red");
+    } else if (yzmValue == "") {
+        $(".txyzm").text("").css("color", "red");
+        $(".yzm").text("短信验证码不能为空！").css("color", "red");
+    } else {
+        $(".username").text("").css("color", "#20bd00");
+        $(".name").text("").css("color", "#20bd00");
+        $(".license").text("").css("color", "#20bd00");
+        $(".pwd").text("").css("color", "#20bd00");
+        $(".qrpwd").text("").css("color", "#20bd00");
+        $(".contactName").text("").css("color", "#20bd00");
+        $(".contactPhone").text("").css("color", "red");
         $("#formId").submit();
         return false;
     }
