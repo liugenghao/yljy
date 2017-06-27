@@ -36,7 +36,6 @@ body {
 
 th, td {
     text-align: center;
-    white-space :  nowrap ;
 }
 td.descM{
     white-space :  normal ;

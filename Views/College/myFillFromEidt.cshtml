@@ -13,7 +13,6 @@
     <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet">
     <link href="~/collegeSrc/css/index.css" rel="stylesheet">
     <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -158,6 +157,12 @@
                         <label  class="col-sm-2 control-label">紧急联系人电话</label>
                         <div class="col-sm-3">
                             @Html.TextBoxFor(m => m.contactPhone, new { id = "txtUserName", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">意向单位名称</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(m => m.intentionalUnit, new { id = "intentionalUnit", @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -798,7 +803,6 @@
     <script src="~/collegeSrc/js/common.js"></script>
     <script src="~/collegeSrc/js/my-alert.js"></script>
     <script src="~/Scripts/jquery-ui-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery-ui-i18n.min.js"></script>
     @Html.Raw(ViewBag.js)
     <script type="text/javascript">
         $(function () {

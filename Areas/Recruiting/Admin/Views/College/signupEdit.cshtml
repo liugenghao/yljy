@@ -179,6 +179,15 @@
                             <span class="Validform_checktip jjlxrdh">*</span>
                         </dd>
                     </dl>
+                    <dl>
+                        <dt>意向单位名称</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.intentionalUnit, new { id = "intentionalUnit", @class = "input normal" })
+                            
+                        </dd>
+                    </dl>
+
+                            
 
                     <dl>
                         <dt>意向单位类别</dt>
@@ -826,7 +835,7 @@
             });
 
         });
-        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
         $(".datepicker").datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,

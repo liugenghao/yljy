@@ -63,6 +63,7 @@
                             <th>手机号</th>
                             <th>紧急联系人</th>
                             <th>紧急联系人电话</th>
+                            <th>意向单位名称</th>
                             <th>意向单位类别</th>
                             <th>意向岗位类别</th>
                             <th>居住地</th>
@@ -85,6 +86,7 @@
                                 <td>@Model.mobile</td>
                                 <td>@Model.contactName</td>
                                 <td>@Model.contactPhone</td>
+                                <td>@Model.intentionalUnit</td>
                                 <td>@Model.companyType.companyName</td>
                                 <td>@Model.stationType.stationName</td>
                                 <td>@Model.liveWhere</td>
@@ -99,7 +101,7 @@
                     {
                         <tfoot>
                             <tr>
-                                <td colspan='16'>暂无记录</td>
+                                <td colspan='17'>暂无记录</td>
                             </tr>
                         </tfoot>
                     }
