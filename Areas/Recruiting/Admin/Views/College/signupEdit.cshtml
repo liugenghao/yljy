@@ -84,18 +84,18 @@
                     <dl>
                         <dt>入学时间</dt>
                         <dd>
-                            @Html.TextBox("StartDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodStart editable datepicker", disabled = "disabled" })
+                            @*@Html.TextBox("StartDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodStart editable datepicker", disabled = "disabled" })*@
                             
-                            @*@Html.TextBoxFor(m => m.entrance, new { id = "entrance", @class = "input Wdate", onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })*@
+                            @Html.TextBoxFor(m => m.entrance, new { id = "entrance", @class = "input Wdate", onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
                             <span class="Validform_checktip">*</span>
                         </dd>
                     </dl>
                     <dl>
                         <dt>毕业时间</dt>
                         <dd>
-                            @Html.TextBox("EndDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodEnd editable datepicker", disabled = "disabled" })
+                            @*@Html.TextBox("EndDate", DateTime.Now.ToShortDateString(), new { @class = "form-control classPeriodEnd editable datepicker", disabled = "disabled" })*@
 
-                            @*@Html.TextBoxFor(m => m.graduation, new { id = "graduation", @class = "input Wdate", onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })*@
+                            @Html.TextBoxFor(m => m.graduation, new { id = "graduation", @class = "input Wdate", onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
                             <span class="Validform_checktip">*</span>
                         </dd>
                     </dl>
