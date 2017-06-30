@@ -21,6 +21,27 @@
                 <img src="~/collegeSrc/image/collegeLogo.png" />
             </div>
         </div>
+        <!--岗位备注详情-->
+        <div class="modal fade" id="jDetail" tabindex="-1" role="dialog" aria-labelledby="jDetailDialogLabel">
+            <div class="modal-dialog" id="jDetail_promt_window" role="document">
+                <div class="modal-content">
+                    <div class="modal-header prompt_header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="jDetailDialogLabel">岗位详情</h4>
+                    </div>
+                    <div class="modal-body jDetail_prompt" id="jDetail_prompt">
+                        
+                        <br>
+                        <h2></h2>
+                    </div>
+                    <div class="modal-footer confirm_btn" id="confirm_btn">
+                        <button type="button" class="btn btn-primary">确 认</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="Part-two">
             <a href="loginout" class="logioutBtn">
                 <img src="~/collegeSrc/image/logioutBtn.png" />
@@ -76,7 +97,8 @@
                                     <td>@item.practiceTime</td>
                                     <td>@(item.isAccommodate == "1" ? "是" : item.isAccommodate == "2" ? "否" : "")</td>
                                     <td>@item.numPeople</td>
-                                    <td>@item.remark</td>
+                                    <td><a  href="javascript::">详情</a></td>
+                                    <td id="jRemark" hidden>@item.remark</td>
                                 </tr>
                             }
                         </tbody>
@@ -99,6 +121,28 @@
             版权所有：&copy;宜昌市夷陵区劳动就业管理局
         </div>
     </div>
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+          $(function () {
+              $("tbody a").each(function () {//导航栏变色
+                  $(this).click(function () {
+                      var text = $(this).parent().next().html();
+                      if (text == "") {
+                          text = "无";
+                      }
+                      $("#jDetail_prompt").html(text);
+                      $('#jDetail').modal('show');
+                  });
+         
+              
+            });
+     
+           });
+
+    </script>
 </body>
 
 </html>
+

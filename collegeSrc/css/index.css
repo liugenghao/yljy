@@ -18,7 +18,9 @@ body {
 .table {
     margin-bottom: 50px;
 }
-
+.table a{
+    white-space:nowrap;
+}
 .condition .dropdown {
     display: inline-block;
 }
@@ -209,7 +211,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 }
 
 .con-table {
-    padding: 5px 70px 0px 70px;
+    padding: 5px 20px 0px 20px;
 }
 
 .Part-three {

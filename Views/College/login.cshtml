@@ -12,8 +12,8 @@
     <link href="~/collegeSrc/css/bootstrap.css" rel="stylesheet" />
     <link href="~/collegeSrc/css/index.css" rel="stylesheet" />
 </head>
-<body  onkeydown="if(event.keyCode == 13) document.getElementById('btnlogin').click();">
-    <div class="container" >
+<body onkeydown="if(event.keyCode == 13) document.getElementById('btnlogin').click();">
+    <div class="container">
         <div class="Part-one">
             <div class="g-in">
                 <img src="~/collegeSrc/image/collegeLogo.png" />
@@ -29,7 +29,7 @@
                 <div class="con-line"></div>
             </div>
             <div class="con-bottom clearfix">
-                        <form class="form-horizontal" id="formId" method="post">
+                <form class="form-horizontal" id="formId" method="post">
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">用户类型：</label>
                         <div class="col-sm-4">
@@ -43,21 +43,21 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户名：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="mobile" id="mobile" placeholder="用户名/手机号码">
                         </div>
                         <span class="mobile"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">密码：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码">
                         </div>
                         <span class="pwd"></span>
                     </div>
                     <div class="form-group ">
                         <label class="col-sm-2 control-label">验证码：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" id="yzm" placeholder="验证码">
                         </div>
                         <div class="col-sm-4">
@@ -70,10 +70,10 @@
                             <button type="button" class="btn btn-primary" id="btnlogin" onclick="login()">登录</button>
                         </div>
                     </div>
-                            
-                
-                            </form>
-                </div>
+
+
+                </form>
+            </div>
         </div>
         <div class="Part-three">
             版权所有：&copy;宜昌市夷陵区劳动就业管理局
@@ -93,10 +93,14 @@
     <script src="~/collegeSrc/js/common.js"></script>
     <script src="~/collegeSrc/js/my-alert.js"></script>
     @Html.Raw(ViewBag.js)
-    <script type=”text/javascript”>
-        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        window.location = “mobile.html”; //可以换成http地址
+    <script type="text/javascript">
+            $(function () {
+               if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                $w = $(window).width();
+                $(".Part-two").css("width",$W*0.95)
         }
+      });
+
     </script>
 </body>
 </html>
