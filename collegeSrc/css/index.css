@@ -353,6 +353,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
  }
  @media screen and (max-width: 960px) {
     body {
+        background:none;
         background-color:lightblue;
     }
     .con-top {
