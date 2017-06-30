@@ -3,7 +3,7 @@ body {
     font-size: 14px;
     font-family: "微软雅黑";
     background-color: #EFEFEF;
-    background-image: url('../image/bodyBG.png') no-repeat;
+    background-image: url('../image/bodyBG.png');
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -51,21 +51,22 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 
 .Part-one {
     height: 130px;
-    width: 1000px;
+    width: 800px;
     margin: 0 auto;
     margin-top:60px;
 }
 
 .Part-one-table {
     height: 130px;
-    width: 1120px;
+    width: 800px;
     margin: 0 auto;
 }
 
 .g-in {
     float: left;
-    width: 360px;
+    width: 500px;
     height: 80px;
+
     margin-top: 35px;
 }
 
@@ -83,7 +84,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 
 .Part-two {
     position: relative;
-    width: 1000px;
+    width: 800px;
     padding:30px;
     padding-bottom: 10px;
     margin: 0 auto;
@@ -91,7 +92,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     border-radius: 6px;
     background-image: url('../image/bgm.png');
     background-repeat:no-repeat;
-    background-position:400px 155px;
+    background-position:220px 155px;
    top: 0;bottom: 0;left: 10px;right: 10px;-moz-border-radius: 100px / 10px;border-radius: 100px / 10px;
    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;
    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -103,7 +104,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     width: 100px;
     height: 100px;
     top: 135px;
-    right: 290px;
+    right: 200px;
     background-image: url('../image/regStudentBtn.png');
     text-indent:-9999px;
 }
@@ -113,7 +114,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     width: 100px;
     height: 100px;
     top: 135px;
-    right: 130px;
+    right: 70px;
     background-image: url('../image/regEnterpriseBtn.png');
     text-indent:-9990px;
 }
@@ -135,7 +136,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     position: relative;
     padding: 35px;
     margin: 0 auto;
-    width: 1000px;
+    width: 800px;
     background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 3px 3px #cbc9c9;
@@ -161,7 +162,8 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 }
 
 .con-btn {
-    margin-top: 20px;
+    margin-top: 25px;
+    margin-left:20px;
 }
 
 .con-word {
@@ -213,7 +215,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 .Part-three {
     position:relative;
     height: 50px;
-    width: 1000px;
+    width: 800px;
     margin: 30px auto;
     color: #b1b1b1;
     left:15px;
@@ -351,8 +353,9 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
      text-align:right;
      font-weight:700;
  }
- @media screen and (max-width: 960px) {
+ @media screen and (max-width: 760px) {
     body {
+        font-size:18px;
         background:none;
         background-color:lightblue;
         height:100%;
@@ -360,6 +363,10 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     .con-top {
     padding-left: 0px;
 }
+    .Part-one,.Part-one-table,.Part-three{
+        width:600px;
+    }
+
     .Part-two{
         position:relative;
         width:600px;
@@ -376,8 +383,8 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     position: absolute;
     width: auto;
     height:auto;
-    top:45px;
-    right: 230px;
+    top:50px;
+    right: 240px;
     background-image: none;
     text-indent:0px;
 }
@@ -386,9 +393,19 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     position: absolute;
     width: auto;
     height:auto;
-    top: 45px;
-    right: 130px;
+    top: 50px;
+    right: 100px;
     background-image: none;
     text-indent:0px;
 }
+div input.form-control{
+    height:50px;
+    line-height:50px;
+    padding:1px 9px;
+    font-size:16px;
+}
+.Validform_checktip button{
+    margin-top:15px;
+}
+
 }

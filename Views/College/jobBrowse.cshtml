@@ -30,7 +30,7 @@
                     <div class="con-user">@(ViewBag.userName == "" ? "岗位一览" : ViewBag.userName)</div>
                 </div>
                 <div class="con-line"></div>
-                <div class="con-btn">
+                @*<div class="con-btn">
                     @if (ViewBag.intentionForms != null)
                     {
                         <a href="#" class="btn btn-primary" disabled="disabled">新增实习意向</a>
@@ -39,14 +39,14 @@
                     {
                         <a href="fillFrom" class="btn btn-primary">新增实习意向</a>
                     }
-                </div>
+                </div>*@
             </div>
             <div class="con-bottom con-table">
                 <div class="row condition ">
-                    <div class="col-xs-2">
+                    <div class="col-md-3 col-xs-5">
                         <a href="myFillFrom"><span class="text-muted">我的实习意向</span></a>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-md-2  col-xs-4">
                         <a href="jobBrowse"><span class="text-primary">岗位一览</span></a>
                     </div>
                 </div>
