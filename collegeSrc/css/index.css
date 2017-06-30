@@ -3,7 +3,7 @@ body {
     font-size: 14px;
     font-family: "微软雅黑";
     background-color: #EFEFEF;
-    background-image: url('../image/bodyBG.png');
+    background-image: url('../image/bodyBG.png') no-repeat;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -355,6 +355,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     body {
         background:none;
         background-color:lightblue;
+        height:100%;
     }
     .con-top {
     padding-left: 0px;
