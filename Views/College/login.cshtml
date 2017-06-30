@@ -93,5 +93,10 @@
     <script src="~/collegeSrc/js/common.js"></script>
     <script src="~/collegeSrc/js/my-alert.js"></script>
     @Html.Raw(ViewBag.js)
+    <script type=”text/javascript”>
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        window.location = “mobile.html”; //可以换成http地址
+        }
+    </script>
 </body>
 </html>

@@ -374,8 +374,8 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     .regStudentBtn {
     display: block;
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height:auto;
     top:45px;
     right: 230px;
     background-image: none;
@@ -384,8 +384,8 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 .regEnterpriseBtn {
     display: block;
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height:auto;
     top: 45px;
     right: 130px;
     background-image: none;
