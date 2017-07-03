@@ -50,6 +50,8 @@
                         <a href="jobBrowse"><span class="text-muted">岗位一览</span></a>
                     </div>
                 </div>
+@if (Model != null)
+{
                 <div class="studInfo">
 
 
@@ -118,6 +120,7 @@
                         <div class="col-md-4">@Model.wrokAddr</div>
                     </div>
                 </div>
+}
                 @*<table class="table table-striped">
                     <thead>
                         <tr>
