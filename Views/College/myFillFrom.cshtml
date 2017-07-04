@@ -29,6 +29,19 @@
                     <div class="con-user">@(ViewBag.userName == "" ? "我的实习意向" : ViewBag.userName)</div>
                 </div>
                 <div class="con-line"></div>
+                <p class="dlDesc">说明：请下载岗位信息表，选择岗位信息表中已有的实习单位进行填报</p>
+                <div class="fileTable">
+                    <div class="row">
+                        <div class="col-sm-2 col-xs-3">
+                            @*<a href="jobBrowse"><span class="text-muted">岗位一览</span></a>*@
+                            <a class="qy" href="~/files/企业岗位表.xls">企业岗位表<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
+                        </div>
+                        <div class="col-sm-3 col-xs-4">
+                            <a class="sy" href="~/files/事业单位岗位表.xls">事业单位岗位表<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
+                        </div>
+                    </div>
+                    </div>
+                
                 <div class="con-btn">
                     @if (Model != null)
                     {
@@ -41,15 +54,14 @@
                     }
                 </div>
             </div>
+            
             <div class="con-bottom con-table">
-                <div class="row condition">
+                @*<div class="row condition">
                     <div class="col-md-3 col-xs-5">
                         <a href="myFillFrom"><span class="text-primary">我的实习意向</span></a>
                     </div>
-                    <div class="col-md-2 col-xs-4">
-                        <a href="jobBrowse"><span class="text-muted">岗位一览</span></a>
-                    </div>
-                </div>
+                    
+                </div>*@
 @if (Model != null)
 {
                 <div class="studInfo">

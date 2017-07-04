@@ -164,8 +164,7 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
 }
 
 .con-btn {
-    margin-top: 25px;
-    margin-left:20px;
+    margin-top: 20px;
 }
 
 .con-word {
@@ -253,7 +252,15 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     float: left;
 }
 
-
+.form-group span{
+    position:relative;
+    top:5px;
+}
+.form-group span img{
+    position:absolute;
+    display:inline-block;
+    top:-10px;
+}
 .windowAlert {
     position: absolute;
     z-index: 2002;
@@ -355,59 +362,78 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
      text-align:right;
      font-weight:700;
  }
- @media screen and (max-width: 760px) {
-    body {
-        font-size:18px;
-        background:none;
-        background-color:lightblue;
-        height:100%;
+ .dlDesc {
+        margin:10px 0;
+        color:#f17878;
     }
-    .con-top {
-    padding-left: 0px;
-}
-    .Part-one,.Part-one-table,.Part-three{
-        width:600px;
+ .fileTable a span{
+     position:relative;
+     left:2px;
+     top:2px;
+ }
+@media screen and (max-width: 760px) {
+    body {
+        font-size: 18px;
+        background: none;
+        background-color: lightblue;
+        height: 100%;
+    }
+     .dlDesc {
+        font-size:13px;
     }
 
-    .Part-two{
-        position:relative;
-        width:600px;
+    .con-top {
+        padding-left: 0px;
+    }
+
+    .Part-one, .Part-one-table, .Part-three {
+        width: 600px;
+    }
+
+    .Part-two {
+        position: relative;
+        width: 600px;
         background-image: none;
     }
+
     .Part-two-table {
-        position:relative;
-        width:600px;
+        position: relative;
+        width: 600px;
         background-image: none;
     }
 
     .regStudentBtn {
-    display: block;
-    position: absolute;
-    width: auto;
-    height:auto;
-    top:50px;
-    right: 240px;
-    background-image: none;
-    text-indent:0px;
-}
-.regEnterpriseBtn {
-    display: block;
-    position: absolute;
-    width: auto;
-    height:auto;
-    top: 50px;
-    right: 100px;
-    background-image: none;
-    text-indent:0px;
-}
-div input.form-control{
-    height:50px;
-    line-height:50px;
-    padding:1px 9px;
-    font-size:16px;
-}
-.Validform_checktip button{
-    margin-top:15px;
-}
+        display: block;
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 50px;
+        right: 240px;
+        background-image: none;
+        text-indent: 0px;
+    }
 
+    .regEnterpriseBtn {
+        display: block;
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 50px;
+        right: 100px;
+        background-image: none;
+        text-indent: 0px;
+    }
+
+    div input.form-control {
+        height: 50px;
+        line-height: 50px;
+        padding: 1px 9px;
+        font-size: 16px;
+    }
+
+    .Validform_checktip button {
+        margin-top: 15px;
+    }
+
+    
 }

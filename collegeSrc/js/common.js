@@ -105,10 +105,12 @@ function login() {
 };
 //实习意向填报
 function fillFrom() {
+    var ChinesePattern = /^[\u4e00-\u9fa5]+$/;
     var nameValue = $("#name").val();
     var sfzhmValue = $("#sfzhm").val();
     var jdxxValue = $("#jdxx").val();
     var sjhValue = $("#sjh").val();
+    var yxdwPrompt = $.trim($("#intentionalUnit").val());
     var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
     var IDcardReg = checkIdcard(sfzhmValue);
     //var IDcardReg = !!sfzhmValue.match(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i); //身份证号码
@@ -127,7 +129,9 @@ function fillFrom() {
         $(".sjh").text("手机号不能为空！").css("color", "red"); //加错误信息提示
     } else if (!phReg) {
         $(".sjh").text("手机号格式不正确！").css("color", "red"); //加错误信息提示
-    } else {
+    } else if (!ChinesePattern.test(yxdwPrompt)) {
+        $(".intentionalUnit").text("请填写岗位信息表中已录入的单位名称").css("color", "red"); //加错误信息提示
+    }else {
         $("#formId").submit();
         return false;
     }
