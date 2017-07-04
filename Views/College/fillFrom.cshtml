@@ -37,7 +37,7 @@
                 <form class="form-horizontal" id="formId" method="post">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">姓名</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="name" id="name" placeholder="姓名">
                         </div>
                         <span class="name"></span>
@@ -55,33 +55,33 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">身份证号</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="identity" id="sfzhm" placeholder="身份证号">
                         </div>
                         <span class="sfzhm"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">就读学校</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="attendSchool" id="jdxx" placeholder="就读学校">
                         </div>
                         <span class="jdxx"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">入学时间</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" name="entrance" id="entrance" class="form-control editable datepicker" placeholder="请输入入学时间" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">毕业时间</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" name="graduation" id="graduation" class="form-control editable datepicker" placeholder="请输入毕业时间" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">学历</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <select id="education" name="education" class="form-control">
                                 <option>大专</option>
                                 <option>本科</option>
@@ -92,33 +92,33 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">专业</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="major" id="zy" placeholder="专业">
                         </div>
                         <span class="zy"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">手机号</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="mobile" id="sjh" placeholder="手机号">
                         </div>
                         <span class="sjh"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">紧急联系人</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="contactName" placeholder="紧急联系人">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">紧急联系人电话</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="contactPhone" id="lxrdh" placeholder="紧急联系人电话">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向单位名称</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="intentionalUnit" id="intentionalUnit" placeholder="意向单位名称">
                         </div>
                         <span class="intentionalUnit">
@@ -126,8 +126,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向单位类别</label>
-                        <div class="col-sm-6">
-                            <select id="companyTypeID" name="companyTypeID" class="form-control" style="width:47%;">
+                        <div class="col-sm-4">
+                            <select id="companyTypeID" name="companyTypeID" class="form-control" >
                                 @*<option value="0">--请选择单位类别--</option>*@
                                 @if (ViewBag.companyType != null)
                                 {
@@ -141,8 +141,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向岗位类别</label>
-                        <div class="col-sm-6">
-                            <select id="stationTypeID" name="stationTypeID" class="form-control" style="width:47%;">
+                        <div class="col-sm-4">
+                            <select id="stationTypeID" name="stationTypeID" class="form-control">
                                 @*<option value="0">--请选择岗位类别--</option>*@
                                 @if (ViewBag.stationtype != null)
                                 {
@@ -292,7 +292,7 @@
                 yearRange: "1990:2030"
 
             }); });
-
+        $(".Part-two").css("background-position-y", "980px");
     </script>
 </body>
 </html>

@@ -38,7 +38,7 @@
                 @Html.AntiForgeryToken()
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">姓名</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.name, new { name = "name",id = "name", @class = "form-control"})
                         </div>
                         <span class="name"></span>
@@ -56,35 +56,35 @@
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">身份证号</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.identity, new { id = "sfzhm", name = "identity", @class = "form-control" })
                         </div>
                         <span class="sfzhm"></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">就读学校</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.attendSchool, new { id = "jdxx", name = "attendSchool", @class = "form-control" })
                         </div>
                         <span class="jdxx"></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">入学时间</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @*@Html.TextBox("StartDate", DateTime.Now.ToShortDateString(), new { @class = "", disabled = "disabled" })*@
                             @Html.TextBoxFor(m => m.entrance, new { id = "entrance", @class = "form-control editable datepicker"} )
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">毕业时间</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.graduation, new { id = "graduation", @class = "form-control editable datepicker" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">学历</label>
                         <div class="col-sm-4">
-                            <select id="education" name="education" class="form-control" style="width:40%;">
+                            <select id="education" name="education" class="form-control">
                                 @if (Model != null)
                                 {
                                     if (Model.education == "大专")
@@ -135,41 +135,41 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">专业</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.major, new { id = "zy", name = "major", @class = "form-control" })
                         </div>
                         <span class="zy"></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">手机号</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.mobile, new { id = "sjh", name = "mobile", @class = "form-control" })
                         </div>
                         <span class="sjh"></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">紧急联系人</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.contactName, new { id = "txtUserName", @class = "form-control"})
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">紧急联系人电话</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.contactPhone, new { id = "txtUserName", @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向单位名称</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.intentionalUnit, new { id = "intentionalUnit", @class = "form-control" })
                         </div>
                         <span class="intentionalUnit"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">意向单位类别</label>
-                        <div class="col-sm-6">
-                            <select id="companyTypeID" name="companyTypeID" class="form-control" style="width:40%;">
+                        <div class="col-sm-4">
+                            <select id="companyTypeID" name="companyTypeID" class="form-control">
                                 <option value="0">--请选择意向单位类别--</option>
                                 @if (ViewBag.companyType != null)
                                 {
@@ -190,8 +190,8 @@
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">意向岗位类别</label>
-                        <div class="col-sm-6">
-                            <select id="stationTypeID" name="stationTypeID" class="form-control" style="width:40%;">
+                        <div class="col-sm-4">
+                            <select id="stationTypeID" name="stationTypeID" class="form-control">
                                 <option value="0">--请选择岗位类别--</option>
                                 @if (ViewBag.stationtype != null)
                                 {
@@ -213,8 +213,8 @@
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">居住地</label>
-                        <div class="col-sm-6">
-                            <select id="liveWhere" name="liveWhere" class="form-control" style="width:40%;">
+                        <div class="col-sm-4">
+                            <select id="liveWhere" name="liveWhere" class="form-control" >
                                 <option value="0">--请选择居住地--</option>
                                 @if(Model!=null)
                                 { 
@@ -496,8 +496,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向工作地</label>
-                        <div class="col-sm-6">
-                            <select id="wrokAddr" name="wrokAddr" class="form-control" style="width:40%;">
+                        <div class="col-sm-4">
+                            <select id="wrokAddr" name="wrokAddr" class="form-control">
                                 <option value="0">--请选择居住地--</option>
                                 @if(Model!=null)
                                 { 
@@ -816,7 +816,7 @@
                 yearRange: "1990:2030"
 
             }); });
-        
+        $(".Part-two").css("background-position-y", "730px");
     </script>
 </body>
 

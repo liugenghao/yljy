@@ -434,6 +434,8 @@ tr:hover, .table-striped > tbody > tr:nth-of-type(odd):hover {
     .Validform_checktip button {
         margin-top: 15px;
     }
-
+    .form-group span img{
+   display:none;
+}
     
 }
