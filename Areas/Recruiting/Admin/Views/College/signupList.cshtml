@@ -398,7 +398,8 @@
                                         <td>@item.stationType.stationName</td>
                                         <td>@item.liveWhere</td>
                                         <td>@item.wrokAddr</td>
-                                        <td>@item.updatetime</td>
+                                        @*<td>@item.updatetime</td>*@
+                                        <td>@item.updatetime.ToString("yyyy-MM-dd")</td>
                                         <td class="nowrap flex-box">
                                             <a href="@Url.Action("signupEdit", new { id = item.id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
                                             <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("signupDelete", new { id = item.id })');"><span class="icon icon-trash"></span>删除</a>
