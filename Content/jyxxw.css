@@ -911,15 +911,26 @@ li {
     }
 
 .end {
+    position:relative;
     text-align: center;
     line-height: 25px;
     color: #666;
 }
 
-    .end p span {
+    .end span {
         margin: 0 20px;
     }
-
+    .end .imgConac span{        
+        margin:0;      
+    }
+    .end .imgConac .m{
+        position:relative;
+        top:-22px;
+        display:inline-block;
+    }
+    .imgConac #imgConac{
+        height:60px;
+    }
 .login_board {
     height: 450px;
     border: 1px solid #eaeaee;
