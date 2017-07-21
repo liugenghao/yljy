@@ -488,7 +488,7 @@ a.linkmore:hover{color: #333;}
 }
 .blockrow .blockcell{width: 312px;}
 .blockcell.double{width: auto;}
-.blockcell.statistics {float: right; width: 168px;}
+.blockcell.statistics {float: right; width: 29%;}
 
 .headtitle,
 .headtitle{padding: 16px 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
@@ -520,7 +520,7 @@ a.linkmore:hover{color: #333;}
 .col-headlines h2 a{color: #E35E52; line-height: 28px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
 
 .blockcell.theme-search,
-.blockcell.theme-newsbox{width: 386px; padding: 0 10px 10px; height: 215px;}
+.blockcell.theme-newsbox{width: 67%; padding: 0 10px 10px; height: 215px;}
 
 .blockcell.theme-search {margin-right: 10px;}
 .theme-search .ls_rows{width: 100%;}
@@ -1477,7 +1477,7 @@ a.more-search{display: inline-block; color: #16a0d3;}
     overflow: hidden;
     background: #FFF;
     border: 1px solid #eaeaee;
-    width: 62.4%;
+    width: 56%;
     height: 380px;
     margin-top: 15px;
     box-shadow: 0 0 10px rgba(120, 120,120,.4);
@@ -1491,7 +1491,7 @@ a.more-search{display: inline-block; color: #16a0d3;}
     overflow: hidden;
     background: #FFF;
     border: 1px solid #eaeaee;
-    width: 36.4%;
+    width: 42%;
     height: 380px;
     margin-top: 15px;
     box-shadow: 0 0 10px rgba(120, 120,120,.4);
@@ -1580,7 +1580,7 @@ a.more-search{display: inline-block; color: #16a0d3;}
 .recruitment2 ul li a{
     display:inline-block;
     position:relative;
-    width:62%;
+    width:68%;
     color: #4499ee;
     margin-left:5%;
     overflow:hidden;

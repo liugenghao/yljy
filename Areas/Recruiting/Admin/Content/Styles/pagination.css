@@ -513,3 +513,15 @@ div.sabrosus span.current {
 div.sabrosus span.disabled {
 	border-right: #929292 1px solid; padding-right: 5px; border-top: #929292 1px solid; padding-left: 5px; padding-bottom: 2px; border-left: #929292 1px solid; color: #929292; margin-right: 2px; padding-top: 2px; border-bottom: #929292 1px solid
 }
+.pagelist { display:block; float:left; margin:2px 5px 0 -1px; padding:0 10px;}
+.pagelist span{ font-size:12px; color:#333; line-height:28px; }
+.pagelist .pagenum{ display:inline-block; margin:0 5px; padding:0 5px; border:1px solid #dbdbdb; border-top:0; border-bottom:0; width:30px; height:28px; line-height:28px; font-size:12px; color:#333; text-align:center; vertical-align:top; overflow:hidden; }
+
+/*css default style pagination*/
+.pagelist{ margin-top:10px; padding:0; font-family:"Microsoft YaHei",Verdana; font-size:12px; }
+.pagelist a,
+.pagelist span{ display:block; float:left; margin:2px 0 0 -1px; padding:4px 12px; line-height:20px; height:20px; border:1px solid #e1e1e1; background:#fff; color:#333; text-decoration:none; }
+.pagelist span:first-child{ border-left:1px solid #e1e1e1; }
+.pagelist a:hover{ color:#666; background:#eee; }
+.pagelist .actived{ color:#fff; background:#488FCD; border-color:#488FCD; }
+.pagelist span.disabled{ color:#999; background:#fff; }

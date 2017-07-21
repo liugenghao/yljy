@@ -1,4 +1,7 @@
-﻿@model List<Ys.Model.Model.Recruit.EmployerModel>
+﻿@*@model List<Ys.Model.Model.Recruit.EmployerModel>*@
+@model Webdiyer.WebControls.Mvc.PagedList<Ys.Model.Model.Recruit.EmployerModel>
+
+@using Webdiyer.WebControls.Mvc;
 
 @{
     ViewBag.Title = "企业用户列表";
@@ -34,7 +37,7 @@
             <!--搜索栏-->
             <div class="search-wrap">
                 <div class="search-content">
-                    @using (Html.BeginForm("CorporationIndex", null, FormMethod.Post, new { @id = "searchFrom" }))
+                    @using (Html.BeginForm("CorporationIndex", null, FormMethod.Get, new { @id = "searchFrom" }))
                     {
                         @Html.AntiForgeryToken()
                         <table class="search-tab">
@@ -53,7 +56,7 @@
                                     </td>*@
                                     <th>关键字：</th>
                                     <td>
-                                        <input type="text" name="keywords" id="keywords" value="" class="input" placeholder="关键字">
+                                        <input type="text" name="keywords" id="keywords" value="@ViewBag.keyword"  class="input" placeholder="关键字">
                                     </td>
                                     <td>
                                         <input type="submit" class="btn" name="btnSaerch" id="btnSaerch" value="查 询">
@@ -102,6 +105,9 @@
                             </th>
                             <th style="width: 8%">用户名 
                             </th>
+                            <th style="width: 8%">
+                                登录密码
+                            </th>
                             <th style="width: 8%">企事业单位名称
                             </th>
                             <th style="width: 8%">法定代表人
@@ -143,8 +149,12 @@
                                     @Html.ActionLink(corp.Login_Id, "CorpDetails", new { id = corp.Id }, new { @title = @corp.Login_Id })
                                 </td>
                                 <td>
+                                    @corp.Login_Pwd
+                                </td>
+                                <td>
                                     @corp.Name
                                 </td>
+                                
                                 <td>@corp.Legalperson
                                 </td>
                                 <td>@corp.Industry.Name
@@ -169,6 +179,30 @@
               
                 </table>
             </div>
+            <div class="pagebar clearfix">            
+                <div class="pagelist">
+
+                    @if (Model != null)
+                    {
+                        @Html.Pager(Model, new PagerOptions
+                               {
+                                   PageIndexParameterName = "id",
+                                   ShowPrevNext = true,
+                                   FirstPageText = "首页  ",
+                                   PrevPageText = "  上一页  ",
+                                   NextPageText = "  下一页  ",
+                                   LastPageText = "  末页  ",
+                                   PageIndexBoxId = "",
+                                   ShowNumericPagerItems = true,
+                                   PageNumberFormatString = "  {0}  ",
+                                   DisabledPagerItemTemplate = "<span class='disabled'>{0}</span>",
+                                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>"
+                               })
+                    }
+                </div>
+            </div>
+
             <!--/列表-->
             <!--内容底部-->
             <div class="ht_10">
@@ -201,8 +235,11 @@
                     $(this).attr("href", url);
                 }
             });
+            
         });
-
+        $("#btnSaerch").click(function () {
+            window.location.href = '@Url.Action("CorporationIndex")' + '?keywords=' + $("#keywords").val();
+        });
         /* 根据用户组别加载用户列表视图 */
         function f_onActionLink(typeCode) {
             var url = "";
