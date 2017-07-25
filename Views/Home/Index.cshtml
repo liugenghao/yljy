@@ -249,8 +249,9 @@
         <div class="notice clearfix">
             <div id="notice_tit" class="notice_tit clearfix">
                 <ul>
-                    <li class="select"><a href="javascript:void(0)">最新资讯</a></li>
-                    <li><a href="javascript:void(0)">公示公告</a></li>
+                    <li class="select"><a href="javascript:void(0)">公示公告</a></li>
+                    <li><a href="javascript:void(0)">最新资讯</a></li>
+
                 </ul>
                 <a class="more float-right" href="@Url.Action("News_List")">更多>></a>
             </div>
@@ -258,21 +259,21 @@
                 <div id="news_tab" class="mod">
                     <ul>
                         @{int a = 0; int b = 0;}
-                        @foreach (var newInfo in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
-                        {
-                            a++;
-                            <li><a href="@Url.Action("News_Detail", "Home", new { Id = newInfo.Id })" target="_blank" title="@newInfo.Title">@newInfo.Title</a><span>[@newInfo.Time.ToShortDateString()]</span></li>
-                            if (a > 10) { break; }
-                        }
-                    </ul>
-                </div>
-                <div id="notice_tab" class="mod" style="display: none;">
-                    <ul>
                         @foreach (var notice in Model.Notice)
                         {
                             b++;
                             <li><a href="@Url.Action("News_Detail", "Home", new { Id = notice.Id })" target="_blank">@notice.Title</a><span>[@notice.Time.ToShortDateString()]</span></li>
                             if (b > 10) { break; }
+                        }
+                    </ul>
+                </div>
+                <div id="notice_tab" class="mod" style="display: none;">
+                    <ul>
+                        @foreach (var newInfo in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
+                        {
+                            a++;
+                            <li><a href="@Url.Action("News_Detail", "Home", new { Id = newInfo.Id })" target="_blank" title="@newInfo.Title">@newInfo.Title</a><span>[@newInfo.Time.ToShortDateString()]</span></li>
+                            if (a > 10) { break; }
                         }
                     </ul>
                 </div>
