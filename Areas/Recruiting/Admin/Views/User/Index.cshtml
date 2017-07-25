@@ -1,4 +1,8 @@
-﻿@model List<Ys.Model.Model.Recruit.PersonModel>
+﻿@*@model List<Ys.Model.Model.Recruit.PersonModel>*@
+@model Webdiyer.WebControls.Mvc.PagedList<Ys.Model.Model.Recruit.PersonModel>
+
+@using Webdiyer.WebControls.Mvc;
+
 
 @{
     ViewBag.Title = "个人用户列表";
@@ -202,6 +206,30 @@
                
             </table>
         </div>
+            <div class="pagebar clearfix">
+                <div class="pagelist">
+
+                    @if (Model != null)
+                    {
+                        @Html.Pager(Model, new PagerOptions
+                   {
+                       PageIndexParameterName = "id",
+                       ShowPrevNext = true,
+                       FirstPageText = "首页  ",
+                       PrevPageText = "  上一页  ",
+                       NextPageText = "  下一页  ",
+                       LastPageText = "  末页  ",
+                       PageIndexBoxId = "",
+                       ShowNumericPagerItems = true,
+                       PageNumberFormatString = "  {0}  ",
+                       DisabledPagerItemTemplate = "<span class='disabled'>{0}</span>",
+                       CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                       //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>"
+                   })
+                    }
+                </div>
+            </div>
+
         <!--/列表-->
         <!--内容底部-->
         <div class="ht_10">
