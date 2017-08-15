@@ -14,120 +14,183 @@
 <body>
     <div class="top_container">
         <div class="top_menu">
-            <iframe width="300" scrolling="no" height="28" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=11&icon=1&py=yiling&site=12"></iframe>
-            <div class="toplink float-right">
+            <div class="toplink-left float-left">
                 <a href="javascript:SetHome(this, window.location);" class="f_link" title="设为首页"><span class="f_icons icn_sethome"></span><span class="hovertext">设为首页</span></a>
                 <a href="javascript:shoucang(document.title,window.location);" class="f_link" title="加入收藏"><span class="f_icons icn_setfav"></span><span class="hovertext">加入收藏</span></a>
-                <a class="remoteMonitorSys_btn" href="@Url.Action("Map", "RemoteMonitor")" target="_blank">远程教室监控系统</a>
+            </div>
+            <div class="toplink-right float-right">
+                <a href="javascript:;" class="weixin_link" title=""><span class="hovertext">微信公众号</span><img src="~/img/weixin2.jpg" /></a>
+                <a href="javascript:;" class="links" title="友情链接"><span class="hovertext">友情链接</span><span class="icn_dropdown"></span></a>
+                @*<ul>
+                    <li><a href="http://ldj.yichang.gov.cn/" target="_blank">宜昌市人力资源和社会保障局</a></li>
+                    <li>
+
+                        <a href="http://www.10.gov.cn/" target="_blank">中国夷陵网</a>
+                    </li>
+                    <li>
+                        <a href="http://rs.10.gov.cn/" target="_blank">夷陵区人力资源和社会保障局</a>
+                    </li>
+                    <li><a href="http://www.chinajob.gov.cn/" target="_blank">中国就业网</a></li>
+</ul>*@
+                <a class="remoteMonitorSys_btn" href="@Url.Action("Map", "RemoteMonitor")" target="_blank"><span class="monitorIcon"></span>远程教室监控系统</a>
             </div>
         </div>
-
-    </div>
-    <div class="main_header">
-        <div class="header_bg">
-            <div class="header">
-                <a href="@Url.Action("Index", "Home")">
-                    <h1 id="logo">夷陵就业信息网</h1>
-                </a>
+    </div><!--top_container-->
+    <div class="header">
+        <a href="@Url.Action("Index", "Home")">
+            <h1 id="logo">夷陵就业信息网</h1>
+        </a>
+        <div class="search-block">
+            <div class="row1">
+                <input type="text" name="kwJob" id="kwJob" class="input normal" placeholder="职位搜索" />
+                <div class="btnSearchJob" id="btnSearchJob">
+                    <img src="~/img/icon/searchBtn.png" />
+                </div>
+                <a class="more-search" href="@Url.Action("Jobs", "Recruiting")" target="_blank">高级搜索<span class="icon"></span></a>
+            </div>
+            <div class="row2">
+                <span class="tit">热门搜索：</span>
+                <a title="策划" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=策划" target="_blank">策划</a>
+                <a title="设计" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=设计" target="_blank">设计</a>
+                <a title="工程师" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=工程师" target="_blank">工程师</a>
+                <a title="服务员" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=服务员" target="_blank">服务员</a>
             </div>
         </div>
-    </div>
-    <nav id="main_nav" class="main_nav text-center">
-        <a data-flag="index" href="@Url.Action("Index", "Home")">首页</a>
-        <a data-flag="gov_affair" href="@Url.Action("Gov_Affair", "Home")">政务公开</a>
-        <a data-flag="news" href="@Url.Action("News_Page", "Home")">新闻公告</a>
-        <a data-flag="legislation" href="@Url.Action("Legislation", "Home")">政策法规</a>        
-        <a data-flag="guidance" href="@Url.Action("Guidance", "Home")">办事指南</a>
-        <a data-flag="direct" href="@Url.Action("Direct", "Home")">创业就业服务</a>
-    </nav>
-    
-    @RenderBody()
-@*    @RenderSection("scripts", required: false)*@
-    <div class="footer-line"></div>
-    <div class="contact_board">
-        <ul class="clearfix">
-            <li class="contact_tag"><h4>求职招聘咨询电话</h4>
-                <ul>
-                    <li class="phone_num">0717-7816006</li>
-                </ul>
-            </li>
-            <li class="contact_tag"><h4>技能培训咨询电话</h4>
-                <ul>
-                    <li class="phone_num">0717-7816016</li>
-                </ul>
-            </li>
-            <li class="contact_tag"><h4>创业指导咨询电话</h4>
-                <ul>
-                    <li class="phone_num">0717-7816020</li>
-                </ul>
-            </li>
-            <li class="contact_tag"><h4>就业失业登记咨询电话</h4>
-                <ul>
-                    <li class="phone_num">0717-7816010</li>
-                </ul>
-            </li>
-            <li class="contact_tag" title="失业保险咨询电话"><h4>失业保险咨询电话</h4>
-                <ul>
-                    <li class="phone_num">0717-7201522</li>
-                </ul>
-            </li>
-        </ul>   
-    </div><!--contact_board end-->
-	<ul class="about">
-        <li><a href="@Url.Action("Contact", "Recruiting", new { area=""})" target="_blank">联系我们</a></li>
-                   <li> <a href="@Url.Action("Statement","Recruiting", new { area=""})" target="_blank">法律声明</a></li>
-                   <li> <a href="@Url.Action("About","Recruiting", new { area=""})" target="_blank">关于我们</a></li>
-                   <li> <a href="@Url.Action("FAQ","Recruiting", new { area=""})" target="_blank">常见问题</a></li>
-
+    </div><!--header-->
+    <nav id="main_nav" class="main_nav edge_round">
+        <ul class="li-float">
+            <li class="navicon navicon-home"><a data-flag="index" href="@Url.Action("Index", "Home")">首页</a></li>
+            <li class="navicon navicon-govaf"><a data-flag="gov_affair" href="@Url.Action("Gov_Affair", "Home")">政务公开</a></li>
+            <li class="navicon navicon-news"><a data-flag="news" href="@Url.Action("News_Page", "Home")">新闻公告</a></li>
+            <li class="navicon navicon-legis"><a data-flag="legislation" href="@Url.Action("Legislation", "Home")">政策法规</a></li>
+            <li class="navicon navicon-guid"><a data-flag="guidance" href="@Url.Action("Guidance", "Home")">办事指南</a></li>
+            <li class="navicon navicon-direct"><a data-flag="direct" href="@Url.Action("Direct", "Home")">创业就业服务</a></li>
+            <li class="navicon navicon-recruiting"><a data-flag="direct" href="@Url.Action("Index", "Recruiting")" target="_blank">求职招聘系统</a></li>
         </ul>
-    <div class="end clearfix">
-        <div class="imgConac">
-            <p>
-                <span class="m">版权所有：&copy;宜昌市夷陵区劳动就业管理局</span>
-                    <script type="text/javascript">
-                    document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='http://dcs.conac.cn/js/18/272/1768/60159528/CA182721768601595280001.js' type='text/javascript'%3E%3C/script%3E"));</script>
-                <span class="m">颚ICP备1231321号</span>
-            </p>
-        </div>
-        <p><span>招聘QQ群1:36080585</span><span>QQ群2:222648357</span><span>QQ群3:222648360</span></p>
-        <span class="text-center">建议最低使用IE8.0以上浏览器 &nbsp;&nbsp;1024×768以上分辨率浏览本网站 </span>&nbsp;&nbsp;<span style="color:#aaa;">技术支持:湖北元速科技有限公司</span>
-    </div><!--footer end-->
-    
+    </nav>
+    @RenderBody()
+    <footer class="clearfix">
+        <div class="contact_board">
+            <img src="~/img/icon/Phone.png" />
+            <ul>
+                <li class="contact_tag">
+                    <h4>求职招聘咨询电话</h4>
+                    <ul>
+                        <li class="num">0717-7816006</li>
+                    </ul>
+                </li>
+                <li class="contact_tag">
+                    <h4>技能培训咨询电话</h4>
+                    <ul>
+                        <li class="num">0717-7816016</li>
+                    </ul>
+                </li>
+                <li class="contact_tag">
+                    <h4>创业指导咨询电话</h4>
+                    <ul>
+                        <li class="num">0717-7816020</li>
+                    </ul>
+                </li>
+                <li class="contact_tag">
+                    <h4>就业失业登记咨询电话</h4>
+                    <ul>
+                        <li class="num">0717-7816010</li>
+                    </ul>
+                </li>
+                <li class="contact_tag" title="失业保险咨询电话">
+                    <h4>失业保险咨询电话</h4>
+                    <ul>
+                        <li class="num">0717-7201522</li>
+                    </ul>
+                </li>
+            </ul>
+            <img class="qq" src="~/img/icon/QQ.png" />
+            <ul>
+                <li class="contact_tag qq">
+                    <h4>招聘QQ一群</h4>
+                    <ul>
+                        <li class="num">36080585</li>
+                    </ul>
+                </li>
+                <li class="contact_tag qq">
+                    <h4>招聘QQ二群</h4>
+                    <ul>
+                        <li class="num">222648357</li>
+                    </ul>
+                </li>
+                <li class="contact_tag qq">
+                    <h4>招聘QQ三群</h4>
+                    <ul>
+                        <li class="num">222648360</li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--contact_board end-->
+        <div class="end clearfix">
+            <div class="end-con clearfix">
+                <span style="left:20px;color:#ccc;">技术支持：湖北元速科技有限公司</span>
+                <div class="about">
+                    <a href="@Url.Action("Contact", "Recruiting", new { area=""})" target="_blank">联系我们</a>
+                    <a>|</a>
+                    <a href="@Url.Action("Statement","Recruiting", new { area=""})" target="_blank">法律声明</a>
+                    <a>|</a>
+                    <a href="@Url.Action("About","Recruiting", new { area=""})" target="_blank">关于我们</a>
+                    <a>|</a>
+                    <a href="@Url.Action("FAQ","Recruiting", new { area=""})" target="_blank">常见问题</a>
+                </div>
+                @*<script type="text/javascript">
+                    document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='http://dcs.conac.cn/js/18/272/1768/60159528/CA182721768601595280001.js' type='text/javascript'%3E%3C/script%3E"));</script>*@
+                <a class="gov-auth" href="http://bszs.conac.cn/sitename?method=show&id=03F3D0FE6E141ACCE053012819AC541F" target="_blank">
+                    <img src="~/img/icon/blue.png" />
+                </a>
+                <span style="color:#fff;right:20px;top:0;">版权所有：&copy;宜昌市夷陵区劳动就业管理局</span>
+            </div><!--end-con end -->
+        </div><!-- end -->
+    </footer><!--footer end-->
+
+
     <script type="text/javascript">
         $(function () {
             var url = window.location.href;
             var aName = url.split('/');
             var con = aName[4];
-            switch(con) { 
+            switch(con) {
                 case 'Gov_Affair':
-                    $('#main_nav a').eq(1).addClass('actived');
+                    $('#main_nav a').eq(1).addClass('actived').parent().addClass('actived');
                     break;
                 case 'Legislation':
-                    $('#main_nav a').eq(3).addClass('actived');
+                    $('#main_nav a').eq(3).addClass('actived').parent().addClass('actived');
                     break;
                 case 'Lesgislation_Detail':
-                    $('#main_nav a').eq(3).addClass('actived');
-                    break;                    
+                    $('#main_nav a').eq(3).addClass('actived').parent().addClass('actived');
+                    break;
                 case 'News_Page':
-                    $('#main_nav a').eq(2).addClass('actived');
+                    $('#main_nav a').eq(2).addClass('actived').parent().addClass('actived');
+                    break;
+                case 'News_Page2':
+                    $('#main_nav a').eq(2).addClass('actived').parent().addClass('actived');
                     break;
                 case 'News_List':
-                    $('#main_nav a').eq(2).addClass('actived');
+                    $('#main_nav a').eq(2).addClass('actived').parent().addClass('actived');
                     break;
                 case 'News_Detail':
-                    $('#main_nav a').eq(2).addClass('actived');
-                    break;                    
+                    $('#main_nav a').eq(2).addClass('actived').parent().addClass('actived');
+                    break;
                 case 'Guidance':
-                    $('#main_nav a').eq(4).addClass('actived');
+                    $('#main_nav a').eq(4).addClass('actived').parent().addClass('actived');
                     break;
                 case 'Direct':
-                    $('#main_nav a').eq(5).addClass('actived');
+                    $('#main_nav a').eq(5).addClass('actived').parent().addClass('actived');
                     break;
                 default:
-                    $('#main_nav a').eq(0).addClass('actived');
+                    $('#main_nav a').eq(0).addClass('actived').parent().addClass('actived');
             }
-    
-            
+
+            $("#btnSearchJob").click(function () {
+                //window.location.href = '@Url.Action("Jobs", "Recruiting")' + '?txtKeyword=' + $("#kwJob").val();
+                if ($("#kwJob").val().trim() != "")
+                    window.open('@Url.Action("Jobs", "Recruiting")' + '?txtKeyword=' + $("#kwJob").val());
+            });
         })
         function SetHome(obj, vrl) {
             try {

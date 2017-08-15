@@ -1,57 +1,51 @@
 ﻿@model List<Ys.Model.Model.Home.Article>
 
-@*<div class="current-position">
-    <div>
-        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="#">办事指南</a></span>&nbsp;&nbsp;<span><a href="#"></a></span>
-    </div>
-</div>*@
-<div class="guidance_headerLog">
-    <img src="~/img/guidanceLogo.png" /></div>
 
-<div class="wrap">
-<img class="pageLogTit" id="bszn-letter" src="~/img/bszn-letter.png" />
-<div class="guidance_page clearfix">    
-    <div id="guidance_page_nav" class="guidance_page_nav">
-        <ul>
-            @{
-                foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
-                {
-                <li state="close" class="guidance_page_nav-top_level"><span>@articleList.Key</span><img src="~/img/iconfont-jiahao.png" /></li>       
-                <ul class="display-hide">
-                    @foreach (var article in articleList)
-                    {
-                        <li><a data-flag="@article.Id" href="javascript:">@article.SubTitle</a></li>
+<div class="wrap clearfix">
+    <div class="main">
+        <div class="guidance_page clearfix">
+            <div id="guidance_page_nav" class="guidance_page_nav">
+                <ul>
+                    @{
+                        foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
+                        {
+                            <li state="close" class="guidance_page_nav-top_level"><span>@articleList.Key</span><img src="~/img/iconfont-jiahao.png" /></li>
+                            <ul class="display-hide">
+                                @foreach (var article in articleList)
+                                {
+                                    <li><a data-flag="@article.Id" href="javascript:">@article.SubTitle</a></li>
+                                }
+
+                            </ul>
+                        }
+
                     }
-
                 </ul>
-                }
-                          
-            }
-        </ul>
-    </div>
-    <div class="guidance_page_right">
-        <div class="headerLine"></div>
-    <div class="guidance_con">
-        
-        <div id="tit" style="font-size: 20px; margin-bottom: 30px; font-weight: bold;"></div>
-        @{
-            foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
-            {
-                foreach (var article in articleList)
-                {
-            <div id="@article.Id" class="display-hide">
-                @Html.Raw(article.Content)
             </div>
-                }
+            <div class="guidance_page_right">
+                <div class="headerLine"></div>
+                <div class="guidance_con">
 
-            }
-                          
-        }
-    </div>
+                    <div id="tit" style="font-size: 20px; margin-bottom: 30px; font-weight: bold;"></div>
+                    @{
+                        foreach (var articleList in Model.GroupBy(m => m.Title).ToList())
+                        {
+                            foreach (var article in articleList)
+                            {
+                                <div id="@article.Id" class="display-hide">
+                                    @Html.Raw(article.Content)
+                                </div>
+                            }
+
+                        }
+
+                    }
+                </div>
+            </div>
         </div>
-</div>
-<!--goir end-->
     </div>
+    <!--goir end-->
+</div>
 <script src="~/Scripts/jQuery.Hz2Py-min.js"></script>
 <script type="text/javascript">
     pageFlag = "guidance";
@@ -60,7 +54,7 @@
         unfold($(".guidance_page_nav-top_level").eq(0), true);
         var heightCon = new Array();
         $(".guidance_page_nav-top_level").each(function () {
-            heightCon[$(this).index()] = $(this).next('ul').height();            
+            heightCon[$(this).index()] = $(this).next('ul').height();
         })
         var dataCode = '@ViewBag.Id';
         //为每个标签添加id
@@ -73,28 +67,28 @@
             ids.push(idCons[1].split('')[0].toLowerCase());
             ids.push(idCons[2].split('')[0].toLowerCase());
             ids.push(idCons[3].split('')[0].toLowerCase());
-            
+
             if (dataCode == ids.join('')) {
                 dealTopLi($(this));
                 //$(this).next().children().eq(0).trigger('click');
-                unfold($(this), true);                
+                unfold($(this), true);
             }
         })
-        $(".guidance_page_nav-top_level").click(function () {//点击一级菜单            
+        $(".guidance_page_nav-top_level").click(function () {//点击一级菜单
             dealTopLi($(this));
         });
         function dealTopLi(obj) {
             if (obj.hasClass('selected')) {
                 //contractList(obj.next('ul'))
-            } else {                
-            //$(".guidance_page_nav-top_level").removeClass("selected");     
-            obj.siblings('li').each(function(){
-                if ($(this).hasClass('selected')) {
-                    contractList($(this).next('ul'))
-                }
-            })
+            } else {
+                //$(".guidance_page_nav-top_level").removeClass("selected");
+                obj.siblings('li').each(function () {
+                    if ($(this).hasClass('selected')) {
+                        contractList($(this).next('ul'))
+                    }
+                })
                 //$(".guidance_page_nav-top_level").each(function () {
-                //    if ($(this).hasClass('selected')) {                        
+                //    if ($(this).hasClass('selected')) {
                 //        contractList($(this).next('ul'))
                 //    }
                 //})
@@ -138,7 +132,7 @@
     }
     function unfold(c, init) {
         $(".guidance_page_nav ul ul li").removeClass("selected");
-        if (init) {//加载第一项            
+        if (init) {//加载第一项
             c2 = c.next().find('li').eq(0);
             $(".guidance_con #tit").show().text(c2.text());
             var con_flag = c2.addClass("selected").find("a").attr("data-flag");
@@ -154,13 +148,13 @@
         }
         c.addClass("selected");
         c.find('img').attr('src', "/img/iconfont-jianhao.png");
-        c.next("ul").show();        
+        c.next("ul").show();
     }
     $(document).scroll(function () {
         if ($(document).scrollTop() > 370) {
             $("#guidance_page_nav").css({ position: "fixed", top: "0" });
         } else {
-            $("#guidance_page_nav").css({ position: "absolute", top: 370 });
+            $("#guidance_page_nav").css({ position: "absolute", top: 311 });
         }
 
     });

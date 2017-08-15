@@ -3,461 +3,152 @@
 @Scripts.Render("~/bundles/slideBox_script")
 @Scripts.Render("~/bundles/homeindexscript")
 <div class="wrap clearfix">
-    @*<div class="section ht_20"></div>
-    <!--头条-->
-    <div class="section white">
-        <div class="blockrow col-headlines" id="blockHeadlines">
-            <div>
-                <dl class="clearfix">
-                    <dt><i></i>
-                        <label>公告：</label></dt>
-                    <dd>
-                        <h2><a href="javascript:">目前夷陵就业信息网正在进行测试与维护，功能开发尚未完善，如有不便之处，敬请谅解，特此公告。
-如有建议，请将意见或建议发送至：kefu@yljy.10.gov.cn</a></h2>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt><label>往期回顾：</label></dt>
-                    <dd>
-                        <a href="index.html">宜昌市委第四巡回督查组调研督查夷陵"三严三实"专题教育工作</a>
-                        <a href="index.html">刘洪福就平湖担保公司及平湖小贷公司经营发展情况专题办公</a>
-                        <a href="index.html">市委第四巡回督查组来夷开展"三严三实"专</a>
-                    </dd>
-                </dl>
-            </div>
-        </div>
-    </div>*@
-    <div class="weixin">
-        <img src="../img/weixin.png" style="width:150px;height:190px;" />
-    </div>
-    <div class="ad001">
-        <img src="../img/ad001.png" />
-    </div>
-    <div class="main main-searchlog clearfix">
-        <!--快速通道-->
-         <div class="business">
-            <div class="business_tit clearfix">
-                <h2>快速通道</h2>
-                <a class="downloadM-btn" id="downloadM_btn" href="@Url.Action("Material_Download", "Home")" target="_blank">资料下载>></a>
-            </div>
-             <div class="card">
-                 <div class="clearfix">
-                     <a class="syjy" href="@Url.Action("Guidance", "Home", new { id = "jysy" })" title="就业失业登记" target="_blank"><span></span>就业失业登记</a>
-                     <a class="jyfc" href="@Url.Action("Guidance", "Home", new { id = "zyjs" })" title="就业扶持" target="_blank"><span></span>就业扶持</a>
-                     <a class="btbl" href="@Url.Action("Guidance", "Home", new { id = "btbl" })" title="补贴办理" target="_blank"><span></span>补贴办理</a>
-                 </div>
-                 <div class="clearfix">
-                     <a class="cyfw" href="@Url.Action("Guidance", "Home", new { id = "cyfw" })" title="创业服务" target="_blank"><span></span>创业服务</a>
-                     <a class="jypx" href="@Url.Action("Guidance", "Home", new { id = "jypx" })" title="就业培训" target="_blank"><span></span>就业培训</a>
-                     <a class="sybx" href="@Url.Action("Guidance", "Home", new { id = "sybx" })" title="失业保险" target="_blank"><span></span>失业保险</a>
-                 </div>
-            </div>
-@*             <div class="clearfix">
-                 <div class="float-left">
-                     <a class="recuiment_sys_btn" id="recuiment_sys_btn" href="@Url.Action("Index", "Recruiting")" target="_blank"></a>
-                     <a class="downloadM_btn" id="downloadM_btn" href="@Url.Action("Material_Download", "Home")" target="_blank"></a>
-                 </div>
-                 <div class="float-right">
-                     <a class="remoteMonitorSys_btn" id="remoteMonitorSys_btn" href="@Url.Action("Map", "RemoteMonitor")" target="_blank"></a>
-                 </div>
-             </div>*@
-        </div>
-        <!--business end-->
-        <!--检索栏-->
-        <div class="blockcell shadow theme-search">
-            <div class="content-tab-wrap">
-                <div class="content-tab">                   
-                    <div class="content-tab-ul-wrap">
-                        <ul>
-                            <li><a class="selected" href="javascript:void(0);">职位</a></li>
-                            <li><a class="" href="javascript:void(0);">公司</a></li>
-                        </ul>
-                    </div>
+    <div class="main clearfix">
+        <div class="content clearfix">
+            <div class="announce">
+                <div class="an-tit">
+                    <img src="~/img/icon/annouce.png" /><span>最新公告</span>
+                </div>
+                <div class="an-date">
+                    <span>@DateTime.Now.ToString("yyyy.MM.dd")</span>
+                    <span>@ViewBag.Week</span>
                 </div>
             </div>
-            <div class="tab-content">
-                <div class="ls_rows">
-                    <ul>
-                        <li>
-                            <input type="text" name="kwJob" id="kwJob" class="input normal" placeholder="职位关键词" />
-                        </li>
-                        <li>
-                            <div class="text-right">
-
-                                <input type="button" name="btnSearchJob" id="btnSearchJob" value="搜 索" class="btn" />
-                                <a class="more-search" href="@Url.Action("Jobs", "Recruiting")" target="_blank">高级搜索<span class="icon"></span></a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="search-tips">
-                                <span class="tit">热门搜索：</span>
-                                
-                                <a title="英语翻译" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=@Server.HtmlDecode("英语翻译")">英语翻译</a>
-                                <a title="策划"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=策划">策划</a>
-                                <a title="设计"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=设计">设计</a>
-                                <a title="软件测试工程师"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=软件测试工程师">软件测试工程师</a>
-                                <a title="人力资源专员"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=人力资源专员">人力资源专员</a>
-                                <a title="人力资源专员"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=市场营销">市场营销</a>
-                                <a title="人力资源专员"  href="@Url.Action("Jobs", "Recruiting")?txtKeyword=管理运营">管理运营</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-                <div class="tab-content" style="display: none;">
-                    <div class="ls_rows">
-                        <ul>
-                            <li>
-                                <input type="text" name="kwEmployer" id="kwEmployer" class="input normal" placeholder="公司关键词" />
-                            </li>
-
-                            <li>
-                                <div class="text-right">
-                                    <input type="submit" name="btnSearchEmployer" id="btnSearchEmployer" value="搜 索" class="btn" />
-                                    <a class="more-search" href="@Url.Action("Companies", "Recruiting")">高级搜索<span class="icon"></span></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="ls_rows">
-                </div>
-            </div>
-        <!--/检索栏-->
-       <a class="recruimentSys" href="@Url.Action("Index", "Recruiting")" target="_blank"></a>
-       <a class="collegeSys" href="@Url.Action("Login", "College")" target="_blank"></a>
-
-        <!--登录栏-->
-
-        @*<div class="blockcell shadow theme-login">
-            <div class="content-tab-wrap">
-                <div class="content-tab">
-                    <div class="content-tab-ul-wrap">
-                        <ul>
-                            <li><a class="triclick selected" href="javascript:void(0);">用户登录</a></li>
-                            <li style="display: none;"><a class="triclick selected" href="javascript:void(0);">您好，欢迎您</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>*@
-
-
-
-            @*             @using (Html.BeginForm("Login", "Recruiting", FormMethod.Post, new { @class = "login_form" }))
-        {
-            <h2>用户登录</h2>
-            <div class="clearfix">
-                <label for="loginName">用户名:</label>
-                <input class="inp_b" type="text" maxlength="30" name="loginName" id="loginName" />
-            </div>
-            <div class="clearfix">
-                <label for="loginPwd">密码:</label>
-                <input class="inp_b" type="password" maxlength="15" name="loginPwd" id="loginPwd" />
-            </div>
-            <div class="clearfix">
-                <div class="get_pas_tag">
-                    <a href="#">忘记密码</a> | <a href="@Url.Action("Register_Jump", "Recruiting")">注册新用户</a>
-                </div>
-            </div>
-            <div class="clearfix">    
-                <i></i>            
-                <button class="login_sub_btn btn btn-primary">登录</button>
-            </div>
-            <div class="clearfix">    
-                <i></i>            
-                <span class="errorAlert">@ViewBag.ErrorMsg</span>
-            </div>
-            @Html.Hidden("ReturnUrl",ViewBag.ReturnUrl as string);
-        }*@
-
-
-
-            @*<div class="tab-content">
-                @using (Html.BeginForm("Login", "Recruiting", FormMethod.Post, null))
-                {
-                    <div class="ls_rows">
-                        <ul>
-                            <li>
-                                <input type="text" name="loginName" id="kwUserName" class="input normal login-input" placeholder="用户名" />
-                                <label class="labelicon user" for="kwUserName"></label>
-                            </li>
-                            <li>
-                                <input type="password" name="loginPwd" id="kwUserPass" class="input normal login-input" placeholder="密码" />
-                                <label class="labelicon pass" for="kwUserPass"></label>
-                            </li>
-                            <li>
-                                <div class="text-left">
-
-                                    <input type="submit" name="btnUserLogin" id="btnUserLogin" value="登 录" class="btn" />
-                                    <a class="more-search" href="@Url.Action("FindPassword", "Recruiting")" title="忘记密码">忘记密码 ?</a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="footlinks text-center">
-                            <a href="@Url.Action("Register_jump", "Recruiting")" class="act" title="用户注册">用户注册 &#10162;</a>
-                        </div>
-                    </div>
-                }
-                <div class="ls_rows" style="display: none;">
-                    <ul>
-                        <li class="avatar-box">
-                            <dl>
-                                <dt>
-                                    <a href="javascript: void(0);" class="usericon"></a>
-                                </dt>
-                                <dd>
-                                    <h4>尊敬的<label>zc</label>，欢迎您！</h4>
-                                    <p><span class="gray-999">会员组别：</span><label>个人用户</label></p>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li>
-                            <div class="text-center">
-                                <input type="button" name="btnUserLogout" id="btnUserLogout" value="注 销" class="btn" />
-                                <a class="more-search" href="@Url.Action("Index", "Home", new { area = "Recruiting/User" })" title="进入用户中心">进入用户中心<span class="icon"></span></a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>*@
-        <!--/检索栏-->
-    </div>
-        <div class="main clearfix">
-        <div class="slideContainer">
-            <div id="slideBox" class="slideBox">
-                <ul class="items">
-                    @{int count1 = 0;}
-                    @foreach (var imgArtcle in Model.News)
-                    {              
-                        if (!string.IsNullOrEmpty(imgArtcle.Thumbnail))
-                        {
-                        <li><a href="@Url.Action("News_Detail", "Home", new { Id = imgArtcle.Id })" target="_blank" title='@imgArtcle.Title'>
-                            <img src="@imgArtcle.Thumbnail"></a></li> 
-                            count1++;
-                        }
-                        if (count1 > 5)
-                        {
-                            break;
-                        }
+            <div class="announce-cont">
+                <h2>
+                    @foreach (var notice in Model.Notice)
+                    {
+                        <a href="@Url.Action("News_Detail", "Home", new { Id = notice.Id })" title="@notice.Title  -  @notice.Time.ToShortDateString()" target="_blank">@notice.Title</a>
+                        break;
                     }
-                </ul>
-            </div>
-        </div>
-        <!-- slideContainer end-->
-        <div class="notice clearfix">
-            <div id="notice_tit" class="notice_tit clearfix">
-                <ul>
-                    <li class="select"><a href="javascript:void(0)">公示公告</a></li>
-                    <li><a href="javascript:void(0)">最新资讯</a></li>
+                </h2>
+                @{int a = 0;}
+                @foreach (var notice in Model.Notice)
+                {
 
-                </ul>
-                <a class="more float-right" href="@Url.Action("News_List")">更多>></a>
+                    if (a > 0 && a <= 3)
+                    {
+                        <span class="span-l"><text>【</text></span><a class="announce-cont-sub" href="@Url.Action("News_Detail", "Home", new { Id = notice.Id })" title="@notice.Title  -  @notice.Time.ToShortDateString()" target="_blank">@notice.Title</a><span class="span-r"><text>】</text></span>
+                    }
+                    if (a > 3) { break; }
+                    a++;
+                }
             </div>
-            <div id="notice_con" class="notice_con">
-                <div id="news_tab" class="mod">
+        </div><!--content end-->
+        <div class="content clearfix">
+            <div class="slideContainer float-left">
+                <div id="slideBox" class="slideBox">
+                    <ul class="items">
+                        @{int count1 = 0;}
+                        @foreach (var imgArtcle in Model.News)
+                        {
+                            if (!string.IsNullOrEmpty(imgArtcle.Thumbnail))
+                            {
+                                <li>
+                                    <a href="@Url.Action("News_Detail", "Home", new { Id = imgArtcle.Id })" target="_blank" title='@imgArtcle.Title'>
+                                        <img src="@imgArtcle.Thumbnail">
+                                    </a>
+                                </li>
+                                count1++;
+                            }
+                            if (count1 > 3)
+                            {
+                                break;
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!-- slideContainer end-->
+            <div class="article-mod article-mod-pub">
+                <div class="article-mod-t t-underline clearfix">
+                    <div class=""></div>
+                    <h3>&nbsp;公示公告&nbsp;</h3><h4 class="t-pub"><em>P</em>ublic Proclamation</h4>
+                </div>
+                <div class="article-list">
                     <ul>
-                        @{int a = 0; int b = 0;}
+                        @{int b = 0;}
                         @foreach (var notice in Model.Notice)
                         {
                             b++;
                             <li><a href="@Url.Action("News_Detail", "Home", new { Id = notice.Id })" target="_blank">@notice.Title</a><span>[@notice.Time.ToShortDateString()]</span></li>
-                            if (b > 10) { break; }
+                            if (b > 6) { break; }
                         }
                     </ul>
                 </div>
-                <div id="notice_tab" class="mod" style="display: none;">
+            </div><!--article-mod end-->
+        </div><!--content end-->
+        <div class="content clearfix">
+            <div class="shortcut float-left">
+                <img src="~/img/icon/shortcutlogo.png" />
+                <ul class="li-float">
+                    <li class="shortcuticon shortcuticon-download"><a class="downloadM_btn" id="downloadM_btn" href="@Url.Action("Material_Download", "Home")" target="_blank">资料下载</a></li>
+                    <li class="shortcuticon shortcuticon-jysy"><a class="syjy" href="@Url.Action("Guidance", "Home", new { id = "jysy" })" title="就业失业登记" target="_blank">就业失业登记</a></li>
+                    <li class="shortcuticon shortcuticon-zyjs"><a class="jyfc" href="@Url.Action("Guidance", "Home", new { id = "zyjs" })" title="就业扶持" target="_blank">就业扶持</a></li>
+                    <li class="shortcuticon shortcuticon-btbl"><a class="btbl" href="@Url.Action("Guidance", "Home", new { id = "btbl" })" title="补贴办理" target="_blank">补贴办理</a></li>
+                    <li class="shortcuticon shortcuticon-cyfw"><a class="cyfw" href="@Url.Action("Guidance", "Home", new { id = "cyfw" })" title="创业服务" target="_blank">创业服务</a></li>
+                    <li class="shortcuticon shortcuticon-jypx"><a class="jypx" href="@Url.Action("Guidance", "Home", new { id = "jypx" })" title="就业培训" target="_blank">就业培训</a></li>
+                    <li class="shortcuticon shortcuticon-sybx"><a class="sybx" href="@Url.Action("Guidance", "Home", new { id = "sybx" })" title="失业保险" target="_blank">失业保险</a></li>
+                </ul>
+            </div>
+            <a class="syslink collegeSyslink" href="@Url.Action("Login", "College")" target="_blank">大学实习报名</a>
+            <a class="syslink recuitinglink" href="@Url.Action("Index", "Recruiting")" target="_blank">求职招聘系统<div></div></a>
+        </div><!--content end-->
+        <div class="content clearfix">
+            <div class="article-mod article-mod-newsph">
+                <div class="article-mod-t t-topline clearfix">
+                    <h3>&nbsp;图片新闻&nbsp;</h3><h4 class="t-newsph"><em>N</em>ewsphoto</h4>
+                </div>
+                <div class="article-list article-list-newsphoto">
                     <ul>
+                        @{ int c = 0;}
+                            @foreach (var article in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).Where(m => !string.IsNullOrEmpty(m.Thumbnail)).ToList())
+                            {
+                                
+                                <li>
+                                    <a href="@Url.Action("News_Detail", "Home", new { Id = article.Id })" target="_blank" title="@article.Title">@article.Title</a><span>[@article.Time.ToShortDateString()]</span><a href="@Url.Action("News_Detail", "Home", new { id = article.Id })" title="@article.Title" target="_blank">
+                                        <img src="@article.Thumbnail" />
+                                    </a>
+                                </li>
+                                c++;
+                                if (c > 2) { break; }
+                            }
+                        
+                    </ul>
+
+                </div>
+            </div>
+            <div class="article-mod article-mod-lasted">
+                <div class="article-mod-t t-topline clearfix">
+                    <h3>&nbsp;最新资讯&nbsp;</h3><h4 class="t-lasted"><em>L</em>asted News</h4>
+                </div>
+
+                <div class="article-list article-list-lastednews">
+                    <ul>
+                        @{ int d = 0;}
                         @foreach (var newInfo in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
                         {
-                            a++;
+                            d++;
                             <li><a href="@Url.Action("News_Detail", "Home", new { Id = newInfo.Id })" target="_blank" title="@newInfo.Title">@newInfo.Title</a><span>[@newInfo.Time.ToShortDateString()]</span></li>
-                            if (a > 10) { break; }
+                            if (d > 7) { break; }
                         }
                     </ul>
                 </div>
-            </div>
-            <!--notice_con-->
+            </div><!--article-mod end-->
         </div>
-        <!--notice end-->
-
+        <!--content end-->
     </div>
     <!--main end-->
-    @*<div class="clearfix">
-        <div class="recruitment1">
-            <!--就业招聘信息-->
-            <div class="recruitment_tit clearfix">
-                <h2>招聘会信息</h2>
-                <a class="more" href="@Url.Action("JobFair", "Recruiting")" target="_blank">更多>></a>
-            </div>
-            <ul class="recruitment-info">
-                
-                @{
-                    Model.Meeting.Reverse();
-                    int count2 = 0;
-                    foreach (var meeting in Model.Meeting)
-                    {
-                        if(count2>=3){
-                            break;
-                        }
-                    <li class="recruitment-info-li">
-                        <a class="recruitment-info-tit" href="@Url.Action("JobFair_Detail", "Recruiting", new { id = meeting.Id })">[@meeting.JobFairDate.ToShortDateString()] @meeting.Name</a>
-                        <p>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            @meeting.Desc
-                        </p>
-                        <a class="meeting-detail" href="@Url.Action("JobFair_Detail", "Recruiting", new { id = meeting.Id })">企业报名</a>
-                    </li>
-                        count2++;
-
-                    }}
-            </ul>
-        </div><!--recruitment1 end-->
-        <div class="recruitment2">
-            <div class="recruitment_tit clearfix">
-                <h2>委托招聘</h2>
-                <a class="more" href="@Url.Action("JobFair2", "Recruiting")" target="_blank">更多>></a>
-            </div>
-            
-            @if (@Model.JobFairs != null)
-               
-            {
-                int i = 0;
-            <ul>
-                        @foreach (var jobfair in Model.JobFairs.OrderByDescending(m=>m.Time).ToList())
-                        {
-                            i++;
-                            <li><span>[@jobfair.Time.ToShortDateString()]</span><a title="@jobfair.Title" href="@Url.Action("JobFair_Detail2", "Recruiting", new { Id = jobfair.Id })" target="_blank">@jobfair.Title</a></li>
-                            if (i > 8) { break; }                                                                                                                                                                           
-                        }
-                    </ul>
-            }
-             
-        </div><!--recruitment2 end-->
-    </div>*@
-
-    <div class="jobs_info clearfix">
-        @*<div class="headerLine"></div>*@
-        <div class="jobs_info_tit clearfix">
-            <h2>最新职位</h2>
-            <a class="more" href="@Url.Action("Jobs","Recruiting")">更多>></a>
-        </div>
-        <div class="blockrow row-jobs" id="jobs">
-            <div class="jobs-by-type clearfix">
-                <div class="content-tab-wrap">
-                    <div class="content-tab">
-                        <div class="content-tab-ul-wrap">
-                            <ul>
-                                @foreach (var job in Model.JobList)
-                                {
-                                    <li><a href="javascript:void(0);">@job.Key</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                @foreach (var job in Model.JobList)
-                {
-                    <div class="tab-content" style="display: none;">
-                        <div class="blockcell">
-                            <div class="job-title">
-                                <h4>@job.Key<span></span></h4>
-                            </div>
-                            <div class="ls_rows">
-                                <ul class="clearfix">
-                                    @{int i = 0;}
-                                    @foreach (var jobInfo in job.Value)
-                                    {
-                                        i++;
-                                        <li>
-                                            <a href="@Url.Action("Company_Detail", "Recruiting", new { id = jobInfo.Employer.Id })" target="_blank">
-                                                @if (jobInfo.Employer != null)
-                                                {
-                                                    @jobInfo.Employer.Name
-                                                }
-                                            </a>
-                                            <a href="@Url.Action("Job_Detail", "Recruiting", new { id = jobInfo.Id })" class="link" title="@jobInfo.JobName" target="_blank">@jobInfo.JobName</a>
-                                            <span class="left text-center">
-                                                @if (jobInfo.WorkAddress != null)
-                                                {   
-                                                    @jobInfo.WorkAddress.Name
-                                                }
-                                            </span>
-                                            <span class="left text-center">
-                                                @if (jobInfo.PayLevel != null)
-                                                {
-                                                    @jobInfo.PayLevel.Name
-                                                }
-                                            </span>
-                                        </li>
-                                        if (i > 26)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        <!--jobs_info-board end-->
-    </div>
-
-    <div class="statistics clearfix">
-        <h2>数据统计</h2>
-        <div class="statistics_con">
-            <h3>企业用户：<span>@Model.CorpCount</span></h3>
-            <h3>个人用户：<span>@Model.PersonCount</span></h3>
-            <h3>招聘职位：<span>@Model.JobCount</span></h3>
-            <h3>资讯文章：<span>@Model.ArticleCount</span></h3>
-        </div>
-    </div>
-    <!--statistics end-->
-    <div class="link_board clearfix">
-        <ul class="clearfix">
-            <li><a href="http://ldj.yichang.gov.cn/" target="_blank">
-                <img src="../img/link1.png" /></a></li>
-            <li><a href="http://www.10.gov.cn/" target="_blank">
-                <img src="../img/link2.png" /></a></li>
-            <li><a href="http://rs.10.gov.cn/" target="_blank">
-                <img src="../img/link3.png" /></a></li>
-            <li><a href="http://www.chinajob.gov.cn/" target="_blank">
-                <img src="../img/link4.png" /></a></li>
-        </ul>
-    </div>
-    
-    <!--link_board end-->
 </div>
 <!--wrap end-->
 <script type="text/javascript">
     pageFlag = "index";
     $(document).ready(function (e) {
-        jAD();
-        function jAD() {
-            var width = ($(this).width() - 1200) / 2;
-            if (width >= 150) {
-                $(".weixin").show().css("right", width - 170);
-                $(".ad001").show().css("left", width - 170);
-            } else {
-                $(".weixin").hide();
-                $(".ad001").hide();
-            }
-        }
-        //页面尺寸改变时
-        $(window).resize(function () {
-            //延迟执行,防止多次触发
-            setTimeout(function () {
-                jAD();
-            }, 100);
-        });
 
         $("#btnSearchJob").click(function () {
             //window.location.href = '@Url.Action("Jobs", "Recruiting")' + '?txtKeyword=' + $("#kwJob").val();
-            if ($("#kwJob").val().trim()!="")
-                window.open('@Url.Action("Jobs", "Recruiting")' + '?txtKeyword=' + $("#kwJob").val())   ;
+            if ($("#kwJob").val().trim() != "")
+                window.open('@Url.Action("Jobs", "Recruiting")' + '?txtKeyword=' + $("#kwJob").val());
         });
         $("#btnSearchEmployer").click(function () {
             window.location.href = '@Url.Action("Companies", "Recruiting")' + '?txtKeyword=' + $("#kwEmployer").val();
@@ -469,10 +160,10 @@
             delay: 3,//滚动延迟时间，单位：秒
             clickBarRadius: 10,
             hideClickBar: false,//不自动隐藏点选按键
-            width: 520,
-            height: 360
+            width: 450,
+            height: 310
         });
-        
+
 
         /*初始化Tab事件*/
         initContentTab();
@@ -507,6 +198,6 @@
             });
 
         });
-        
+
     }
 </script>

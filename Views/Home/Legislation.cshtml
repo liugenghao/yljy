@@ -7,30 +7,29 @@
 </div>*@
 <link href="~/Content/button-form-theme.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<div class="legislation_headerLog">
-    <img src="~/img/legLogo.png" />
-</div>
+
 <div class="wrap">
-    <img class="pageLogTit" id="zcfg-letter" src="~/img/zcfg-letter.png" />
-    <div class="legislation clearfix ">
-        <div class="headerLine"></div>
-        <div class="legislation_left">
-            <div class="searchPanel" id="searchPanel">
+    <div class="main clearfix ">
+        <div class="les-title">
+            <div class="les-searchPanel clearfix" id="searchPanel">
                 <h3>搜索</h3>
                 @using (Ajax.BeginForm("SearchLegislation", new AjaxOptions { OnSuccess = "showResult" }))
                 {
-                    <div class="clearfix radioGrp">
+                    @*<div class="radioGrp">
                         <input type="radio" name="searchType" value="0" id="radioTitle" checked /><label for="radioTitle">标题搜索</label>
                         <input type="radio" name="searchType" value="1" id="radioContent" />
                         <label for="radioContent">内容搜索</label>
-                    </div>
+                    </div>*@
                     <input type="text" id="searchCon" name="keyWord" />
+
                     <div class="btnGrp">
                         <button class="btn btn-primary" id="search" type="submit">搜索</button>
                         <button class="btn btn-default" id="reset" type="button">重置</button>
                     </div>
                 }
             </div>
+        </div>
+        
             @*<div class="policy">
                 <div class="policy_tit clearfix">
                     <h3>就业优惠政策</h3>
@@ -44,99 +43,83 @@
                 </ul>
             </div>
             <!--policy end-->*@
-
-        </div>
-        <div class="legislation_right" id="legislation_right">
-            @*<h3>政策法规</h3>*@
-            <ul>
-                @foreach (var artice in Model)
-                {
-                    <li><a class="tit" href="@Url.Action("Lesgislation_Detail", "Home", new { id = artice.Id })" title="@artice.Title" target="_blank">@artice.Title</a><span>发布时间：@artice.Time.ToShortDateString()</span></li>
-                }
-
-                @*   <li><a href="#">湖北省就业专项资金管理办法 （2011 19）</a><span>2015-05-12</span></li>
-            <li><a href="#">劳务派遣行政许可实施办法</a><span>2015-05-12</span></li>
-            <li><a href="#">湖北公共招聘网标识（LOGO）征集公告</a><span>2015-05-12</span></li>
-            <li><a href="#">夷陵区落实文件精神 3月起失业保险费率下调1%</a><span>2015-05-12</span></li>
-            <li><a href="#">湖北：夷陵区民营企业招聘周活动4月28日隆重举行</a><span>2015-05-12</span></li>
-            <li><a href="#">夷陵区技能创业显效应</a><span>2015-05-12</span></li>
-            <li><a href="#">夷陵区技能创业显效应</a><span>2015-05-12</span></li>
-            <li><a href="#">夷陵区技能创业显效应</a><span>2015-05-12</span></li>*@
-            </ul>
-            <div class="lespagebar pagebar clearfix">
-                            @*<div class="left holder">
-                                <label>每页</label>
-                                @Html.DropDownList("listCount", ViewBag.ListCountSL as SelectList, new {@class="listCount" })
-                                <label>条记录</label>
-                            </div>*@
-                            <div class="pagelist">
-
-                                @if (Model != null)
-                                {
-                                    @Html.Pager(Model, new PagerOptions
-                                    {
-                                        PageIndexParameterName = "id",
-                                        
-                                        ShowPrevNext = true,
-                                        FirstPageText = "首页  ",
-                                        PrevPageText = "  上一页  ",
-                                        NextPageText = "  下一页  ",
-                                        LastPageText = "  末页  ",
-                                        PageIndexBoxId = "",
-                                        ShowNumericPagerItems = true,
-                                        PageNumberFormatString = "  {0}  ",
-                                        DisabledPagerItemTemplate = "<span class='disabled'>{0}</span>",
-                                        CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
-                                        //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>" 
-                                    })
-                                }
-                            </div>
-                        </div>
-        </div>
         <div class="legislation-search-result" id="legislation-search-result">
             <header class="clearfix">
                 <h2>搜索结果</h2>
                 <button class="btn btn-danger" id="quitSearch">退出搜索</button>
             </header>
 
-            <ul>
-                <li><a href="#" title="">搜索结果1</a><span>发布时间：2016-02-01</span></li>
-                <li><a href="#" title="">搜索结果2</a><span>发布时间：2016-02-01</span></li>
-                <li><a href="#" title="">搜索结果3</a><span>发布时间：2016-02-01</span></li>
-                <li><a href="#" title="">搜索结果4</a><span>发布时间：2016-02-01</span></li>
-                <li><a href="#" title="">搜索结果5</a><span>发布时间：2016-02-01</span></li>
-            </ul>
+            <ul></ul>
         </div>
+
+        <div class="les-content news-list-content" id="les-content">
+
+            <ul>
+                @foreach (var artice in Model)
+                {
+                    <li><a class="tit" href="@Url.Action("Lesgislation_Detail", "Home", new { id = artice.Id })" title="@artice.Title" target="_blank">@artice.Title</a><span>@artice.Time.ToShortDateString()</span></li>
+                }
+
+            </ul>
+            <div class="lespagebar pagebar clearfix">
+
+                <div class="pagelist">
+
+                    @if (Model != null)
+                    {
+                        @Html.Pager(Model, new PagerOptions
+                               {
+                                   PageIndexParameterName = "id",
+
+                                   ShowPrevNext = true,
+                                   FirstPageText = "首页  ",
+                                   PrevPageText = "  上一页  ",
+                                   NextPageText = "  下一页  ",
+                                   LastPageText = "  末页  ",
+                                   PageIndexBoxId = "",
+                                   ShowNumericPagerItems = true,
+                                   PageNumberFormatString = "  {0}  ",
+                                   DisabledPagerItemTemplate = "<span class='disabled'>{0}</span>",
+                                   CurrentPagerItemTemplate = "<a class=\"actived\"href=\"#\">{0}</a>",
+                                   //DisabledPagerItemTemplate = "<a class=\"disabled\">{0}</a>"
+                               })
+                    }
+                </div>
+            </div>
+        </div>
+
+        
     </div>
 </div>
 <script type="text/javascript">
     pageFlag = "legislation";
     function showResult(data) {
+        if ($('#searchCon').val().trim()!= "") {
         $('#legislation-search-result').find("ul > li").remove();
         for (var d in data) {
             var id = data[d].Id;
             var title = data[d].Title;
             var time = data[d].Time;
-            $('#legislation-search-result ul').append('<li><a target="_blank" href="@Url.Action("Lesgislation_Detail")' + "/" + id + '" title="' + title + '">' + title + '</a><span>发布时间：' + time + '</span></li>');
+            $('#legislation-search-result ul').append('<li><a target="_blank" href="@Url.Action("Lesgislation_Detail")' + "/" + id + '" title="' + title + '">' + title + '</a><span> '+time + '</span></li>');
+         }
+            $('#les-content').hide();
+            $('#legislation-search-result').show();
+            
         }
-
-        $('#legislation-search-result').stop().animate({ 'right': '5px' }, 500, function () {
-            $('#legislation_right').hide();
-        });
+        
     }
     $(document).ready(function (e) {
-        $('.pageLogTit').animate({ top: '50px' }, 600, function () { });
-        $('#search').on('click', function () {
-            showResult();
-        });
+
         $('#quitSearch').on('click', function () {
-            $('#legislation_right').show();
+            $('#les-content').show();
+            $('#legislation-search-result').hide();
             $('#legislation-search-result').stop().animate({ 'right': '-690px' }, 500, function () {
             });
         });
         $('#reset').on('click', function () {
+            $('#les-content').show();
             $('#searchCon').val('');
-            $('#legislation_right').show();
+            $('#legislation-search-result').hide();
             $('#legislation-search-result').stop().animate({ 'right': '-690px' }, 500, function () {
             });
         });

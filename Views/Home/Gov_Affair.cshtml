@@ -1,56 +1,52 @@
 ﻿@model List<Ys.Model.Model.Home.Article>
-<div class="affair_headerLog">
-    <img src="~/img/affairLogo.png" />
-</div>
-<div class="wrap">
-    <img class="pageLogTit" id="zwgk-letter" src="~/img/zwgk-letter.png" />
-    <div id="gov_affair" class="gov_affair clearfix">
-
-        <div class="gov_affair-menu">
-            <ul>
+<div class="wrap clearfix">
+    <div class="main">
+        <div id="gov_affair" class="gov_affair clearfix">
+            <div class="gov_affair-menu">
+                <ul>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            <li data-flag='@Model[i].Id' class="selected">@Model[i].Title</li>
+                        }
+                        else
+                        {
+                            <li data-flag='@Model[i].Id'>@Model[i].Title</li>
+                        }
+                    }
+                </ul>
+            </div>
+            <img class="float-left" src="~/img/icon/partingline2.png" />
+            <div class="affair_con ">
+                <div class="headerLine"></div>
                 @for (int i = 0; i < Model.Count; i++)
-                {
-                    if (i == 0)
-                    {
-                    <li data-flag='@Model[i].Id' class="selected">@Model[i].Title</li>
-                    }
-                    else
-                    {
-                    <li data-flag='@Model[i].Id'>@Model[i].Title</li>
-                    }
-                }
-            </ul>
-        </div>
-
-        <div class="affair_con ">
-            <div class="headerLine"></div>
-            @for (int i = 0; i < Model.Count; i++)
             {
 
                 if (i == 0)
                 {
-                <div class="con" id='@Model[i].Id'>
-                    <div class="tit">@Model[i].Title</div>
-                    <p>
-                        @Html.Raw(Model[i].Content)
-                    </p>
-                </div>
+                        <div class="con" id='@Model[i].Id'>
+                            <div class="tit">@Model[i].Title</div>
+                            <p>
+                                @Html.Raw(Model[i].Content)
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="con display-hide" id='@Model[i].Id'>
+                            <div class="tit">@Model[i].Title</div>
+                            <p>
+                                @Html.Raw(Model[i].Content)
+                            </p>
+                        </div>
+                    }
                 }
-                else
-                {
-                <div class="con display-hide" id='@Model[i].Id'>
-                    <div class="tit">@Model[i].Title</div>
-                    <p>
-                        @Html.Raw(Model[i].Content)
-                    </p>
-                </div>
-                }
-            }
+            </div>
         </div>
+        <!--gov_affair end-->
     </div>
-    <!--gov_affair end-->
 </div>
-
 <script type="text/javascript">
     pageFlag = "gov_affair";
     $(document).ready(function (e) {

@@ -3,7 +3,7 @@
     @using (Ajax.BeginForm("Add", "ClassManager", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "addSuccess"}, null))
     {
     
-        <div class="title div1">输入教室名称</div>
+        <div class="title">输入教室名称</div>
         @Html.TextBox("Name", null, new { @class = "form-control", id = "initClassName" });
         @Html.Hidden("PointX", null, new { id = "pointX" });
         @Html.Hidden("PointY", null, new { id = "pointY" });

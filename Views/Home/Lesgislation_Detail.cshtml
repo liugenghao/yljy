@@ -1,57 +1,49 @@
 ﻿@model List<Ys.Model.Model.Home.Article>
 @{Model.Reverse();}
 <div class="current-position">
-    <div>
-        <span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Legislation", "Home")">政策法规</a></span>&nbsp;>&nbsp;<span>@Model[0].Title</span>
-    </div>
+    <img src="~/img/icon/position.png" /><div class="subpage-nav"><span><a href="@Url.Action("Index")">首页</a></span>&nbsp;>&nbsp;<span><a href="@Url.Action("Lesgislation")">政策法规</a></span>&nbsp;>&nbsp;<span>@Model[0].Title</span></div>
 </div>
-@*<div class="lesgislation_con">
-
-        @Html.Raw(Model.Content);
- 
-</div>*@
 <div class="wrap clearfix">
-<article class="lesgilation_detail edge_round">
-    <div class="news-title">
-        <h2>@Model[0].Title</h2>
-        <div class="title_con"><span class="news-date">发布时间：2015-03-04</span><span class="news-author">作者：唐琦</span><span>字号：<a href="javascript:big_c()">[大]</a> <a href="javascript:mid_c()">[中]</a> <a href="javascript:sm_c()">[小]</a></span></div>
-    </div>
-    
-
-    <div class="news-container">
-        <div class="news-text">
-            @Html.Raw(Model[0].Content)
+    <article class="article-entity">
+        <div class="article-title">
+            <h2>@Model[0].Title</h2>
+            <div class="sub-title">@Model[0].SubTitle</div>
+            <span class="news-date">更新时间：@Model[0].Time.ToShortDateString()</span><span class="news-author">作者：@(Model[0].Author == null ? "夷陵信息就业网" : Model[0].Author)</span>@*<span>字号：<a href="javascript:big_c()">[大]</a> <a href="javascript:mid_c()">[中]</a> <a href="javascript:sm_c()">[小]</a></span>*@
         </div>
-    </div>
-    </article>
-    <menu class="news_menu edge_round">
-        <h3>相关新闻</h3>
-        <ul>
-            @{
-                int i = 0;
-                foreach (var artice in Model)
-                {
-                    if (artice.Id == Model[0].Id)
-                    {
-                        continue;
-                    }
-                    <li><a href="@Url.Action("Lesgislation_Detail", "Home", new { id = artice.Id })" title="@artice.Title">@artice.Title</a></li>
-                        if (i == 10)
-                    {
-                        break;
-                    }
-                    i++;
-                }
-            }
-@*             @{
-                        for (int i = 0; i < Model.News.Count; i++)
-                        {                   
-                        <li><a href="@Url.Action("News_Detail", "Home", new { id = Model.News[i].Id })">@Model.News[i].Title</a><span class="time_tag">[@Model.News[i].Time.ToShortDateString()]</span></li>
+
+        <div class="article-container">
+            <div class="news-text">
+                @Html.Raw(Model[0].Content)
+            </div>
+        </div>
+        <div class="articleTool clearfix">          
+            <menu class="float-left">
+                <h3>相关政策</h3>
+                <ul>
+
+                    @{
+                        int i = 0;
+                        foreach (var news in Model.OrderByDescending(m => m.Time).ToList())
+                        {
+                            if (news.Id == Model[0].Id)
+                            {
+                                continue;
+                            }
+                            <li class="clearfix"><a href="@Url.Action("Lesgislation_Detail", new { id = news.Id })" title="@news.Title" target="_blank">@news.Title</a></li>
+
+                            if (i == 4)
+                            {
+                                break;
+                            }
+                            i++;
                         }
-                    }*@
-        </ul>
-    </menu>
-    </div>
+                    }
+                </ul>
+            </menu>
+        </div>
+    </article>
+</div>
+  
 <script type="text/javascript">
     pageFlag = "news";
     function big_c() {
