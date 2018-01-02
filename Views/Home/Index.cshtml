@@ -39,22 +39,14 @@
             <div class="slideContainer float-left">
                 <div id="slideBox" class="slideBox">
                     <ul class="items">
-                        @{int count1 = 0;}
-                        @foreach (var imgArtcle in Model.News)
+          
+                        @foreach (var imgArtcle in Model.ImgArtcle)
                         {
-                            if (!string.IsNullOrEmpty(imgArtcle.Thumbnail))
-                            {
                                 <li>
                                     <a href="@Url.Action("News_Detail", "Home", new { Id = imgArtcle.Id })" target="_blank" title='@imgArtcle.Title'>
                                         <img src="@imgArtcle.Thumbnail">
                                     </a>
-                                </li>
-                                count1++;
-                            }
-                            if (count1 > 3)
-                            {
-                                break;
-                            }
+                                </li>     
                         }
                     </ul>
                 </div>
@@ -67,12 +59,12 @@
                 </div>
                 <div class="article-list">
                     <ul>
-                        @{int b = 0;}
+  
                         @foreach (var notice in Model.Notice)
                         {
-                            b++;
+           
                             <li><a href="@Url.Action("News_Detail", "Home", new { Id = notice.Id })" target="_blank">@notice.Title</a><span>[@notice.Time.ToShortDateString()]</span></li>
-                            if (b > 6) { break; }
+     
                         }
                     </ul>
                 </div>
@@ -101,8 +93,8 @@
                 </div>
                 <div class="article-list article-list-newsphoto">
                     <ul>
-                        @{ int c = 0;}
-                            @foreach (var article in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).Where(m => !string.IsNullOrEmpty(m.Thumbnail)).ToList())
+
+                            @foreach (var article in Model.ImgArtcle)
                             {
                                 
                                 <li>
@@ -110,8 +102,7 @@
                                         <img src="@article.Thumbnail" />
                                     </a>
                                 </li>
-                                c++;
-                                if (c > 2) { break; }
+
                             }
                         
                     </ul>
@@ -125,12 +116,11 @@
 
                 <div class="article-list article-list-lastednews">
                     <ul>
-                        @{ int d = 0;}
-                        @foreach (var newInfo in Model.News.OrderByDescending(m => m.PV).OrderByDescending(m => m.Time).ToList())
+  
+                        @foreach (var newInfo in Model.News)
                         {
-                            d++;
+  
                             <li><a href="@Url.Action("News_Detail", "Home", new { Id = newInfo.Id })" target="_blank" title="@newInfo.Title">@newInfo.Title</a><span>[@newInfo.Time.ToShortDateString()]</span></li>
-                            if (d > 7) { break; }
                         }
                     </ul>
                 </div>
