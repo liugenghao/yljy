@@ -14,7 +14,8 @@
                     <span>@ViewBag.Week</span>
                 </div>
             </div>
-            <a class="syslink collegeSyslink t" href="@Url.Action("Login", "College")" target="_blank">2018大学实习报名</a>
+            <a class="syslink t" href="@Url.Action("Login", "College")" target="_blank">
+                <img src="~/img/icon/collegeSysIcon.png" />2018大学实习报名</a>
             <div class="announce-cont">
                 <h2>
                     @foreach (var notice in Model.Notice)
@@ -84,7 +85,7 @@
                     <li class="shortcuticon shortcuticon-sybx"><a class="sybx" href="@Url.Action("Guidance", "Home", new { id = "sybx" })" title="失业保险" target="_blank">失业保险</a></li>
                 </ul>
             </div>
-            <a class="syslink collegeSyslink" href="@Url.Action("Login", "College")" target="_blank">大学实习报名</a>
+            @*<a class="syslink collegeSyslink" href="@Url.Action("Login", "College")" target="_blank">大学实习报名</a>*@
             <a class="syslink recuitinglink" href="@Url.Action("Index", "Recruiting")" target="_blank">求职招聘系统<div></div></a>
         </div><!--content end-->
         <div class="content clearfix">

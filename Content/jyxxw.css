@@ -977,7 +977,7 @@ footer {
 }
 
 .shortcut {
-    width: 800px;
+    width: 940px;
     height: 100px;
     background: #f3f3f3;
 }
@@ -997,6 +997,7 @@ footer {
         float: left;
         width: 92px;
         height: 80px;
+        margin-left:20px;
         text-align: center;
     }
 
@@ -1050,7 +1051,7 @@ footer {
     margin-left: 20px;
     background: url('../img/icon/collegeSysIcon.png')no-repeat center 2px;
 }
-.syslink.collegeSyslink.t {
+.syslink.t {
     position:relative;
     float:left;
     white-space:nowrap;
@@ -1058,8 +1059,55 @@ footer {
     margin-top:20px;
     padding-top: 67px;
     margin-left: 6%;
-    background: url('../img/icon/collegeSysIcon.png')no-repeat center 2px;
+    text-align:center;
+    /*background: url('../img/icon/collegeSysIcon.png')no-repeat center 2px;*/
     z-index:99;
+}
+    .syslink.t img {
+        position:absolute;
+        top:-3%;
+        left:20%;
+        opacity: 1;
+    animation: mymove 2s infinite;
+    -webkit-animation: mymove 2s infinite
+    }
+    @keyframes mymove {
+    0% {
+        width: 82px;
+        height: 82px;
+        opacity: 1
+    }
+    50% {
+        width: 70px;
+        height: 70px;
+        opacity: .8
+    }
+    100% {
+        width: 82px;
+        height: 82px;
+        opacity: 1
+    }
+}
+
+@-webkit-keyframes mymove {
+    0% {
+        margin-top: 0;
+        width: 82px;
+        height: 82px;
+        opacity: 1
+    }
+    50% {
+        margin-top: 15px;
+        width: 70px;
+        height: 70px;
+        opacity: .8
+    }
+    100% {
+        margin-top: 0;
+        width: 82px;
+        height: 82px;
+        opacity: 1
+    }
 }
     .syslink.recuitinglink {
         position: relative;
@@ -1082,10 +1130,10 @@ footer {
             height: 70px;
             top: 0;
             background: url('../img/icon/recruitingSysIcon.png')no-repeat center 2px;
-            animation: conversion 2s infinite;
+            /*animation: conversion 2s infinite;
             -moz-animation: conversion 2s infinite; /* Firefox */
-            -webkit-animation: conversion 2s infinite; /* Safari and Chrome */
-            -o-animation: conversion 2s infinite; /* Opera */
+            /*-webkit-animation: conversion 2s infinite;*/ /* Safari and Chrome */
+            /*-o-animation: conversion 2s infinite;*/ /* Opera */*/
         }
 
         @keyframes conversion {
