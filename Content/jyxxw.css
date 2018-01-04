@@ -756,8 +756,8 @@ footer {
 .announce-cont {
     float: left;
     margin-top: 35px;
-    margin-left: 20px;
-    width: 960px;
+    margin-left:2%;
+    width: 62%;
     text-align: center;
 }
 
@@ -769,7 +769,7 @@ footer {
     .announce-cont a.announce-cont-sub {
         display: inline-block;
         margin: 15px 0px;
-        width: 280px;
+        width: 26%;
         font-size: 15px;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -1050,7 +1050,17 @@ footer {
     margin-left: 20px;
     background: url('../img/icon/collegeSysIcon.png')no-repeat center 2px;
 }
-
+.syslink.collegeSyslink.t {
+    position:relative;
+    float:left;
+    white-space:nowrap;
+    text-indent:-1%;
+    margin-top:20px;
+    padding-top: 67px;
+    margin-left: 6%;
+    background: url('../img/icon/collegeSysIcon.png')no-repeat center 2px;
+    z-index:99;
+}
     .syslink.recuitinglink {
         position: relative;
         animation: conversion1 2s infinite;

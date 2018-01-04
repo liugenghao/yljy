@@ -1,7 +1,7 @@
 
 
 //发送验证码倒计时开始 
-var time = 120;
+var time = 1;
 function sendMessStu() {
     var sjhValue = $("#sjh").val();
     var txyzmValue = $("#txyzm").val();
