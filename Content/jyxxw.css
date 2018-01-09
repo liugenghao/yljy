@@ -762,18 +762,20 @@ footer {
 }
 
     .announce-cont h2 {
-        width: 100%;
+        margin:0 auto;
         font-size: 30px;
     }
-
+    .announce-cont a {
+        width: 80%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
     .announce-cont a.announce-cont-sub {
         display: inline-block;
         margin: 15px 0px;
         width: 26%;
         font-size: 15px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
     }
 
     .announce-cont span {
@@ -971,7 +973,12 @@ footer {
     color: #b1b1b1;
     right: 16px;
 }
-
+.article-list li a {
+    width:70%;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
 .article-list li a:hover {
     color: #e03535;
 }
@@ -1235,6 +1242,8 @@ footer {
 }
 
     .article-entity .article-title h2 {
+        width:50%;
+        margin:0 auto;
         font-size: 30px;
         color: #CC3300;
     }
