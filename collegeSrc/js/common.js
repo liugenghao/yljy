@@ -6,7 +6,7 @@ function sendMessStu() {
     var sjhValue = $("#sjh").val();
     var txyzmValue = $("#txyzm").val();
     var verValue = $(".verification-img").text();
-    var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
+    var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
     if (sjhValue == "") {
         $(".sjh").text("手机号不能为空！").css("color", "red");
     } else if (phReg == false) {
