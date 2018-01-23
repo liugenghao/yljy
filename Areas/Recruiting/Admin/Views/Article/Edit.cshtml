@@ -15,6 +15,9 @@
     @Styles.Render("~/Areas/Recruiting/Admin/Content/css/common")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Areas/Recruiting/Admin/Content/js/common")
+    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-i18n.min.js"></script>
 </head>
 <body>
     <!--main-->
@@ -48,7 +51,7 @@
                         <dt>分 类</dt>
                         <dd>
                             <div class="rule-single-select">
-                                @Html.DropDownListFor(m => m.ArticleType_Id, ViewBag.Categories as SelectList, "--请选择栏目分类--", new { id="cateType", datatype = "*", nullmsg = "请选择栏目分类", sucmsg = " "})
+                                @Html.DropDownListFor(m => m.ArticleType_Id, ViewBag.Categories as SelectList, "--请选择栏目分类--", new { id = "cateType", datatype = "*", nullmsg = "请选择栏目分类", sucmsg = " " })
                             </div>
                         </dd>
                     </dl>
@@ -72,6 +75,19 @@
                         </dd>
                     </dl>
                     <dl>
+                        <dt>发布时间</dt>
+                        <dd>
+                            @if (@Model!=null)
+                            { 
+                                @Html.TextBoxFor(m => m.Time, new { Value = String.Format("{0:yyyy-MM-dd}", Model.Time), id="txtTime", @class = "input normal", placeholder = "" })
+                            }else{
+                                @Html.TextBoxFor(m => m.Time, new { @class = "input normal", id="txtTime", placeholder = "不填默认为当日" })
+                            }
+                        </dd>
+                    </dl>
+
+
+                    <dl>
                         <dt>缩略图</dt>
                         <dd>
                             <input type="hidden" id="hidThumbnailUrl" name="hidThumbnailUrl" value="" />
@@ -88,7 +104,7 @@
                                         <img alt="" id="thumbnailImage" src="" class="min-img" />
                                     }
                                     <a href="javascript:void(0);" class="thumb_x" title="删除">x</a>
-                                    
+
                                 </span>
                             </div>
                             <script type="text/plain" id="upload_ue" style="display: none;"></script>
@@ -101,7 +117,7 @@
                             @Html.TextAreaFor(m => m.Content, new { id = "txtContent", @class = "input normal", rows = "5", cols = "30", style = "width: 99%; height: 256px" })
                         </dd>
                     </dl>
-                    <dl id="telNum" style="display:none;">
+                    <dl id="telNum" style="display: none;">
                         <dt>会员查看信息</dt>
                         <dd>
                             @Html.TextAreaFor(m => m.Tel, new { id = "txtContent", @class = "input normal", rows = "5", cols = "20" })
@@ -111,11 +127,11 @@
                         <dt>状 态</dt>
                         <dd>
                             <div class="rule-multi-radio">
-                                @Html.RadioButtonFor(m => m.State, 0, new { id = "listEnable_False", @checked="checked"})<label for="listEnable_False">存为草稿</label>
+                                @Html.RadioButtonFor(m => m.State, 0, new { id = "listEnable_False", @checked = "checked" })<label for="listEnable_False">存为草稿</label>
                                 @Html.RadioButtonFor(m => m.State, 1, new { id = "listEnable_True" })<label for="listEnable_True">审核发布</label>
                             </div>
                         </dd>
-                    </dl>   
+                    </dl>
                 </div>
                 <!--/内容-->
                 <!--工具栏-->
@@ -194,7 +210,7 @@
             $(this).hide();
             thumbnailPreview.hide();
         });
-               
+
         /* document.ready */
         $(function () {
             /*初始化表单验证*/
@@ -212,7 +228,7 @@
                 $("#telNum").show();
             }
             $("#cateType").change(function () {
-                if ($(this).val()==10) {
+                if ($(this).val() == 10) {
                     $("#telNum").show();
                 } else {
                     $("#telNum").hide();

@@ -6,6 +6,13 @@
 ====================================*/
 //页面加载完成时执行
 $(function () {
+    $('#txtTime').datepicker({
+        dateFormat: "yy-mm-dd",
+        beforeShow: function (input) {
+            $(input).css({ position: 'relative', zIndex: '1000' });
+        },
+        maxDate: new Date()
+    });
     initContentTab(); //初始化TAB
     $(".toolbar").ruleLayoutToolbar();
     $(".imglist").ruleLayoutImgList();
