@@ -6,6 +6,9 @@
 ====================================*/
 //页面加载完成时执行
 $(function () {
+    if ($('#txtTime').val() == '') {
+        $('#txtTime').val((new Date()).Format("yyyy-MM-dd"));
+    }
     $('#txtTime').datepicker({
         dateFormat: "yy-mm-dd",
         beforeShow: function (input) {
