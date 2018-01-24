@@ -42,7 +42,7 @@
                 <div id="slideBox" class="slideBox">
                     <ul class="items">
           
-                        @foreach (var imgArtcle in Model.ImgArtcle)
+                        @foreach (var imgArtcle in Model.ImgArtcle.OrderBy(m=>m.thumbOrder))
                         {
                                 <li>
                                     <a href="@Url.Action("News_Detail", "Home", new { Id = imgArtcle.Id })" target="_blank" title='@imgArtcle.Title'>
@@ -95,16 +95,18 @@
                 </div>
                 <div class="article-list article-list-newsphoto">
                     <ul>
-
+                        @{int picItemNum = 0;}
                             @foreach (var article in Model.ImgArtcle)
                             {
-                                
+                                picItemNum++;
                                 <li>
                                     <a href="@Url.Action("News_Detail", "Home", new { Id = article.Id })" target="_blank" title="@article.Title">@article.Title</a><span>[@article.Time.ToShortDateString()]</span><a href="@Url.Action("News_Detail", "Home", new { id = article.Id })" title="@article.Title" target="_blank">
                                         <img src="@article.Thumbnail" />
                                     </a>
                                 </li>
-
+                                if (picItemNum > 2) { break; }
+                                
+                                
                             }
                         
                     </ul>
