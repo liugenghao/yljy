@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
     <title>夷陵公共就业网</title>
     @Scripts.Render("~/bundles/jquery")
-    @Styles.Render("~/Content/css")    
+    @Styles.Render("~/Content/css")
     <!--[if lt IE 9]>
     @Scripts.Render("~/bundles/html5shiv")
     <![endif]-->
@@ -23,22 +23,24 @@
             </div>
             <div class="toplink-right float-right">
                 <a href="javascript:;" class="weixin_link" title=""><span class="hovertext">微信公众号</span><img src="~/img/weixin2.jpg" /></a>
-                <a href="javascript:;" class="links" title="友情链接"><span class="hovertext">友情链接</span><span class="icn_dropdown"></span></a>
-                @*<ul>
-                    <li><a href="http://ldj.yichang.gov.cn/" target="_blank">宜昌市人力资源和社会保障局</a></li>
-                    <li>
+                <div href="javascript:;" class="links"><span class="hovertext">友情链接</span><span class="icn_dropdown"></span>
+                    <ul>
+                        <li><a href="http://ldj.yichang.gov.cn/" target="_blank">宜昌市人力资源和社会保障局</a></li>
+                        <li>
 
-                        <a href="http://www.10.gov.cn/" target="_blank">中国夷陵网</a>
-                    </li>
-                    <li>
-                        <a href="http://rs.10.gov.cn/" target="_blank">夷陵区人力资源和社会保障局</a>
-                    </li>
-                    <li><a href="http://www.chinajob.gov.cn/" target="_blank">中国就业网</a></li>
-</ul>*@
+                            <a href="http://www.10.gov.cn/" target="_blank">中国夷陵网</a>
+                        </li>
+                        <li>
+                            <a href="http://rs.10.gov.cn/" target="_blank">夷陵区人力资源和社会保障局</a>
+                        </li>
+                        <li><a href="http://www.chinajob.gov.cn/" target="_blank">中国就业网</a></li>
+                    </ul>
+                </div>
                 <a class="remoteMonitorSys_btn" href="@Url.Action("Map", "RemoteMonitor")" target="_blank"><span class="monitorIcon"></span>远程教室监控系统</a>
             </div>
         </div>
-    </div><!--top_container-->
+    </div>
+    <!--top_container-->
     <div class="header">
         <a href="@Url.Action("Index", "Home")">
             <h1 id="logo">夷陵公共就业网</h1>
@@ -59,7 +61,8 @@
                 <a title="服务员" href="@Url.Action("Jobs", "Recruiting")?txtKeyword=服务员" target="_blank">服务员</a>
             </div>
         </div>
-    </div><!--header-->
+    </div>
+    <!--header-->
     <nav id="main_nav" class="main_nav edge_round">
         <ul class="li-float">
             <li class="navicon navicon-home"><a data-flag="index" href="@Url.Action("Index", "Home")">首页</a></li>
@@ -128,28 +131,32 @@
                     </ul>
                 </li>
             </ul>
-        </div><!--contact_board end-->
+        </div>
+        <!--contact_board end-->
         <div class="end clearfix">
             <div class="end-con clearfix">
-                <span style="left:20px;color:#ccc;">技术支持：湖北元速科技有限公司</span>
+                <span style="left: 20px; color: #ccc;">技术支持：湖北元速科技有限公司</span>
                 <div class="about">
-                    <a href="@Url.Action("Contact", "Recruiting", new { area=""})" target="_blank">联系我们</a>
+                    <a href="@Url.Action("Contact", "Recruiting", new { area = "" })" target="_blank">联系我们</a>
                     <a>|</a>
-                    <a href="@Url.Action("Statement","Recruiting", new { area=""})" target="_blank">法律声明</a>
+                    <a href="@Url.Action("Statement", "Recruiting", new { area = "" })" target="_blank">法律声明</a>
                     <a>|</a>
-                    <a href="@Url.Action("About","Recruiting", new { area=""})" target="_blank">关于我们</a>
+                    <a href="@Url.Action("About", "Recruiting", new { area = "" })" target="_blank">关于我们</a>
                     <a>|</a>
-                    <a href="@Url.Action("FAQ","Recruiting", new { area=""})" target="_blank">常见问题</a>
+                    <a href="@Url.Action("FAQ", "Recruiting", new { area = "" })" target="_blank">常见问题</a>
                 </div>
                 @*<script type="text/javascript">
                     document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='http://dcs.conac.cn/js/18/272/1768/60159528/CA182721768601595280001.js' type='text/javascript'%3E%3C/script%3E"));</script>*@
                 <a class="gov-auth" href="http://bszs.conac.cn/sitename?method=show&id=03F3D0FE6E141ACCE053012819AC541F" target="_blank">
                     <img src="~/img/icon/blue.png" />
                 </a>
-                <span style="color:#fff;right:20px;top:0;">版权所有：&copy;宜昌市夷陵区劳动就业管理局</span>
-            </div><!--end-con end -->
-        </div><!-- end -->
-    </footer><!--footer end-->
+                <span style="color: #fff; right: 20px; top: 0;">版权所有：&copy;宜昌市夷陵区劳动就业管理局</span>
+            </div>
+            <!--end-con end -->
+        </div>
+        <!-- end -->
+    </footer>
+    <!--footer end-->
 
 
     <script type="text/javascript">
@@ -157,7 +164,7 @@
             var url = window.location.href;
             var aName = url.split('/');
             var con = aName[4];
-            switch(con) {
+            switch (con) {
                 case 'Gov_Affair':
                     $('#main_nav a').eq(1).addClass('actived').parent().addClass('actived');
                     break;
@@ -209,25 +216,25 @@
                     }
                     @*var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
                     prefs.setCharPref('browser.startup.homepage', vrl);*@
-                    } else {
-                        alert("您的浏览器不支持，请按照下面步骤操作：1.打开浏览器设置。2.点击设置网页。3.输入：" + vrl + "点击确定。");
-                    }
+                } else {
+                    alert("您的浏览器不支持，请按照下面步骤操作：1.打开浏览器设置。2.点击设置网页。3.输入：" + vrl + "点击确定。");
                 }
             }
-            // 加入收藏 兼容360和IE6 
-            function shoucang(sTitle, sURL) {
+        }
+        // 加入收藏 兼容360和IE6 
+        function shoucang(sTitle, sURL) {
+            try {
+                window.external.addFavorite(sURL, sTitle);
+            }
+            catch (e) {
                 try {
-                    window.external.addFavorite(sURL, sTitle);
+                    window.sidebar.addPanel(sTitle, sURL, "");
                 }
                 catch (e) {
-                    try {
-                        window.sidebar.addPanel(sTitle, sURL, "");
-                    }
-                    catch (e) {
-                        alert("加入收藏失败，请使用Ctrl+D进行添加");
-                    }
+                    alert("加入收藏失败，请使用Ctrl+D进行添加");
                 }
             }
+        }
     </script>
 </body>
 </html>

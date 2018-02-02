@@ -312,23 +312,28 @@ li {
     }
 
 .links {
+    display:inline-block;
     position: relative;
     color: #fff;
 }
-
-    .links div {
-        position: absolute;
-        width: 130px;
-        left: -20px;
-        top: 40px;
+    .links ul {
+       display:none;
+        position:absolute;
+        background-color:#333;
+        z-index:999;
+        padding:0 10px;
+    }
+    .links:hover ul {
+         display:block;
     }
 
-        .links div a {
-            display: inline-block;
-            width: 130px;
-            float: left;
+        .links  ul a {
+            white-space:nowrap;
+            color:#ccc;
         }
-
+            .links  ul a:hover {
+                color:#fff;
+            }
 .remoteMonitorSys_btn {
     margin-left: 10px;
     color: #fff;
