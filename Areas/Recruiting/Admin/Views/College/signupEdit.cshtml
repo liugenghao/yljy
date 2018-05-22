@@ -180,6 +180,20 @@
                         </dd>
                     </dl>
                     <dl>
+                        <dt>银行卡</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.bank, new { id = "txtUserName", @class = "input normal", datatype = "*2-5", nullmsg = "请输入紧急联系人", sucmsg = "" })
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>银行卡号</dt>
+                        <dd>
+                            @Html.TextBoxFor(m => m.bankAccount, new { id = "jjlxrdh", @class = "input normal", datatype = "*8-12", nullmsg = "请输入紧急联系人电话", sucmsg = "" })
+                            <span class="Validform_checktip jjlxrdh">*</span>
+                        </dd>
+                    </dl>
+                    @*<dl>
                         <dt>意向单位名称</dt>
                         <dd>
                             @Html.TextBoxFor(m => m.intentionalUnit, new { id = "intentionalUnit", @class = "input normal" })
@@ -758,7 +772,7 @@
                                 }
                             </select>
                         </dd>
-                    </dl>
+                    </dl>*@
                 </div>
                 <!--/内容-->
                 <!--工具栏-->

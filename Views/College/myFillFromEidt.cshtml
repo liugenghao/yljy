@@ -41,7 +41,8 @@
                         <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.name, new { name = "name",id = "name", @class = "form-control"})
                         </div>
-                        <span class="name"></span>
+                        <span class="nameAlert"><img src="~/collegeSrc/image/必填.png" /></span>
+                        @*<span class="name"></span>*@
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">性别</label>
@@ -59,14 +60,14 @@
                         <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.identity, new { id = "sfzhm", name = "identity", @class = "form-control" })
                         </div>
-                        <span class="sfzhm"></span>
+                        <span class="IDCardAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">就读学校</label>
                         <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.attendSchool, new { id = "jdxx", name = "attendSchool", @class = "form-control" })
                         </div>
-                        <span class="jdxx"></span>
+                        <span class="collegeAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">入学时间</label>
@@ -74,12 +75,14 @@
                             @*@Html.TextBox("StartDate", DateTime.Now.ToShortDateString(), new { @class = "", disabled = "disabled" })*@
                             @Html.TextBoxFor(m => m.entrance, new { id = "entrance", @class = "form-control editable datepicker"} )
                         </div>
+                        <span class="entranceAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">毕业时间</label>
                         <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.graduation, new { id = "graduation", @class = "form-control editable datepicker" })
                         </div>
+                        <span class="graduationAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">学历</label>
@@ -136,37 +139,88 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">专业</label>
                         <div class="col-sm-4">
-                            @Html.TextBoxFor(m => m.major, new { id = "zy", name = "major", @class = "form-control" })
+                            @Html.TextBoxFor(m => m.major, new { id = "major", name = "major", @class = "form-control" })
                         </div>
-                        <span class="zy"></span>
+                        <span class="majorAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">手机号</label>
                         <div class="col-sm-4">
-                            @Html.TextBoxFor(m => m.mobile, new { id = "sjh", name = "mobile", @class = "form-control" })
+                            @Html.TextBoxFor(m => m.mobile, new { id = "phoneNum", name = "mobile", @class = "form-control" })
                         </div>
-                        <span class="sjh"></span>
+                        <span class="phoneNumAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">紧急联系人</label>
                         <div class="col-sm-4">
-                            @Html.TextBoxFor(m => m.contactName, new { id = "txtUserName", @class = "form-control"})
+                            @Html.TextBoxFor(m => m.contactName, new { id = "EC", @class = "form-control"})
                         </div>
+                        <span class="ECAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">紧急联系人电话</label>
                         <div class="col-sm-4">
-                            @Html.TextBoxFor(m => m.contactPhone, new { id = "txtUserName", @class = "form-control" })
+                            @Html.TextBoxFor(m => m.contactPhone, new { id = "ECPhone", @class = "form-control" })
                         </div>
+                        <span class="ECPhoneAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
+                  <div class="form-group">
+                        <label  class="col-sm-2 control-label">银行卡</label>
+                      <div class="col-sm-4">
+                            <select id="bank" name="bank" class="form-control">
+                                @if (Model != null)
+                                {
+                                    if (Model.bank == "工商银行")
+                                    {
+                                        <option value="工商银行" selected>工商银行</option>
+                                        <option value="建设银行">建设银行</option>
+                                        <option value="农业银行">农业银行</option>
+                                    }
+                                    else if (Model.bank == "建设银行")
+                                    {
+                                        <option value="工商银行">工商银行</option>
+                                        <option value="建设银行" selected>建设银行</option>
+                                        <option value="农业银行">农业银行</option>
+                                    }
+                                    else if (Model.bank == "农业银行")
+                                    {
+                                        <option value="工商银行">工商银行</option>
+                                        <option value="建设银行">建设银行</option>
+                                        <option value="农业银行" selected>农业银行</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="工商银行">工商银行</option>
+                                        <option value="建设银行">建设银行</option>
+                                        <option value="农业银行">农业银行</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="工商银行">工商银行</option>
+                                        <option value="建设银行">建设银行</option>
+                                        <option value="农业银行">农业银行</option>
+                                }
+                            </select>
+                        </div>
+                      <span style="color:#ccc;">请选择指定的三种银行</span>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">银行卡号</label>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.bankAccount, new { id = "bankAccount", @class = "form-control" })
+                        </div>
+                        <span class="bankAccountAlert"><img src="~/collegeSrc/image/必填.png" /></span>
+                    </div>@*
+                  @*
                     <div class="form-group">
                         <label class="col-sm-2 control-label">意向单位名称</label>
                         <div class="col-sm-4">
                             @Html.TextBoxFor(m => m.intentionalUnit, new { id = "intentionalUnit", @class = "form-control" })
                         </div>
                         <span class="intentionalUnit"><img src="~/collegeSrc/image/必填.png" /></span>
-                    </div>
-                    <div class="form-group">
+                    </div>*@
+                    @*<div class="form-group">
                         <label  class="col-sm-2 control-label">意向单位类别</label>
                         <div class="col-sm-4">
                             <select id="companyTypeID" name="companyTypeID" class="form-control">
@@ -776,7 +830,7 @@
                                 }
                             </select>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
                             <button type="button" class="btn btn-primary" onclick="fillFrom()">提交</button>

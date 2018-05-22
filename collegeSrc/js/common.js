@@ -103,39 +103,128 @@ function login() {
         return false;
     }
 };
+function clearFormat() {
+    $(".nameAlert").text("").css("color", "#20bd00");
+    $(".IDCardAlert").text("").css("color", "#20bd00");
+    $(".collegeAlert").text("").css("color", "#20bd00");
+    $(".entranceAlert").text("").css("color", "#20bd00");
+    $(".graduationAlert").text("").css("color", "#20bd00");
+    $(".majorAlert").text("").css("color", "#20bd00");
+    $(".phoneNumAlert").text("").css("color", "#20bd00");
+    $(".ECAlert").text("").css("color", "#20bd00");
+    $(".ECPhoneAlert").text("").css("color", "#20bd00");
+}
 //实习意向填报
 function fillFrom() {
     var ChinesePattern = /^[\u4e00-\u9fa5]+$/;
-    var nameValue = $("#name").val();
-    var sfzhmValue = $("#sfzhm").val();
-    var jdxxValue = $("#jdxx").val();
-    var sjhValue = $("#sjh").val();
-    var yxdwPrompt = $.trim($("#intentionalUnit").val());
-    var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
+    var nameValue = $("#name").val().trim();
+    var sfzhmValue = $("#sfzhm").val().trim();
+    var jdxxValue = $("#jdxx").val().trim();
+    var entranceValue = $("#entrance").val().trim();
+    var graduationValue = $("#graduation").val().trim();
+    var majorValue = $("#major").val().trim();
+    var phoneNumValue = $("#phoneNum").val().trim();
+    var phReg = !!phoneNumValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
+    var emergencyContactValue = $("#EC").val().trim();
+    var emergencyPhone = $("#ECPhone").val().trim();
+    var bankAccountValue = $("#bankAccount").val().trim();
+    var ECphReg = !!emergencyPhone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
+
     var IDcardReg = checkIdcard(sfzhmValue);
     //var IDcardReg = !!sfzhmValue.match(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i); //身份证号码
+    clearFormat();
     if (nameValue == "") {
-        $(".name").text("姓名不能为空！").css("color", "red"); //加错误信息提示
+        $(".nameAlert").text("姓名不能为空！").css("color", "red"); //加错误信息提示
+    } else if (!ChinesePattern.test(nameValue)) {
+        $(".nameAlert").text("请填写正确的中文名！").css("color", "red");
     } else if (sfzhmValue == "") {
-        $(".name").text("").css("color", "#20bd00");
-        $(".sfzhm").text("身份证号码不能为空！").css("color", "red"); //加错误信息提示
+        $(".IDCardAlert").text("身份证号码不能为空！").css("color", "red"); //加错误信息提示
     } else if (!IDcardReg) {
-        $(".sfzhm").text("身份证号码格式不正确！").css("color", "red");
+        $(".IDCardAlert").text("身份证号码格式不正确！").css("color", "red");
     } else if (jdxxValue == "") {
-        $(".sfzhm").text("").css("color", "#20bd00");
-        $(".jdxx").text("就读学校不能为空！").css("color", "red"); //加错误信息提示
-    } else if (sjhValue == "") {
-        $(".jdxx").text("").css("color", "#20bd00");
-        $(".sjh").text("手机号不能为空！").css("color", "red"); //加错误信息提示
+        $(".collegeAlert").text("就读学校不能为空！").css("color", "red"); //加错误信息提示
+    } else if (entranceValue == "") {
+        $(".entranceAlert").text("入学时间不能为空").css("color", "red");
+    } else if (graduationValue == "") {
+        $(".graduationAlert").text("毕业时间不能为空").css("color", "red");
+    } else if (majorValue == "") {
+        $(".majorAlert").text("专业不能为空").css("color", "red");
+    } else if (phoneNumValue == "") {
+        $(".phoneNumAlert").text("手机号不能为空！").css("color", "red"); //加错误信息提示
     } else if (!phReg) {
-        $(".sjh").text("手机号格式不正确！").css("color", "red"); //加错误信息提示
-    } else if (!ChinesePattern.test(yxdwPrompt)) {
-        $(".intentionalUnit").text("请填写岗位信息表中已录入的单位名称").css("color", "red"); //加错误信息提示
-    }else {
+        $(".phoneNumAlert").text("手机号格式不正确！").css("color", "red"); //加错误信息提示
+    } else if (emergencyContactValue == "") {
+        $(".ECAlert").text("紧急联系人不能为空").css("color", "red");
+    } else if (emergencyPhone == "") {
+        $(".ECPhoneAlert").text("紧急联系人号码不能为空").css("color", "red");
+    } else if (!ECphReg) {
+        $(".ECPhoneAlert").text("紧急联系人号码格式不对").css("color", "red");
+    } else if (!luhnCheck(bankAccountValue)){
+        $(".bankAccountAlert").text("请填写正确的银行卡号").css("color", "red");
+    } else {
+        clearFormat();
         $("#formId").submit();
         return false;
     }
 };
+//银行卡号码检测
+function luhnCheck(bankno) {
+    var lastNum = bankno.substr(bankno.length - 1, 1); //取出最后一位（与luhn进行比较）
+    var first15Num = bankno.substr(0, bankno.length - 1); //前15或18位
+    var newArr = new Array();
+    for (var i = first15Num.length - 1; i > -1; i--) { //前15或18位倒序存进数组
+        newArr.push(first15Num.substr(i, 1));
+    }
+    var arrJiShu = new Array(); //奇数位*2的积 <9
+    var arrJiShu2 = new Array(); //奇数位*2的积 >9
+    var arrOuShu = new Array(); //偶数位数组
+    for (var j = 0; j < newArr.length; j++) {
+        if ((j + 1) % 2 == 1) { //奇数位
+            if (parseInt(newArr[j]) * 2 < 9) arrJiShu.push(parseInt(newArr[j]) * 2);
+            else arrJiShu2.push(parseInt(newArr[j]) * 2);
+        } else //偶数位
+            arrOuShu.push(newArr[j]);
+    }
+
+    var jishu_child1 = new Array(); //奇数位*2 >9 的分割之后的数组个位数
+    var jishu_child2 = new Array(); //奇数位*2 >9 的分割之后的数组十位数
+    for (var h = 0; h < arrJiShu2.length; h++) {
+        jishu_child1.push(parseInt(arrJiShu2[h]) % 10);
+        jishu_child2.push(parseInt(arrJiShu2[h]) / 10);
+    }
+
+    var sumJiShu = 0; //奇数位*2 < 9 的数组之和
+    var sumOuShu = 0; //偶数位数组之和
+    var sumJiShuChild1 = 0; //奇数位*2 >9 的分割之后的数组个位数之和
+    var sumJiShuChild2 = 0; //奇数位*2 >9 的分割之后的数组十位数之和
+    var sumTotal = 0;
+    for (var m = 0; m < arrJiShu.length; m++) {
+        sumJiShu = sumJiShu + parseInt(arrJiShu[m]);
+    }
+
+    for (var n = 0; n < arrOuShu.length; n++) {
+        sumOuShu = sumOuShu + parseInt(arrOuShu[n]);
+    }
+
+    for (var p = 0; p < jishu_child1.length; p++) {
+        sumJiShuChild1 = sumJiShuChild1 + parseInt(jishu_child1[p]);
+        sumJiShuChild2 = sumJiShuChild2 + parseInt(jishu_child2[p]);
+    }
+    //计算总和
+    sumTotal = parseInt(sumJiShu) + parseInt(sumOuShu) + parseInt(sumJiShuChild1) + parseInt(sumJiShuChild2);
+
+    //计算luhn值
+    var k = parseInt(sumTotal) % 10 == 0 ? 10 : parseInt(sumTotal) % 10;
+    var luhn = 10 - k;
+
+    if (lastNum == luhn) {
+        //$("#banknoInfo").html("luhn验证通过");
+        return true;
+    } else {
+        //$("#banknoInfo").html("银行卡号必须符合luhn校验");
+        return false;
+    }
+}
 function checkIdcard(num) {
     num = num.trim();
     num = num.toUpperCase();

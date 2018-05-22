@@ -29,13 +29,14 @@
         </div>
         <!--导航栏-->
         <!--内容-->
-        <div class="result-wrap">
+       <div class="result-wrap">
                 <div id="floatHead" class="toolbar-wrap">
                     <div class="toolbar">
                         <div class="box-wrap">
                             <a class="menu-btn"></a>
                             <div class="l-list">
-                                <form method="post" id="formId" name="formId">
+                                <h3>报名信息列表</h3>
+                                @*<form method="post" id="formId" name="formId">
                                     <ul class="act-list">
                                         <li style="margin-right:60px">
                                             <span>按条件筛选：</span>
@@ -345,7 +346,7 @@
                                             <input type="submit" class="btn" value="查 询" onclick="formId.action='signupList';formId.submit();">
                                         </li>
                                     </ul>
-                                </form>
+                                </form>*@
                             </div>
                         </div>
                     </div>
@@ -367,12 +368,15 @@
                                 <th>手机号</th>
                                 <th>紧急联系人</th>
                                 <th>紧急联系人电话</th>
-                                <th>意向单位名称</th>
+                                @*<th>意向单位名称</th>
                                 <th>意向单位类别</th>
                                 <th>意向岗位类别</th>
                                 <th>居住地</th>
-                                <th>意向工作地</th>
-                                <th>最后更新日期</th>
+                                <th>意向工作地</th>*@
+                                <th>银行卡</th>
+                                <th>银行卡号</th>
+                                @*<th>最后更新日期</th>*@
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -393,13 +397,16 @@
                                         <td>@item.mobile</td>
                                         <td>@item.contactName</td>
                                         <td>@item.contactPhone</td>
-                                        <td>@item.intentionalUnit</td>
+                                        <td>@item.bank</td>
+                                        <td>@item.bankAccount</td>
+                                    @*    <td>@item.intentionalUnit</td>
                                         <td>@item.companyType.companyName</td>
                                         <td>@item.stationType.stationName</td>
                                         <td>@item.liveWhere</td>
-                                        <td>@item.wrokAddr</td>
+                                        <td>@item.wrokAddr</td>*@
                                         @*<td>@item.updatetime</td>*@
-                                        <td>@item.updatetime.ToString("yyyy-MM-dd")</td>
+                                        @*<td>@item.updatetime.ToString("yyyy-MM-dd")</td>*@
+                                        <td>@item.register.ToString("yyyy-MM-dd")</td>
                                         <td class="nowrap flex-box">
                                             <a href="@Url.Action("signupEdit", new { id = item.id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
                                             <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("signupDelete", new { id = item.id })');"><span class="icon icon-trash"></span>删除</a>
