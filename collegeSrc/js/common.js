@@ -117,19 +117,18 @@ function clearFormat() {
 //实习意向填报
 function fillFrom() {
     var ChinesePattern = /^[\u4e00-\u9fa5]+$/;
-    var nameValue = $("#name").val().trim();
-    var sfzhmValue = $("#sfzhm").val().trim();
-    var jdxxValue = $("#jdxx").val().trim();
-    var entranceValue = $("#entrance").val().trim();
-    var graduationValue = $("#graduation").val().trim();
-    var majorValue = $("#major").val().trim();
-    var phoneNumValue = $("#phoneNum").val().trim();
+    var nameValue = $("#name").val().trim();//名字
+    var sfzhmValue = $("#sfzhm").val().trim();//身份证号
+    var jdxxValue = $("#jdxx").val().trim();//就读学校
+    var entranceValue = $("#entrance").val().trim();//入学时间
+    var graduationValue = $("#graduation").val().trim();//毕业时间
+    var majorValue = $("#major").val().trim();//专业
+    var phoneNumValue = $("#phoneNum").val().trim();//手机
     var phReg = !!phoneNumValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
-    var emergencyContactValue = $("#EC").val().trim();
-    var emergencyPhone = $("#ECPhone").val().trim();
-    var bankAccountValue = $("#bankAccount").val().trim();
+    var emergencyContactValue = $("#EC").val().trim();//紧急联系人
+    var emergencyPhone = $("#ECPhone").val().trim();//紧急联系人电话
+    var bankAccountValue = $("#bankAccount").val().trim();//银行卡号
     var ECphReg = !!emergencyPhone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
-
     var IDcardReg = checkIdcard(sfzhmValue);
     //var IDcardReg = !!sfzhmValue.match(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i); //身份证号码
     clearFormat();
@@ -158,11 +157,12 @@ function fillFrom() {
     } else if (emergencyPhone == "") {
         $(".ECPhoneAlert").text("紧急联系人号码不能为空").css("color", "red");
     } else if (!ECphReg) {
-        $(".ECPhoneAlert").text("紧急联系人号码格式不对").css("color", "red");
-    } else if (!luhnCheck(bankAccountValue)){
+        $(".ECPhoneAlert").text("紧急联系人号码格式不对").css("color", "red"); 
+    } else if (bankAccountValue == "") {
+        $(".bankAccountAlert").text("银行卡号不能为空").css("color", "red");
+    } else if (!luhnCheck(bankAccountValue)) {
         $(".bankAccountAlert").text("请填写正确的银行卡号").css("color", "red");
     } else {
-        clearFormat();
         $("#formId").submit();
         return false;
     }
@@ -247,8 +247,8 @@ function checkIdcard(num) {
         bGoodDay = (dtmBirth.getYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
         if (!bGoodDay) {
             //alert('输入的身份证号里出生日期不对！');
-            popTips('id');
-            $('.studenPanel .ID_Card').focus();
+            //popTips('id');
+            //$('.studenPanel .ID_Card').focus();
             return false;
         }
         else {
@@ -274,8 +274,8 @@ function checkIdcard(num) {
         var bGoodDay;
         bGoodDay = (dtmBirth.getFullYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
         if (!bGoodDay) {
-            popTips('id');
-            $('.studenPanel .ID_Card').focus();
+            //popTips('id');
+            //$('.studenPanel .ID_Card').focus();
             //alert('输入的身份证号里出生日期不对！');
             return false;
         }
@@ -291,8 +291,8 @@ function checkIdcard(num) {
             }
             valnum = arrCh[nTemp % 11];
             if (valnum != num.substr(17, 1)) {
-                popTips('id');
-                $('.studenPanel .ID_Card').focus();
+                //popTips('id');
+                //$('.studenPanel .ID_Card').focus();
                 //alert('18位身份证的校验码不正确！应该为：' + valnum);
                 return false;
             }

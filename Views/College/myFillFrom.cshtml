@@ -29,22 +29,19 @@
                     <div class="con-user">@(ViewBag.userName == "" ? "我的实习意向" : ViewBag.userName)</div>
                 </div>
                 <div class="con-line"></div>
-                <p class="dlDesc">说明：请下载岗位信息表，选择岗位信息表中已有的实习单位进行填报</p>
+@*                <p class="dlDesc">说明：请下载岗位信息表，选择岗位信息表中已有的实习单位进行填报</p>
                 <div class="fileTable">
                     <div class="row">
-                        @*<div class="col-sm-2 col-xs-3">
-                            <a class="qy" href="~/files/企业岗位表.xls">企业岗位表<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
-                        </div>*@
                         <div class="col-sm-3 col-xs-4">
                             <a class="sy" href="~/files/事业单位岗位表.xls">事业单位岗位表<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
                         </div>
                     </div>
-                    </div>
-                
+                </div>*@
+
                 <div class="con-btn">
                     @if (Model != null)
                     {
-                        @*<a href="#" class="btn btn-primary" disabled="disabled">新增实习意向</a>*@
+@*<a href="#" class="btn btn-primary" disabled="disabled">新增实习意向</a>*@
                         <a class="btn btn-primary" href="@Url.Action("myFillFromEidt", new { id = Model.id })" title="修改实习意向">修改实习意向</a>
                     }
                     else
@@ -53,7 +50,7 @@
                     }
                 </div>
             </div>
-            
+
             <div class="con-bottom con-table">
                 @*<div class="row condition">
                     <div class="col-md-3 col-xs-5">
@@ -61,67 +58,67 @@
                     </div>
                     
                 </div>*@
-@if (Model != null)
-{
-                <div class="studInfo">
+                @if (Model != null)
+                {
+                    <div class="studInfo">
 
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">更新时间:</div>
-                        <div class="col-md-4">@Model.updatetime.ToShortDateString()</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">姓名:</div>
-                        <div class="col-md-4">@Model.name</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">性别:</div>
-                        <div class="col-md-4">@(Model.sex == "1" ? "男" : Model.sex == "2" ? "女" : "")</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">身份证号:</div>
-                        <div class="col-md-4">@Model.identity</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">就读学校:</div>
-                        <div class="col-md-4">@Model.attendSchool</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">入学时间:</div>
-                        <div class="col-md-4">@Model.entrance</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">毕业时间:</div>
-                        <div class="col-md-4">@Model.graduation</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">学历:</div>
-                        <div class="col-md-4">@Model.education</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">专业:</div>
-                        <div class="col-md-4">@Model.major</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">手机号:</div>
-                        <div class="col-md-4">@Model.mobile</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">紧急联系人:</div>
-                        <div class="col-md-4">@Model.contactName</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">紧急联系人电话:</div>
-                        <div class="col-md-4">@Model.contactPhone</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">银行卡:</div>
-                        <div class="col-md-4">@Model.bank</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-5 heavy">银行卡账号:</div>
-                        <div class="col-md-4">@Model.bankAccount</div>
-                    </div>
-@*                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">更新时间:</div>
+                            <div class="col-md-4">@Model.updatetime.ToShortDateString()</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">姓名:</div>
+                            <div class="col-md-4">@Model.name</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">性别:</div>
+                            <div class="col-md-4">@(Model.sex == "1" ? "男" : Model.sex == "2" ? "女" : "")</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">身份证号:</div>
+                            <div class="col-md-4">@Model.identity</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">就读学校:</div>
+                            <div class="col-md-4">@Model.attendSchool</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">入学时间:</div>
+                            <div class="col-md-4">@Model.entrance</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">毕业时间:</div>
+                            <div class="col-md-4">@Model.graduation</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">学历:</div>
+                            <div class="col-md-4">@Model.education</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">专业:</div>
+                            <div class="col-md-4">@Model.major</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">手机号:</div>
+                            <div class="col-md-4">@Model.mobile</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">紧急联系人:</div>
+                            <div class="col-md-4">@Model.contactName</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">紧急联系人电话:</div>
+                            <div class="col-md-4">@Model.contactPhone</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">银行卡:</div>
+                            <div class="col-md-4">@Model.bank</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-5 heavy">银行卡账号:</div>
+                            <div class="col-md-4">@Model.bankAccount</div>
+                        </div>
+                        @*                    <div class="row">
                         <div class="col-md-3 col-xs-5 heavy">意向单位名称:</div>
                         <div class="col-md-4">@Model.intentionalUnit</div>
                     </div>
@@ -141,9 +138,9 @@
                         <div class="col-md-3 col-xs-5 heavy">意向工作地:</div>
                         <div class="col-md-4">@Model.wrokAddr</div>
                     </div>*@
-                </div>
-}
-                @*<table class="table table-striped">
+                    </div>
+                }
+@*<table class="table table-striped">
                     <thead>
                         <tr>
                             <th>姓名</th>
