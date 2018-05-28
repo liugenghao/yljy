@@ -29,14 +29,14 @@
         </div>
         <!--导航栏-->
         <!--内容-->
-       <div class="result-wrap">
-                <div id="floatHead" class="toolbar-wrap">
-                    <div class="toolbar">
-                        <div class="box-wrap">
-                            <a class="menu-btn"></a>
-                            <div class="l-list">
-                                <h3>报名信息列表</h3>
-                                @*<form method="post" id="formId" name="formId">
+        <div class="result-wrap">
+            <div id="floatHead" class="toolbar-wrap">
+                <div class="toolbar">
+                    <div class="box-wrap">
+                        <a class="menu-btn"></a>
+                        <div class="l-list">
+                            <h3>报名信息列表</h3>
+                            @*<form method="post" id="formId" name="formId">
                                     <ul class="act-list">
                                         <li style="margin-right:60px">
                                             <span>按条件筛选：</span>
@@ -347,104 +347,105 @@
                                         </li>
                                     </ul>
                                 </form>*@
-                            </div>
                         </div>
                     </div>
                 </div>
-                <!--/工具栏-->
-                <!--列表-->
-                <div class="table-container">
-                    <table class="ltable">
-                        <thead>
-                            <tr>
-                                <th>姓名</th>
-                                <th>性别</th>
-                                <th>身份证号</th>
-                                <th>就读学校</th>
-                                <th>入学时间</th>
-                                <th>毕业时间</th>
-                                <th>学历</th>
-                                <th>专业</th>
-                                <th>手机号</th>
-                                <th>紧急联系人</th>
-                                <th>紧急联系人电话</th>
-                                @*<th>意向单位名称</th>
+            </div>
+            <!--/工具栏-->
+            <!--列表-->
+           <form method="post" id="formId" name="formId"></form>
+
+            <div class="table-container">
+                <table class="ltable">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>身份证号</th>
+                            <th>就读学校</th>
+                            <th>入学时间</th>
+                            <th>毕业时间</th>
+                            <th>学历</th>
+                            <th>专业</th>
+                            <th>手机号</th>
+                            <th>紧急联系人</th>
+                            <th>紧急联系人电话</th>
+                            @*<th>意向单位名称</th>
                                 <th>意向单位类别</th>
                                 <th>意向岗位类别</th>
                                 <th>居住地</th>
                                 <th>意向工作地</th>*@
-                                <th>银行卡</th>
-                                <th>银行卡号</th>
-                                @*<th>最后更新日期</th>*@
-                                <th>创建时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        @if (Model != null)
-                        {
-                            <tbody id="itemContainer">
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@item.name</td>
-                                        <td>@(item.sex == "1" ? "男" : item.sex == "2" ? "女" : "")</td>
-                                        <td>@item.identity</td>
-                                        <td>@item.attendSchool</td>
-                                        <td>@item.entrance</td>
-                                        <td>@item.graduation</td>
-                                        <td>@item.education</td>
-                                        <td>@item.major</td>
-                                        <td>@item.mobile</td>
-                                        <td>@item.contactName</td>
-                                        <td>@item.contactPhone</td>
-                                        <td>@item.bank</td>
-                                        <td>@item.bankAccount</td>
+                            <th>银行卡</th>
+                            <th>银行卡号</th>
+                            @*<th>最后更新日期</th>*@
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    @if (Model != null)
+                    {
+                        <tbody id="itemContainer">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.name</td>
+                                    <td>@(item.sex == "1" ? "男" : item.sex == "2" ? "女" : "")</td>
+                                    <td>@item.identity</td>
+                                    <td>@item.attendSchool</td>
+                                    <td>@item.entrance</td>
+                                    <td>@item.graduation</td>
+                                    <td>@item.education</td>
+                                    <td>@item.major</td>
+                                    <td>@item.mobile</td>
+                                    <td>@item.contactName</td>
+                                    <td>@item.contactPhone</td>
+                                    <td>@item.bank</td>
+                                    <td>@item.bankAccount</td>
                                     @*    <td>@item.intentionalUnit</td>
                                         <td>@item.companyType.companyName</td>
                                         <td>@item.stationType.stationName</td>
                                         <td>@item.liveWhere</td>
                                         <td>@item.wrokAddr</td>*@
-                                        @*<td>@item.updatetime</td>*@
-                                        @*<td>@item.updatetime.ToString("yyyy-MM-dd")</td>*@
-                                        <td>@item.register.ToString("yyyy-MM-dd")</td>
-                                        <td class="nowrap flex-box">
-                                            <a href="@Url.Action("signupEdit", new { id = item.id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
-                                            <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("signupDelete", new { id = item.id })');"><span class="icon icon-trash"></span>删除</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        }
-                        else
-                        {
-                            <tfoot>
-                                <tr>
-                                    <td colspan='18'>暂无记录</td>
+                                    @*<td>@item.updatetime</td>*@
+                                    @*<td>@item.updatetime.ToString("yyyy-MM-dd")</td>*@
+                                    <td>@item.register.ToString("yyyy-MM-dd")</td>
+                                    <td class="nowrap flex-box">
+                                        <a href="@Url.Action("signupEdit", new { id = item.id })" title="编辑"><span class="icon icon-edit"></span>编辑</a>
+                                        <a title="删除" class="btn-delete" href="javascript: ExeNoCheckPostBack('@Url.Action("signupDelete", new { id = item.id })');"><span class="icon icon-trash"></span>删除</a>
+                                    </td>
                                 </tr>
-                            </tfoot>
-                        }
-                    </table>
-                    <div  class="pager">
-                        @Html.Pager("signupList", "College", null, new { @class = "pagerList" }, new PagerConfig { TotalRecord = (ViewBag.Num == null ? 0 : ViewBag.Num), PageSize = (ViewBag.PageSize == null ? 10 : ViewBag.PageSize), ShowGoTo = false })
-                        <div class="numRes">
-                            @ViewBag.num 条结果
-                        </div>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tfoot>
+                            <tr>
+                                <td colspan='18'>暂无记录</td>
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+                <div class="pager">
+                    @Html.Pager("signupList", "College", null, new { @class = "pagerList" }, new PagerConfig { TotalRecord = (ViewBag.Num == null ? 0 : ViewBag.Num), PageSize = (ViewBag.PageSize == null ? 10 : ViewBag.PageSize), ShowGoTo = false })
+                    <div class="numRes">
+                        @ViewBag.num 条结果
                     </div>
                 </div>
-                <!--/列表-->
-                <!--内容底部-->
-                <div class="toolbar expDataBtn">
-                    <div class="box-wrap">
-                        <div class="l-list">
-                            <input type="submit" value="导出数据" class="btn" onclick="formId.action='signupExport';formId.submit();" />
-                        </div>
-                        <div class="r-list">
-                            
-                        </div>
+            </div>
+            <!--/列表-->
+            <!--内容底部-->
+            <div class="toolbar expDataBtn">
+                <div class="box-wrap">
+                    <div class="l-list">
+                        <input type="submit" value="导出数据" class="btn" onclick="formId.action = 'signupExport'; formId.submit();" />
+                    </div>
+                    <div class="r-list">
                     </div>
                 </div>
-                <!--/内容底部-->
-</div>
+            </div>
+            <!--/内容底部-->
+        </div>
     </div>
 
     <script type="text/javascript">
