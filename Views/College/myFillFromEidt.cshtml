@@ -143,6 +143,13 @@
                         </div>
                         <span class="majorAlert"><img src="~/collegeSrc/image/必填.png" /></span>
                     </div>
+                  <div class="form-group">
+                        <label class="col-sm-2 control-label">家庭住址</label>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.address, new { id = "address", name = "address", @class = "form-control" })
+                        </div>
+                        <span class="addressAlert"><img src="~/collegeSrc/image/必填.png" /></span>
+                    </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">手机号</label>
                         <div class="col-sm-4">

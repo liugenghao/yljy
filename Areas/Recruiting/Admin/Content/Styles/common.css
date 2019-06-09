@@ -547,8 +547,9 @@ a.save i{ background-position:-28px -29px; }
 .toolbar.list .menu-list{ float:none; }
 
 .ltable{ width:100%; border:1px solid #eaeaea; font-size: 14px; }
+.ltable tr:nth-child(even){background-color:#FEFEFA;}
 .ltable th,
-.ltable td{padding: 5px 4px; border-bottom:1px solid #eaeaea;line-height:1.5em;text-align: center;}
+.ltable td{padding: 5px 4px; border-bottom:1px solid #eaeaea;border-left:1px solid #eaeaea;line-height:1.5em;text-align: center;}
 .ltable th{color: #1f1f1f; font-weight: normal; white-space: nowrap; background: #fafafa; *zoom: 1;}
 .ltable td .sort{ display:inline-block; padding:0 3px; border:1px solid #eee; width:40px; height:20px; line-height:18px; color:#666; font-size:12px; background:#fff; vertical-align:middle; }
 .ltable td .btn-tools{ display:inline-block; height:22px;  vertical-align:middle; }

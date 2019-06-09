@@ -159,6 +159,13 @@
                         </dd>
                     </dl>
                     <dl>
+                        <dt>家庭住址</dt>
+                        <dd>
+                          @Html.TextBoxFor(m => m.address, new { id = "jtzz", @class = "input normal", datatype = "*2-50", nullmsg = "请输入专业", sucmsg = "" })
+                            <span class="Validform_checktip">*</span>
+                        </dd>
+                    </dl>
+                    <dl>
                         <dt>手机号</dt>
                         <dd>
                             @Html.TextBoxFor(m => m.mobile, new { id = "sjh", @class = "input normal", datatype = "*11-11", nullmsg = "请输入手机号", sucmsg = "" })
@@ -795,14 +802,14 @@
         function Verification() {
             var sfzhmValue = $("#sfzhm").val();
             var sjhValue = $("#sjh").val();
-            var jjlxrdhValue =$("#jjlxrdh").val();
+            var jjlxrdhValue = $("#jjlxrdh").val();
             var phReg = !!sjhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
             var phjjlxrReg = !!jjlxrdhValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);//手机号
             var IDcardReg = !!sfzhmValue.match(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i); //身份证
             if (sfzhmValue == "") {
                 $(".sfzhm").text("身份证号码不能为空！").css("color", "red"); //加错误信息提示
-            } else  if (!IDcardReg) {
-                    $(".sfzhm").text("身份证号码格式不正确！").css("color", "red");
+            } else if (!IDcardReg) {
+                $(".sfzhm").text("身份证号码格式不正确！").css("color", "red");
             } else if (sjhValue == "") {
                 $(".sfzhm").text("").css("color", "#20bd00");
                 $(".sjh").text("手机号不能为空！").css("color", "red"); //加错误信息提示
@@ -847,6 +854,7 @@
                     $("#result-edit").toggle();
                 });
             });
+           
 
         });
 

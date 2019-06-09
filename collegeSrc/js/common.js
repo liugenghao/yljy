@@ -123,6 +123,7 @@ function fillFrom() {
     var entranceValue = $("#entrance").val().trim();//入学时间
     var graduationValue = $("#graduation").val().trim();//毕业时间
     var majorValue = $("#major").val().trim();//专业
+    var addressValue = $("#address").val().trim();//家庭住址
     var phoneNumValue = $("#phoneNum").val().trim();//手机
     var phReg = !!phoneNumValue.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/); //手机号
     var emergencyContactValue = $("#EC").val().trim();//紧急联系人
@@ -148,6 +149,8 @@ function fillFrom() {
         $(".graduationAlert").text("毕业时间不能为空").css("color", "red");
     } else if (majorValue == "") {
         $(".majorAlert").text("专业不能为空").css("color", "red");
+    } else if (addressValue == "") {
+        $(".addressAlert").text("家庭住址不能为空").css("color", "red");
     } else if (phoneNumValue == "") {
         $(".phoneNumAlert").text("手机号不能为空！").css("color", "red"); //加错误信息提示
     } else if (!phReg) {
